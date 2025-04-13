@@ -3,97 +3,97 @@
       "Resume": {
         "resume_2025_Full_Stack_Developer.pdf": {
           "type": "pdf",
-          "path": "/src/assets/content/pdfs/resume_2025_Full Stack_Developer.pdf",
+          "path": "/portfolio/content//pdfs/resume_2025_Full Stack_Developer.pdf",
           "link": null
         },
         "resume_2025_python_Developer.pdf": {
           "type": "pdf",
-          "path": "/src/assets/content/pdfs/resume_2025_python_Developer.pdf",
+          "path": "/portfolio/content//pdfs/resume_2025_python_Developer.pdf",
           "link": null
         }
       },
       "Work_Experience": {
         "Application_Development_Teacher.md": {
           "type": "markdown",
-          "path": "/src/assets/content/markdown/job1.md",
+          "path": "/portfolio/content//markdown/job1.md",
           "link": null
         }
       },
       "Projects": {
         "Tajweed-AI": {
           "type": "markdown",
-          "path": "/src/assets/content/markdown/tajweed_ai.md",
+          "path": "/portfolio/content//markdown/tajweed_ai.md",
           "link": "https://github.com/aymenm9/Tajweed-AI"
         },
         "Telegram-Bot": {
           "type": "image",
-          "path": "/src/assets/content/images/telegrambot.jpg",
+          "path": "/portfolio/content//images/telegrambot.jpg",
           "link": "https://github.com/aymenm9/Telegram-Bot"
         },
         "PFE-LRSD-ProdMonitor": {
           "type": "image",
-          "path": "/src/assets/content/images/final_l3.png",
+          "path": "/portfolio/content//images/final_l3.png",
           "link": "https://github.com/aymenm9/PFE-LRSD-ProdMonitor"
         },
         "Workout-Tracker": {
             "type": "image",
-            "path": "/src/assets/content/images/workout_cs50_v2.png",
+            "path": "/portfolio/content//images/workout_cs50_v2.png",
             "link": "https://github.com/aymenm9/Workout-Tracker-CS50"
           },
         "weatherWebApp": {
             "type": "image",
-            "path": "/src/assets/content/images/weatherWebApp.png",
+            "path": "/portfolio/content//images/weatherWebApp.png",
             "link": "https://github.com/aymenm9/weatherWebApp"
         },
         "personal_branding": {
             "type": "image",
-            "path": "/src/assets/content/images/aymen.png",
+            "path": "/portfolio/content//images/aymen.png",
             "link": "https://www.behance.net/gallery/141694745/personal-branding"
         },
           "servipro": {
             "type": "image",
-            "path": "/src/assets/content/images/servipro.png",
+            "path": "/portfolio/content//images/servipro.png",
             "link": "https://www.behance.net/gallery/162981143/servipro-Marketing-Agency-logo-brand-identity"
         },
         "logo_folio_v2": {
             "type": "image",
-            "path": "/src/assets/content/images/logo_folio_2.png",
+            "path": "/portfolio/content//images/logo_folio_2.png",
             "link": "https://www.behance.net/gallery/203238951/logo-folio-v2"
         }
       },
       "Education": {
         "Bachelors": {
           "type": "txt",
-          "content": "Bachelor's degree in ِComputer Science | Graduation Date: Jul 2024",
+          "portfolio/content/": "Bachelor's degree in ِComputer Science | Graduation Date: Jul 2024",
           "link": null
         },
         "Master": {
           "type": "txt",
-          "content": "Master in Data Engineering and Web Technology | Graduation Date: Jul 2026",
+          "portfolio/content/": "Master in Data Engineering and Web Technology | Graduation Date: Jul 2026",
           "link": null
         }
       },
       "Certificates": {
         "cs50.pdf": {
           "type": "pdf",
-          "path": "/src/assets/content/pdfs/cs50x.pdf",
+          "path": "/portfolio/content//pdfs/cs50x.pdf",
           "link": "https://certificates.cs50.io/5b4fdc29-b96e-42a1-8164-96e315dd7980.pdf?size=letter"
         },
         "cs50p.pdf": {
           "type": "pdf",
-          "path": "/src/assets/content/pdfs/cs50p.pdf",
+          "path": "/portfolio/content//pdfs/cs50p.pdf",
           "link": "https://certificates.cs50.io/7a8a1ee1-c8aa-4501-81cd-83330a126f1b.pdf?size=letter"
         },
         "Gemini_API_by_Google.pdf": {
           "type": "pdf",
-          "path": "/src/assets/content/pdfs/gemini_api.pdf",
+          "path": "/portfolio/content//pdfs/gemini_api.pdf",
           "link": "https://www.udacity.com/certificate/e/7a42b368-f69e-11ef-b18d-63d848fdb187"
         }
       },
       "Skills": {
         "programming.md": {
           "type": "markdown",
-          "path": "/src/assets/content/markdown/skills.md",
+          "path": "/portfolio/content//markdown/skills.md",
           "link": null
         }
       }
