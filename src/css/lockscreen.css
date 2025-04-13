@@ -1,0 +1,40 @@
+.logo{
+    border-radius: 100%;
+}
+
+.lock-screen{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 40vw;
+    margin-bottom: 20vh;
+    h1{
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        margin-top: 0;
+    }
+}
+
+.lock-screen-input{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0.5rem;
+    border: 0.25rem ;
+    background-color: var(--color-light);
+    border-radius: 1rem;
+    input{
+        color: var(--color-dark);
+        border: 0;
+        background-color: var(--color-light);
+        width: 100%;
+    }
+    input:focus{
+        outline: none;
+    }
+    button{
+        padding: 0;
+        border: 0;
+
+    }
+}

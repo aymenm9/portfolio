@@ -1,0 +1,72 @@
+
+.command-input{
+    position: absolute;
+    bottom:0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    height: 95%;
+}
+.url{
+    color: var(--color-green);
+}
+.command{
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+}
+
+.command div,li{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: row;
+    
+}
+
+.command-line{
+    display: flex;
+    align-items: center;
+    padding: 0 .5rem;
+}
+.command-text{
+    color: var(--color-light);
+    margin: 0;
+    font-size: 1rem;
+}
+.cursor{
+    background-color: var(--color-light);
+    margin-left: 0.1rem;
+    height: 1rem;
+    width: 0.5rem;
+    display: inline-block;
+    animation: blink 1.25s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+.command-input-li{
+    padding-bottom: 2rem;
+}
+
+
+.output{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: row;
+    list-style: none;
+    z-index: 1; /* to add click to open insted of cd/open */
+}
+.output li{
+    margin-right: 1rem;
+}
+

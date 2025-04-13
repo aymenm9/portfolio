@@ -1,0 +1,58 @@
+.terminal, .window{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    height: 80vh;
+    background-color: var(--color-dark);
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.window{
+    top: 51%;
+    left: 51%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px var(--color-main);
+    
+
+}
+.terminal-header, .window-header{
+    background-color: var(--color-main);
+    height: 2.5vh;
+    color: var(--color-light);
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.window-header{
+    justify-content: space-between;
+}
+.terminal-header button, .window-header button{
+    padding: 0;
+    border: 0;
+    margin-right: 0.5rem;
+    background-color: transparent;
+    color: var(--color-red);
+    display: flex;
+    justify-content: center;
+}
+
+.terminal-body, .window-body{
+    list-style: none;
+    padding-left: 0.5rem;
+    padding-bottom: 1rem;
+    margin-top: 0.5rem;
+    overflow-y: auto; /* Scrollable */
+    flex-grow: 1;
+    max-height: calc(77.5vh);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.window-body{
+    display: flex;
+}
