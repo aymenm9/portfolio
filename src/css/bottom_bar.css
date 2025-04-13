@@ -63,3 +63,6 @@
 .bottom-details{
     margin: 0 1.5rem;
 }
+.bottom-details span{
+ margin-left: 1rem;
+}

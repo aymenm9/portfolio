@@ -25,13 +25,13 @@ export default function HomeScreen({onLock}){
     setTerminal({obj:null,url:null});
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     let strPath = '';
     if(terminal.url){let path = terminal.url.map((dir) => `${dir}/`);
       strPath = 'terminal/'+ path.join('')
     }
     window.history.pushState({},'',`/home-screen/${terminal.url?strPath:''}`);
-  }, [terminal.url]);
+  }, [terminal.url]);*/
 
 
   const openProject = (projectobj) => {

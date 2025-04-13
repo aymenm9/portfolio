@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import '../css/lockscreen.css';
 export default function LockScreen({onUnlock}) {
 
-  useEffect(() => {
+  /*useEffect(() => {
     window.history.pushState({},'', '/lock-screen');
-  }, ['lock-screen']);
+  }, ['lock-screen']);*/
     return(
       <div className="lock-screen">
         <img src={logo} alt="" srcset="" className="logo"/>
