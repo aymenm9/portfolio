@@ -4,6 +4,8 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { IoMdSend } from "react-icons/io";
 import { UserChat, BotChat } from './chatComp';
 import '../css/chatbot.css';
+import 'github-markdown-css/github-markdown.css';
+
 export default function ChatBot({apiUrl}) {
 
     const [chatBot, setChatBot] = useState(false);

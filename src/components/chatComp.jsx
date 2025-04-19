@@ -1,6 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import '../css/chatbot.css';
-import 'github-markdown-css';
+
+
 
 function UserChat({chat}) {
     return(
@@ -15,7 +16,7 @@ function UserChat({chat}) {
 function BotChat({ chat }) {
     return (
       <li className="bot-chat">
-        <ReactMarkdown
+        <ReactMarkdown 
         components={{
             code({ node, inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || '');

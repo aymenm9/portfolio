@@ -156,4 +156,9 @@
 .bot-chat ol,.bot-chat ul {
     padding: 1rem;
     list-style: circle;
+    display: block;
   }
+
+.bot-chat li{
+    display: block;
+}
