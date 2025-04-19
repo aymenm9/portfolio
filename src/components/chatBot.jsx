@@ -12,41 +12,40 @@ export default function ChatBot({apiUrl}) {
     const [chatHistory, setChatHistory] = useState([]);
     const startChatBot = () => setChatBot(true);
     const closeChatBot = () => setChatBot(false);
-    console.log(chatHistory);
+    const inputRef = useRef();
     const sendMassage = (e) => {
-        if(e.key === 'Enter'){
-            let userText = e.target.value;
-            let user_input={
-                role:'user',
-                text:userText
-            }
-            let data = {
-                user_input
-                ,
-                chat_history:{
-                    history:chatHistory
-                }
-            }
-            fetch(`${apiUrl}/api/v1/chat_bot`,{
+        if (e.type === 'click' || (e.key === 'Enter')) {
+            const userText = inputRef.current.value.trim();
+            if (!userText) return;
+    
+            const user_input = {
+                role: 'user',
+                text: userText,
+            };
+    
+            const data = {
+                user_input,
+                chat_history: {
+                    history: chatHistory,
+                },
+            };
+    
+            fetch(`${apiUrl}/api/v1/chat_bot`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data)
-            }).then((responce)=>{
-                if(responce.ok){
-                    return responce.json()
+                body: JSON.stringify(data),
+            }).then((responce) => {
+                if (responce.ok) {
+                    return responce.json();
                 }
-            }).then((data)=>{
-                if(chatHistory.length >0){
-                    setChatHistory([...chatHistory, user_input,data])
-                }else{
-                    setChatHistory([user_input,data])
-                }
-                e.target.value= '';
-            })
+            }).then((data) => {
+                setChatHistory([...chatHistory, user_input, data]);
+                inputRef.current.value = '';
+            });
         }
-    }
+    };
     const chatRef = useRef(null);
     useEffect(() => {
         if (chatBot && chatRef.current) {
@@ -83,7 +82,7 @@ export default function ChatBot({apiUrl}) {
                         <div className='chat-footer'>
                             <hr />
                             <div className='chat-input'>
-                            <input type="text" placeholder='enter you question' onKeyDown={sendMassage}/><IoMdSend />
+                            <input ref={inputRef} type="text" placeholder='enter you question' onKeyDown={sendMassage}/><button><IoMdSend onClick={sendMassage}/></button>
                             </div>
                         </div>
                         

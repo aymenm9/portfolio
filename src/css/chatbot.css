@@ -162,3 +162,7 @@
 .bot-chat li{
     display: block;
 }
+
+.chat-footer button{
+    background-color: transparent;
+}
