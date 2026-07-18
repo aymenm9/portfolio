@@ -1,72 +1,83 @@
-
-.command-input{
+.command-input {
     position: absolute;
-    bottom:0;
+    bottom: 0;
     left: 0;
     width: 100%;
     opacity: 0;
     height: 95%;
 }
-.url{
+
+.url {
     color: var(--color-green);
 }
-.command{
+
+.command {
     display: flex;
     align-items: start;
     justify-content: start;
     flex-direction: column;
 }
 
-.command div,li{
+.command div,
+li {
     display: flex;
     align-items: center;
     justify-content: start;
     flex-direction: row;
-    
+
 }
 
-.command-line{
+.command-line {
     display: flex;
     align-items: center;
     padding: 0 .5rem;
 }
-.command-text{
+
+.command-text {
     color: var(--color-light);
     margin: 0;
     font-size: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    /* Ensure monospace */
 }
-.cursor{
+
+.cursor {
     background-color: var(--color-light);
-    margin-left: 0.1rem;
-    height: 1rem;
-    width: 0.5rem;
-    display: inline-block;
+    color: var(--color-main);
     animation: blink 1.25s step-end infinite;
+    display: inline-block;
+    /* Required for width to work */
+    min-width: 1ch;
+    /* Minimum width of 1 character */
 }
 
 @keyframes blink {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-    }
-  }
 
-.command-input-li{
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.command-input-li {
     padding-bottom: 2rem;
 }
 
 
-.output{
+.output {
     display: flex;
     align-items: center;
     justify-content: start;
     flex-direction: row;
     list-style: none;
-    z-index: 1; /* to add click to open insted of cd/open */
-}
-.output li{
-    margin-right: 1rem;
+    z-index: 1;
+    /* to add click to open insted of cd/open */
 }
 
+.output li {
+    margin-right: 1rem;
+}
