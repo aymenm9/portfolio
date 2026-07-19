@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import LockScreen from './components/lockScreen.jsx'
 import HomeScreen from './components/homeScreen.jsx'
 import ChatBot from './components/chatBot.jsx'
@@ -9,6 +9,7 @@ import StandardPortfolio from './components/StandardPortfolio.jsx'
 
 function AppContent() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const apiUrl = 'https://portfolio-chatbot-92au.onrender.com';
   console.log(apiUrl);
 
@@ -59,7 +60,8 @@ function AppContent() {
         } />
       </Routes>
 
-      <ChatBot apiUrl={apiUrl} />
+      {/* Chatbot lives in the desktop OS only — not on the standard portfolio */}
+      {pathname !== '/' && <ChatBot apiUrl={apiUrl} />}
     </>
   )
 }

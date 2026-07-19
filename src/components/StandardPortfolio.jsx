@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaArrowRight, FaGithub, FaLinkedin, FaBehance } from 'react-icons/fa6';
 import { projects } from '../data/projects';
 import { fileSystem } from '../fileSystem';
-import Project from './project';
+import ProjectViewer from './ProjectViewer';
 import meImg from '../assets/images/me.jpg';
 import '../css/standardPortfolio.css';
 
@@ -27,8 +27,9 @@ const SOCIALS = [
 const NAV_LINKS = [
     { label: 'About', href: '#about', idx: '01' },
     { label: 'Stack', href: '#stack', idx: '02' },
-    { label: 'Works', href: '#works', idx: '03' },
-    { label: 'Contact', href: '#contact', idx: '06' },
+    { label: 'Reel', href: '#reel', idx: '03' },
+    { label: 'Works', href: '#works', idx: '04' },
+    { label: 'Contact', href: '#contact', idx: '07' },
 ];
 
 const TECH_GROUPS = [
@@ -370,6 +371,160 @@ function Marquee() {
     );
 }
 
+// Cursor-warped background — a field of crosses pushed aside by a "central mass"
+function DistortField({ theme }) {
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const canvas = ref.current;
+        const ctx = canvas.getContext('2d');
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const dpr = Math.min(1.5, window.devicePixelRatio || 1);
+        const GAP = 48;
+        const RADIUS = 190;
+        const PUSH = 34;
+        let pts = [];
+        let raf = 0;
+        const mouse = { x: -9999, y: -9999 };
+
+        const cs = getComputedStyle(canvas);
+        const base = cs.getPropertyValue('--dg-base').trim() || 'rgba(255,255,255,0.14)';
+        const hot = cs.getPropertyValue('--dg-hot').trim() || '#ccff00';
+
+        const build = () => {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            canvas.width = w * dpr;
+            canvas.height = h * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            pts = [];
+            for (let y = GAP / 2; y < h; y += GAP) {
+                for (let x = GAP / 2; x < w; x += GAP) pts.push({ ox: x, oy: y, x, y });
+            }
+        };
+
+        const draw = () => {
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            for (const p of pts) {
+                const dx = p.ox - mouse.x;
+                const dy = p.oy - mouse.y;
+                const d = Math.hypot(dx, dy);
+                let tx = p.ox; let ty = p.oy;
+                if (d < RADIUS && d > 0.01) {
+                    const f = (1 - d / RADIUS) ** 2 * PUSH;
+                    tx = p.ox + (dx / d) * f;
+                    ty = p.oy + (dy / d) * f;
+                }
+                p.x += (tx - p.x) * 0.14;
+                p.y += (ty - p.y) * 0.14;
+                const disp = Math.hypot(p.x - p.ox, p.y - p.oy);
+                ctx.strokeStyle = disp > 3 ? hot : base;
+                ctx.globalAlpha = disp > 3 ? Math.min(0.85, 0.25 + disp / 22) : 1;
+                ctx.beginPath();
+                ctx.moveTo(p.x - 3.5, p.y); ctx.lineTo(p.x + 3.5, p.y);
+                ctx.moveTo(p.x, p.y - 3.5); ctx.lineTo(p.x, p.y + 3.5);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+        };
+
+        const loop = () => { draw(); raf = requestAnimationFrame(loop); };
+        const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
+        const onOut = () => { mouse.x = -9999; mouse.y = -9999; };
+
+        build();
+        if (reduced) {
+            draw();
+        } else {
+            loop();
+            window.addEventListener('mousemove', onMove);
+            document.documentElement.addEventListener('mouseleave', onOut);
+        }
+        window.addEventListener('resize', build);
+        return () => {
+            cancelAnimationFrame(raf);
+            window.removeEventListener('mousemove', onMove);
+            window.removeEventListener('resize', build);
+            document.documentElement.removeEventListener('mouseleave', onOut);
+        };
+    }, [theme]);
+
+    return <canvas ref={ref} className="distort" aria-hidden="true" />;
+}
+
+// Horizontal reel — every project on one endless shelf, drag or wheel sideways
+function Reel({ onOpen }) {
+    const trackRef = useRef(null);
+    const drag = useRef(null);
+    const moved = useRef(0);
+
+    useEffect(() => {
+        const el = trackRef.current;
+        if (!el) return undefined;
+        const onWheel = (e) => {
+            if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+            const max = el.scrollWidth - el.clientWidth;
+            if ((e.deltaY < 0 && el.scrollLeft <= 0) || (e.deltaY > 0 && el.scrollLeft >= max - 1)) return;
+            e.preventDefault();
+            el.scrollLeft += e.deltaY;
+        };
+        el.addEventListener('wheel', onWheel, { passive: false });
+        return () => el.removeEventListener('wheel', onWheel);
+    }, []);
+
+    const onDown = (e) => {
+        drag.current = { x: e.clientX, left: trackRef.current.scrollLeft };
+        moved.current = 0;
+    };
+    const onMove = (e) => {
+        if (!drag.current) return;
+        const dx = e.clientX - drag.current.x;
+        moved.current = Math.max(moved.current, Math.abs(dx));
+        trackRef.current.scrollLeft = drag.current.left - dx;
+    };
+    const onUp = () => { drag.current = null; };
+    const step = (dir) => trackRef.current.scrollBy({ left: dir * 420, behavior: 'smooth' });
+
+    return (
+        <div className="reel-wrap">
+            <div
+                className="reel"
+                ref={trackRef}
+                onPointerDown={onDown}
+                onPointerMove={onMove}
+                onPointerUp={onUp}
+                onPointerLeave={onUp}
+            >
+                {projects.map((p, i) => {
+                    const src = thumbOf(p);
+                    return (
+                        <article
+                            key={p.id}
+                            className="reel-card"
+                            onClick={() => { if (moved.current < 6) onOpen(p.id); }}
+                            data-cursor-label="open ↗"
+                        >
+                            <span className="rc-idx">{String(i + 1).padStart(2, '0')}</span>
+                            {src
+                                ? <img src={src} alt="" draggable="false" />
+                                : <span className="rc-blank">{p.name[0]}</span>}
+                            <div className="rc-meta">
+                                <h3>{p.name.replace(/_/g, ' ')}</h3>
+                                <span>{p.tags.join(' — ')}</span>
+                            </div>
+                        </article>
+                    );
+                })}
+            </div>
+            <div className="reel-ctl">
+                <button type="button" onClick={() => step(-1)} data-cursor aria-label="scroll reel left">←</button>
+                <span className="reel-hint">drag / scroll sideways</span>
+                <button type="button" onClick={() => step(1)} data-cursor aria-label="scroll reel right">→</button>
+            </div>
+        </div>
+    );
+}
+
 /* ------------------------------------------------------------------ */
 /* Page                                                                 */
 /* ------------------------------------------------------------------ */
@@ -438,6 +593,9 @@ const StandardPortfolio = () => {
 
             {/* Structural column guides */}
             <div className="guides" aria-hidden><i /><i /><i /></div>
+
+            {/* Cursor-warped background field */}
+            <DistortField theme={theme} />
 
             {phase !== 'gone' && (
                 <Boot
@@ -595,9 +753,15 @@ const StandardPortfolio = () => {
                     </div>
                 </section>
 
+                {/* ---------------- Reel (horizontal scroll) ---------------- */}
+                <section id="reel" className="sect">
+                    <SectionHead no="03" title="Reel" note="horizontal cut" />
+                    <Reel onOpen={(id) => setOpenNode(fileSystem.Desktop.Projects[id])} />
+                </section>
+
                 {/* ---------------- Works ---------------- */}
                 <section id="works" className="sect">
-                    <SectionHead no="03" title="Works" note="selected output" />
+                    <SectionHead no="04" title="Works" note="selected output" />
 
                     <Reveal className="works-filter">
                         {['Development', 'Design'].map((c) => (
@@ -654,7 +818,7 @@ const StandardPortfolio = () => {
 
                 {/* ---------------- Education ---------------- */}
                 <section id="education" className="sect">
-                    <SectionHead no="04" title="Education" note="academic record" />
+                    <SectionHead no="05" title="Education" note="academic record" />
                     <div className="ledger">
                         {EDUCATION.map((item, i) => (
                             <Reveal className="ld-row" key={item.title} delay={i * 90}>
@@ -672,7 +836,7 @@ const StandardPortfolio = () => {
 
                 {/* ---------------- Experience ---------------- */}
                 <section id="experience" className="sect">
-                    <SectionHead no="05" title="Experience" note="recent history" />
+                    <SectionHead no="06" title="Experience" note="recent history" />
                     <div className="ledger">
                         {EXPERIENCE.map((item, i) => (
                             <Reveal className="ld-row" key={item.title} delay={i * 90}>
@@ -692,7 +856,7 @@ const StandardPortfolio = () => {
 
                 {/* ---------------- Contact ---------------- */}
                 <section id="contact" className="sect contact">
-                    <SectionHead no="06" title="Contact" note="end of file" />
+                    <SectionHead no="07" title="Contact" note="end of file" />
                     <Reveal>
                         <p className="contact-serif">Don&apos;t be a stranger — <em>say hello.</em></p>
                     </Reveal>
@@ -734,9 +898,9 @@ const StandardPortfolio = () => {
 
             <FloatingPreview preview={preview} mouse={mouse} />
 
-            {/* Project popup (shared desktop component) */}
+            {/* Project viewer (dossier edition — html/md, separate from the OS viewer) */}
             {openNode && (
-                <Project projectObj={openNode} closeProject={() => setOpenNode(null)} />
+                <ProjectViewer project={openNode} onClose={() => setOpenNode(null)} />
             )}
         </div>
     );

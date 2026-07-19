@@ -9,6 +9,7 @@ export const projects = [
         description: "AI-powered Tajweed correction tool",
         tags: ["Python", "AI"],
         thumbnail: "logo.png", // Placeholder
+        presentation: "/portfolio/presentations/tajweed-ai/index.html",
         resources: [
             { file_name: "01_description.md", type: "markdown" },
         ]

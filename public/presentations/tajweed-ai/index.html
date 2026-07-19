@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tajweed-AI — presentation</title>
+<style>
+    :root {
+        --bg: #0d1f1a;
+        --panel: #12281f;
+        --ink: #eef4ea;
+        --dim: rgba(238, 244, 234, .62);
+        --gold: #d4af5a;
+        --line: rgba(238, 244, 234, .14);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Georgia, 'Times New Roman', serif;
+        line-height: 1.6;
+        padding: clamp(1.2rem, 4vw, 3rem);
+    }
+    .sheet { max-width: 860px; margin: 0 auto; }
+    .bismi {
+        text-align: center;
+        color: var(--gold);
+        font-size: clamp(1.3rem, 3vw, 1.8rem);
+        margin-bottom: .4rem;
+    }
+    .kicker {
+        text-align: center;
+        font-family: ui-monospace, monospace;
+        font-size: .7rem;
+        letter-spacing: .28em;
+        text-transform: uppercase;
+        color: var(--dim);
+    }
+    h1 {
+        text-align: center;
+        font-size: clamp(2.2rem, 6vw, 3.6rem);
+        margin: .6rem 0 1.2rem;
+        font-weight: 700;
+    }
+    .lead {
+        text-align: center;
+        color: var(--dim);
+        max-width: 56ch;
+        margin: 0 auto 2.2rem;
+    }
+    figure {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 2.2rem;
+        background: var(--panel);
+    }
+    figure img { display: block; width: 100%; }
+    figcaption {
+        font-family: ui-monospace, monospace;
+        font-size: .68rem;
+        letter-spacing: .14em;
+        color: var(--dim);
+        padding: .7rem 1rem;
+        border-top: 1px solid var(--line);
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2.2rem;
+    }
+    .card {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 1.1rem 1.2rem;
+        background: var(--panel);
+    }
+    .card b { color: var(--gold); display: block; margin-bottom: .3rem; }
+    .card p { font-size: .92rem; color: var(--dim); }
+    h2 {
+        font-size: 1.3rem;
+        margin-bottom: .8rem;
+        color: var(--gold);
+    }
+    ol { padding-left: 1.3rem; color: var(--dim); margin-bottom: 2rem; }
+    ol li { margin-bottom: .35rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.2rem; }
+    .chip {
+        font-family: ui-monospace, monospace;
+        font-size: .7rem;
+        letter-spacing: .1em;
+        padding: .35em .8em;
+        border: 1px solid var(--gold);
+        border-radius: 999px;
+        color: var(--gold);
+    }
+    .cta { text-align: center; padding-bottom: 1rem; }
+    .cta a {
+        display: inline-block;
+        padding: .8em 1.8em;
+        border-radius: 999px;
+        background: var(--gold);
+        color: #1c1505;
+        text-decoration: none;
+        font-family: ui-monospace, monospace;
+        font-size: .8rem;
+        letter-spacing: .12em;
+    }
+</style>
+</head>
+<body>
+<div class="sheet">
+    <p class="bismi">﷽</p>
+    <p class="kicker">ai-powered recitation correction</p>
+    <h1>Tajweed-AI</h1>
+    <p class="lead">
+        An AI companion for learning Quranic recitation — it listens to your tilawat,
+        detects tajweed mistakes, and explains the rule you missed, in plain language.
+    </p>
+
+    <figure>
+        <img src="arch.svg" alt="Pipeline: audio recording to transcription to tajweed rule analysis to feedback">
+        <figcaption>FIG.01 — the correction pipeline</figcaption>
+    </figure>
+
+    <div class="grid">
+        <div class="card"><b>Listen</b><p>Record a verse directly in the app — audio is chunked and cleaned for analysis.</p></div>
+        <div class="card"><b>Transcribe</b><p>Speech-to-text tuned for classical Arabic, aligned against the expected ayah.</p></div>
+        <div class="card"><b>Analyze</b><p>An LLM checks makhraj, madd, qalqalah and ghunnah against tajweed rules.</p></div>
+        <div class="card"><b>Explain</b><p>Feedback names the rule, shows where it broke, and suggests how to fix it.</p></div>
+    </div>
+
+    <h2>Why it exists</h2>
+    <ol>
+        <li>A tajweed teacher isn't always available — feedback on demand changes practice.</li>
+        <li>Generic speech tools fail on classical Arabic phonetics; this pipeline doesn't.</li>
+        <li>Explanations cite the rule, so learners build real knowledge, not just scores.</li>
+    </ol>
+
+    <div class="chips">
+        <span class="chip">Python</span>
+        <span class="chip">FastAPI</span>
+        <span class="chip">LLM</span>
+        <span class="chip">Speech-to-Text</span>
+        <span class="chip">Audio processing</span>
+    </div>
+
+    <p class="cta"><a href="https://github.com/aymenm9/Tajweed-AI" target="_blank" rel="noopener">view source on github →</a></p>
+</div>
+</body>
+</html>

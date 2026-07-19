@@ -23,7 +23,11 @@ Routes in `App.jsx`:
 - `/` → `StandardPortfolio.jsx` (normal scrollable portfolio)
 - `/lock` → `lockScreen.jsx`, `/home` → `homeScreen.jsx` (the desktop-environment UI: taskbar, draggable terminal/project windows via `react-draggable`)
 
-`ChatBot` is mounted globally in `App.jsx` and points at a hardcoded external API (`https://portfolio-chatbot-92au.onrender.com`). The `fetch` on mount in `App.jsx` is an intentional cold-start wake-up for the Render free tier — do not remove it as "dead code".
+`ChatBot` is mounted in `App.jsx` but **gated to the OS routes** (`/lock`, `/home`) via `useLocation` — it must NOT render on `/`. It points at a hardcoded external API (`https://portfolio-chatbot-92au.onrender.com`). The `fetch` on mount in `App.jsx` is an intentional cold-start wake-up for the Render free tier — do not remove it as "dead code".
+
+## Standard-portfolio project viewer (separate from the OS one)
+
+`StandardPortfolio.jsx` uses its own `ProjectViewer.jsx` — NOT the OS `project.jsx` popup (that one stays for the desktop UI). Render priority: (1) HTML presentation → (2) markdown resource → (3) image → (4) description. Presentations are plain HTML folders under `public/presentations/<project-id>/` (relative asset paths work because `public/` keeps its structure) and are enabled by adding `presentation: "/portfolio/presentations/<id>/index.html"` to the project's entry in `src/data/projects.js` — the field rides into the FS node via `...projectMeta` spread, no `fileSystem.js` change needed. Example: `public/presentations/tajweed-ai/`.
 
 ## Virtual file system (the terminal's core)
 
