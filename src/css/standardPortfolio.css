@@ -25,7 +25,7 @@
     min-height: 100vh;
     width: 100%;
     position: relative;
-    overflow-x: hidden;
+    overflow-x: clip; /* clip (not hidden) keeps position:sticky working inside */
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     transition: background 0.5s ease, color 0.5s ease;
@@ -1234,35 +1234,75 @@ html { scroll-behavior: smooth; }
 }
 
 /* ============================================================
-   REEL — horizontal scrolling project shelf
+   REEL — pinned horizontal scroll (vertical scroll drives it)
    ============================================================ */
 
-.reel-wrap {
-    margin-top: 1.6rem;
+.reel-sect {
+    position: relative;
 }
 
-.reel {
+.reel-pin {
+    position: relative;
+    /* height set from JS: 100vh + sideways travel distance */
+}
+
+.reel-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
     display: flex;
-    gap: 1.1rem;
-    overflow-x: auto;
-    padding: 0.4rem 0.2rem 1rem;
-    cursor: grab;
-    user-select: none;
-    -webkit-user-select: none;
-    scrollbar-width: none;
-    scroll-snap-type: x proximity;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(1.4rem, 4vh, 2.6rem);
+    overflow: hidden;
 }
 
-.reel::-webkit-scrollbar { display: none; }
-.reel:active { cursor: grabbing; }
+.reel-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0 clamp(1.2rem, 5vw, 3rem);
+    position: relative;
+}
+
+.reel-head .s-title {
+    margin: 0;
+}
+
+.reel-progress {
+    position: absolute;
+    left: clamp(1.2rem, 5vw, 3rem);
+    right: clamp(1.2rem, 5vw, 3rem);
+    bottom: -0.9rem;
+    height: 1px;
+    background: var(--line);
+}
+
+.reel-progress i {
+    display: block;
+    height: 100%;
+    background: var(--acc);
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+.reel-track {
+    display: flex;
+    align-items: stretch;
+    gap: 1.1rem;
+    padding: 0 clamp(1.2rem, 5vw, 3rem);
+    will-change: transform;
+}
 
 .reel-card {
     position: relative;
     flex: 0 0 min(78vw, 340px);
     border: 1px solid var(--line);
     background: var(--bg);
-    scroll-snap-align: start;
     overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
     transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
@@ -1334,37 +1374,13 @@ html { scroll-behavior: smooth; }
     white-space: nowrap;
 }
 
-.reel-ctl {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 0.4rem;
-}
-
-.reel-ctl button {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 1px solid var(--line);
-    background: transparent;
-    color: var(--ink);
+.reel-end {
+    flex: 0 0 auto;
+    align-self: center;
+    padding: 0 1.5rem;
     font-family: 'Space Mono', monospace;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
-}
-
-.reel-ctl button:hover {
-    border-color: var(--acc);
-    color: var(--acc);
-    transform: scale(1.08);
-}
-
-.reel-hint {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.66rem;
-    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--line2);
 }
@@ -1593,4 +1609,5 @@ html { scroll-behavior: smooth; }
     .pv-head { grid-template-columns: 1fr auto; }
     .pv-tag { display: none; }
     .reel-card { flex-basis: min(82vw, 300px); }
+    .reel-head .s-note { display: none; }
 }

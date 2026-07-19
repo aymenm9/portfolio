@@ -452,74 +452,79 @@ function DistortField({ theme }) {
     return <canvas ref={ref} className="distort" aria-hidden="true" />;
 }
 
-// Horizontal reel — every project on one endless shelf, drag or wheel sideways
+// Pinned horizontal reel — vertical scroll is borrowed to move the track
+// sideways; when the track runs out, the page hands the scroll back down.
 function Reel({ onOpen }) {
+    const wrapRef = useRef(null);
     const trackRef = useRef(null);
-    const drag = useRef(null);
-    const moved = useRef(0);
+    const barRef = useRef(null);
 
     useEffect(() => {
-        const el = trackRef.current;
-        if (!el) return undefined;
-        const onWheel = (e) => {
-            if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-            const max = el.scrollWidth - el.clientWidth;
-            if ((e.deltaY < 0 && el.scrollLeft <= 0) || (e.deltaY > 0 && el.scrollLeft >= max - 1)) return;
-            e.preventDefault();
-            el.scrollLeft += e.deltaY;
+        const wrap = wrapRef.current;
+        const track = trackRef.current;
+        let maxShift = 0;
+        let raf = 0;
+
+        const measure = () => {
+            maxShift = Math.max(0, track.scrollWidth - wrap.clientWidth);
+            // one pixel of vertical scroll == one pixel of sideways travel
+            wrap.style.height = `${window.innerHeight + maxShift}px`;
         };
-        el.addEventListener('wheel', onWheel, { passive: false });
-        return () => el.removeEventListener('wheel', onWheel);
+
+        const onScroll = () => {
+            cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(() => {
+                const rect = wrap.getBoundingClientRect();
+                const range = rect.height - window.innerHeight;
+                const p = range > 0 ? Math.min(1, Math.max(0, -rect.top / range)) : 0;
+                track.style.transform = `translate3d(${-p * maxShift}px, 0, 0)`;
+                if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
+            });
+        };
+
+        measure();
+        onScroll();
+        window.addEventListener('resize', measure);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => {
+            cancelAnimationFrame(raf);
+            window.removeEventListener('resize', measure);
+            window.removeEventListener('scroll', onScroll);
+        };
     }, []);
 
-    const onDown = (e) => {
-        drag.current = { x: e.clientX, left: trackRef.current.scrollLeft };
-        moved.current = 0;
-    };
-    const onMove = (e) => {
-        if (!drag.current) return;
-        const dx = e.clientX - drag.current.x;
-        moved.current = Math.max(moved.current, Math.abs(dx));
-        trackRef.current.scrollLeft = drag.current.left - dx;
-    };
-    const onUp = () => { drag.current = null; };
-    const step = (dir) => trackRef.current.scrollBy({ left: dir * 420, behavior: 'smooth' });
-
     return (
-        <div className="reel-wrap">
-            <div
-                className="reel"
-                ref={trackRef}
-                onPointerDown={onDown}
-                onPointerMove={onMove}
-                onPointerUp={onUp}
-                onPointerLeave={onUp}
-            >
-                {projects.map((p, i) => {
-                    const src = thumbOf(p);
-                    return (
-                        <article
-                            key={p.id}
-                            className="reel-card"
-                            onClick={() => { if (moved.current < 6) onOpen(p.id); }}
-                            data-cursor-label="open ↗"
-                        >
-                            <span className="rc-idx">{String(i + 1).padStart(2, '0')}</span>
-                            {src
-                                ? <img src={src} alt="" draggable="false" />
-                                : <span className="rc-blank">{p.name[0]}</span>}
-                            <div className="rc-meta">
-                                <h3>{p.name.replace(/_/g, ' ')}</h3>
-                                <span>{p.tags.join(' — ')}</span>
-                            </div>
-                        </article>
-                    );
-                })}
-            </div>
-            <div className="reel-ctl">
-                <button type="button" onClick={() => step(-1)} data-cursor aria-label="scroll reel left">←</button>
-                <span className="reel-hint">drag / scroll sideways</span>
-                <button type="button" onClick={() => step(1)} data-cursor aria-label="scroll reel right">→</button>
+        <div className="reel-pin" ref={wrapRef}>
+            <div className="reel-sticky">
+                <div className="reel-head">
+                    <span className="s-no">§03</span>
+                    <h2 className="s-title">Reel</h2>
+                    <span className="s-note">+ the page moves sideways here</span>
+                    <span className="reel-progress" aria-hidden><i ref={barRef} /></span>
+                </div>
+                <div className="reel-track" ref={trackRef}>
+                    {projects.map((p, i) => {
+                        const src = thumbOf(p);
+                        return (
+                            <article
+                                key={p.id}
+                                className="reel-card"
+                                onClick={() => onOpen(p.id)}
+                                data-cursor-label="open ↗"
+                            >
+                                <span className="rc-idx">{String(i + 1).padStart(2, '0')}</span>
+                                {src
+                                    ? <img src={src} alt="" draggable="false" />
+                                    : <span className="rc-blank">{p.name[0]}</span>}
+                                <div className="rc-meta">
+                                    <h3>{p.name.replace(/_/g, ' ')}</h3>
+                                    <span>{p.tags.join(' — ')}</span>
+                                </div>
+                            </article>
+                        );
+                    })}
+                    <span className="reel-end" aria-hidden>/fin</span>
+                </div>
             </div>
         </div>
     );
@@ -753,9 +758,8 @@ const StandardPortfolio = () => {
                     </div>
                 </section>
 
-                {/* ---------------- Reel (horizontal scroll) ---------------- */}
-                <section id="reel" className="sect">
-                    <SectionHead no="03" title="Reel" note="horizontal cut" />
+                {/* ---------------- Reel (pinned horizontal scroll) ---------------- */}
+                <section id="reel" className="reel-sect">
                     <Reel onOpen={(id) => setOpenNode(fileSystem.Desktop.Projects[id])} />
                 </section>
 
