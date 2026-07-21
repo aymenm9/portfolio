@@ -89,6 +89,9 @@ const EXPERIENCE = [
     },
 ];
 
+const inDev = (p) => p.tags.some((t) => ['Web', 'Python', 'AI', 'Bot', 'Monitoring', 'API', 'Fitness'].includes(t));
+const inDesign = (p) => p.tags.some((t) => ['Design', 'Branding', 'Logo'].includes(t));
+
 const thumbOf = (p) => {
     const node = fileSystem.Desktop.Projects[p.id];
     return node?.thumbnailPath || node?.content?.find((r) => r.type === 'image')?.path || null;
@@ -311,6 +314,38 @@ function Cursor() {
     );
 }
 
+// Floating image preview that chases the cursor over the works list
+function FloatingPreview({ preview, mouse }) {
+    const ref = useRef(null);
+    const pos = useRef({ x: -400, y: -400 });
+    const last = useRef(null);
+    if (preview) last.current = preview;
+
+    useEffect(() => {
+        let raf;
+        const loop = () => {
+            const el = ref.current;
+            if (el) {
+                const dx = mouse.current.x - pos.current.x;
+                pos.current.x += dx * 0.14;
+                pos.current.y += (mouse.current.y - pos.current.y) * 0.14;
+                const rot = Math.max(-8, Math.min(8, dx * 0.045));
+                el.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%, -58%) rotate(${rot}deg)`;
+            }
+            raf = requestAnimationFrame(loop);
+        };
+        raf = requestAnimationFrame(loop);
+        return () => cancelAnimationFrame(raf);
+    }, [mouse]);
+
+    return (
+        <div ref={ref} className={`float-preview ${preview ? 'on' : ''}`} aria-hidden>
+            {last.current && <img src={last.current.src} alt="" />}
+            <span className="fp-cap">{last.current?.name}</span>
+        </div>
+    );
+}
+
 function SectionHead({ no, title, note }) {
     return (
         <Reveal className="s-head">
@@ -416,101 +451,6 @@ function DistortField({ theme }) {
     return <canvas ref={ref} className="distort" aria-hidden="true" />;
 }
 
-// Works rail — the section pins to the viewport and vertical scroll drives
-// the cards sideways; when the last card passes, the page flows down again.
-function WorksRail({ onOpen }) {
-    const wrapRef = useRef(null);
-    const trackRef = useRef(null);
-    const barRef = useRef(null);
-
-    useEffect(() => {
-        const wrap = wrapRef.current;
-        const track = trackRef.current;
-        let maxShift = 0;
-        let raf = 0;
-
-        const measure = () => {
-            maxShift = Math.max(0, track.scrollWidth - wrap.clientWidth);
-            // one pixel of vertical scroll == one pixel of sideways travel
-            wrap.style.height = `${window.innerHeight + maxShift}px`;
-        };
-
-        const onScroll = () => {
-            cancelAnimationFrame(raf);
-            raf = requestAnimationFrame(() => {
-                const rect = wrap.getBoundingClientRect();
-                const range = rect.height - window.innerHeight;
-                const p = range > 0 ? Math.min(1, Math.max(0, -rect.top / range)) : 0;
-                track.style.transform = `translate3d(${-p * maxShift}px, 0, 0)`;
-                if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
-            });
-        };
-
-        measure();
-        onScroll();
-        window.addEventListener('resize', measure);
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => {
-            cancelAnimationFrame(raf);
-            window.removeEventListener('resize', measure);
-            window.removeEventListener('scroll', onScroll);
-        };
-    }, []);
-
-    return (
-        <div className="rail-pin" ref={wrapRef}>
-            <div className="rail-sticky">
-                <div className="rail-head">
-                    <span className="s-no">§03</span>
-                    <h2 className="s-title">Works</h2>
-                    <span className="s-note">+ the page moves sideways here</span>
-                    <span className="rail-progress" aria-hidden><i ref={barRef} /></span>
-                </div>
-                <div className="rail-track" ref={trackRef}>
-                    {projects.map((p, i) => {
-                        const src = thumbOf(p);
-                        return (
-                            <article
-                                key={p.id}
-                                className="stack-card rail-card"
-                                onClick={() => onOpen(p.id)}
-                                data-cursor-label="open ↗"
-                            >
-                                <div className="st-media">
-                                    {src
-                                        ? <img src={src} alt="" loading="lazy" draggable="false" />
-                                        : <span className="st-blank">{p.name[0]}</span>}
-                                    <span className="st-idx">
-                                        {String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
-                                    </span>
-                                </div>
-                                <div className="st-meta">
-                                    <span className="st-cat">{p.tags.join(' — ')}</span>
-                                    <h3 className="st-title">{p.name.replace(/_/g, ' ')}</h3>
-                                    <p className="st-desc">{p.description}</p>
-                                    <div className="st-foot">
-                                        <a
-                                            href={p.link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            onClick={(e) => e.stopPropagation()}
-                                            data-cursor
-                                        >
-                                            src ↗
-                                        </a>
-                                        <span className="st-open">inspect ↗</span>
-                                    </div>
-                                </div>
-                            </article>
-                        );
-                    })}
-                    <span className="rail-end" aria-hidden>/fin</span>
-                </div>
-            </div>
-        </div>
-    );
-}
-
 /* ------------------------------------------------------------------ */
 /* Page                                                                 */
 /* ------------------------------------------------------------------ */
@@ -519,13 +459,16 @@ const StandardPortfolio = () => {
     const navigate = useNavigate();
     const [phase, setPhase] = useState('boot'); // boot → lift → gone
     const [theme, setTheme] = useState(() => localStorage.getItem('am-theme') || 'dark');
+    const [cat, setCat] = useState('Development');
     const [openNode, setOpenNode] = useState(null);
+    const [preview, setPreview] = useState(null);
     const [leaving, setLeaving] = useState(false);
     const [scrambleKey, setScrambleKey] = useState(0);
 
     const clock = useClock();
     const roleHtml = useRole();
     const emailHtml = useScramble(EMAIL, scrambleKey);
+    const mouse = useRef({ x: -400, y: -400 });
     const progressRef = useRef(null);
 
     useEffect(() => { localStorage.setItem('am-theme', theme); }, [theme]);
@@ -536,6 +479,13 @@ const StandardPortfolio = () => {
         const id = setTimeout(() => setPhase('gone'), 1300);
         return () => clearTimeout(id);
     }, [phase]);
+
+    // Shared mouse position (floating preview)
+    useEffect(() => {
+        const onMove = (e) => { mouse.current = { x: e.clientX, y: e.clientY }; };
+        window.addEventListener('mousemove', onMove);
+        return () => window.removeEventListener('mousemove', onMove);
+    }, []);
 
     // Scroll progress hairline
     useEffect(() => {
@@ -558,6 +508,9 @@ const StandardPortfolio = () => {
         setLeaving(true);
         setTimeout(() => navigate('/lock'), 640);
     };
+
+    const filtered = projects.filter(cat === 'Development' ? inDev : inDesign);
+    const counts = { Development: projects.filter(inDev).length, Design: projects.filter(inDesign).length };
 
     return (
         <div className={`std-portfolio ${phase !== 'boot' ? 'is-booted' : ''}`} data-theme={theme} id="top">
@@ -726,9 +679,61 @@ const StandardPortfolio = () => {
                     </div>
                 </section>
 
-                {/* ---------------- Works (pinned horizontal rail) ---------------- */}
-                <section id="works" className="rail-sect">
-                    <WorksRail onOpen={(id) => setOpenNode(fileSystem.Desktop.Projects[id])} />
+                {/* ---------------- Works ---------------- */}
+                <section id="works" className="sect">
+                    <SectionHead no="03" title="Works" note="selected output" />
+
+                    <Reveal className="works-filter">
+                        {['Development', 'Design'].map((c) => (
+                            <button
+                                key={c}
+                                className={`wf-btn ${cat === c ? 'on' : ''}`}
+                                onClick={() => setCat(c)}
+                                data-cursor
+                            >
+                                {c === 'Design' ? 'Other / Design' : c}
+                                <sup>{counts[c]}</sup>
+                            </button>
+                        ))}
+                        <span className="wf-hint">click a row to inspect</span>
+                    </Reveal>
+
+                    <div className="works" key={cat}>
+                        {filtered.map((p, i) => {
+                            const src = thumbOf(p);
+                            const no = String(i + 1).padStart(2, '0');
+                            return (
+                                <article
+                                    className="work-row"
+                                    key={p.id}
+                                    style={{ '--i': i }}
+                                    onClick={() => setOpenNode(fileSystem.Desktop.Projects[p.id])}
+                                    onMouseEnter={() => src && setPreview({ src, name: p.name.replace(/_/g, ' ') })}
+                                    onMouseLeave={() => setPreview(null)}
+                                    data-cursor-label="open ↗"
+                                    role="button"
+                                    tabIndex={0}
+                                    onKeyDown={(e) => { if (e.key === 'Enter') setOpenNode(fileSystem.Desktop.Projects[p.id]); }}
+                                >
+                                    <span className="w-idx">{no}</span>
+                                    {src && <span className="w-thumb"><img src={src} alt="" loading="lazy" /></span>}
+                                    <h3 className="w-title">{p.name.replace(/_/g, ' ')}</h3>
+                                    <span className="w-tags">{p.tags.join(' — ')}</span>
+                                    <a
+                                        className="w-link"
+                                        href={p.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
+                                        data-cursor
+                                    >
+                                        src ↗
+                                    </a>
+                                    <span className="w-arrow">↗</span>
+                                </article>
+                            );
+                        })}
+                    </div>
                 </section>
 
                 {/* ---------------- Education ---------------- */}
@@ -810,6 +815,8 @@ const StandardPortfolio = () => {
                     <span className="ftr-end">/eof</span>
                 </footer>
             </div>
+
+            <FloatingPreview preview={preview} mouse={mouse} />
 
             {/* Project viewer (dossier edition — html/md, separate from the OS viewer) */}
             {openNode && (
