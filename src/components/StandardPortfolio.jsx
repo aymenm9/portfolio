@@ -416,49 +416,97 @@ function DistortField({ theme }) {
     return <canvas ref={ref} className="distort" aria-hidden="true" />;
 }
 
-// Vertical card stack — every card sticks to the top of the viewport while
-// the next one scrolls up and covers it (pure sticky positioning, no JS math).
-function CardStack({ onOpen }) {
+// Works rail — the section pins to the viewport and vertical scroll drives
+// the cards sideways; when the last card passes, the page flows down again.
+function WorksRail({ onOpen }) {
+    const wrapRef = useRef(null);
+    const trackRef = useRef(null);
+    const barRef = useRef(null);
+
+    useEffect(() => {
+        const wrap = wrapRef.current;
+        const track = trackRef.current;
+        let maxShift = 0;
+        let raf = 0;
+
+        const measure = () => {
+            maxShift = Math.max(0, track.scrollWidth - wrap.clientWidth);
+            // one pixel of vertical scroll == one pixel of sideways travel
+            wrap.style.height = `${window.innerHeight + maxShift}px`;
+        };
+
+        const onScroll = () => {
+            cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(() => {
+                const rect = wrap.getBoundingClientRect();
+                const range = rect.height - window.innerHeight;
+                const p = range > 0 ? Math.min(1, Math.max(0, -rect.top / range)) : 0;
+                track.style.transform = `translate3d(${-p * maxShift}px, 0, 0)`;
+                if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
+            });
+        };
+
+        measure();
+        onScroll();
+        window.addEventListener('resize', measure);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => {
+            cancelAnimationFrame(raf);
+            window.removeEventListener('resize', measure);
+            window.removeEventListener('scroll', onScroll);
+        };
+    }, []);
+
     return (
-        <div className="stack">
-            {projects.map((p, i) => {
-                const src = thumbOf(p);
-                return (
-                    <div className="stack-item" key={p.id} style={{ '--i': i }}>
-                        <article
-                            className="stack-card"
-                            onClick={() => onOpen(p.id)}
-                            data-cursor-label="open ↗"
-                        >
-                            <div className="st-media">
-                                {src
-                                    ? <img src={src} alt="" loading="lazy" draggable="false" />
-                                    : <span className="st-blank">{p.name[0]}</span>}
-                                <span className="st-idx">
-                                    {String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
-                                </span>
-                            </div>
-                            <div className="st-meta">
-                                <span className="st-cat">{p.tags.join(' — ')}</span>
-                                <h3 className="st-title">{p.name.replace(/_/g, ' ')}</h3>
-                                <p className="st-desc">{p.description}</p>
-                                <div className="st-foot">
-                                    <a
-                                        href={p.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={(e) => e.stopPropagation()}
-                                        data-cursor
-                                    >
-                                        src ↗
-                                    </a>
-                                    <span className="st-open">inspect ↗</span>
+        <div className="rail-pin" ref={wrapRef}>
+            <div className="rail-sticky">
+                <div className="rail-head">
+                    <span className="s-no">§03</span>
+                    <h2 className="s-title">Works</h2>
+                    <span className="s-note">+ the page moves sideways here</span>
+                    <span className="rail-progress" aria-hidden><i ref={barRef} /></span>
+                </div>
+                <div className="rail-track" ref={trackRef}>
+                    {projects.map((p, i) => {
+                        const src = thumbOf(p);
+                        return (
+                            <article
+                                key={p.id}
+                                className="stack-card rail-card"
+                                onClick={() => onOpen(p.id)}
+                                data-cursor-label="open ↗"
+                            >
+                                <div className="st-media">
+                                    {src
+                                        ? <img src={src} alt="" loading="lazy" draggable="false" />
+                                        : <span className="st-blank">{p.name[0]}</span>}
+                                    <span className="st-idx">
+                                        {String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+                                    </span>
                                 </div>
-                            </div>
-                        </article>
-                    </div>
-                );
-            })}
+                                <div className="st-meta">
+                                    <span className="st-cat">{p.tags.join(' — ')}</span>
+                                    <h3 className="st-title">{p.name.replace(/_/g, ' ')}</h3>
+                                    <p className="st-desc">{p.description}</p>
+                                    <div className="st-foot">
+                                        <a
+                                            href={p.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={(e) => e.stopPropagation()}
+                                            data-cursor
+                                        >
+                                            src ↗
+                                        </a>
+                                        <span className="st-open">inspect ↗</span>
+                                    </div>
+                                </div>
+                            </article>
+                        );
+                    })}
+                    <span className="rail-end" aria-hidden>/fin</span>
+                </div>
+            </div>
         </div>
     );
 }
@@ -678,10 +726,9 @@ const StandardPortfolio = () => {
                     </div>
                 </section>
 
-                {/* ---------------- Works (vertical card stack) ---------------- */}
-                <section id="works" className="sect">
-                    <SectionHead no="03" title="Works" note="selected output — scroll through the stack" />
-                    <CardStack onOpen={(id) => setOpenNode(fileSystem.Desktop.Projects[id])} />
+                {/* ---------------- Works (pinned horizontal rail) ---------------- */}
+                <section id="works" className="rail-sect">
+                    <WorksRail onOpen={(id) => setOpenNode(fileSystem.Desktop.Projects[id])} />
                 </section>
 
                 {/* ---------------- Education ---------------- */}
