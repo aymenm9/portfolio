@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
-import { PdfView, ImageView, MarkdownView } from "./projectViews.jsx";
+import { PdfView, ImageView, MarkdownView, HtmlView } from "./projectViews.jsx";
 
 import "../css/window.css"
 
@@ -17,7 +17,11 @@ export default function Project({ projectObj, closeProject }) {
         view = <ImageView resource={projectObj} />
     } else if (projectObj.type === 'markdown') {
         view = <MarkdownView resource={projectObj} />
-    } else if (projectObj.type === 'project' || projectObj.type === 'resource') { // Handle 'project' container
+    } else if (projectObj.type === 'resource' || projectObj.type === 'project') {
+        // Presentation takes priority: render live HTML in an iframe.
+        if (projectObj.presentation) {
+            view = <HtmlView resource={projectObj} />
+        } else {
         view = (
             <div className="window-body" style={{ display: 'block', gap: '2rem' }}>
                 {projectObj.thumbnailPath && (
@@ -73,6 +77,7 @@ export default function Project({ projectObj, closeProject }) {
                 )}
             </div>
         );
+        }
     }
     return (
         <div className="project-modal-overlay" onClick={closeProject}>

@@ -15,6 +15,20 @@ function PdfView({ resource }) {
   );
 }
 
+function HtmlView({ resource }) {
+  return (
+    <div className="window-body" style={{ padding: '0', overflow: 'hidden' }}>
+      <iframe
+        src={resource.presentation}
+        title={`${resource.name} — presentation`}
+        className="project-view-resource"
+        style={{ width: '100%', height: '100%', minHeight: '60vh', border: '0', background: '#0d1f1a' }}
+      />
+      {resource.link && <a href={resource.link} target="_blank" className="project-view-link">view Full Project</a>}
+    </div>
+  );
+}
+
 function ImageView({ resource }) {
   return (
     <div className="window-body">
@@ -72,5 +86,6 @@ function MarkdownView({ resource }) {
 export {
   PdfView,
   ImageView,
-  MarkdownView
+  MarkdownView,
+  HtmlView
 };

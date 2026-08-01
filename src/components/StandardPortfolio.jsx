@@ -388,7 +388,7 @@ function DistortField({ theme }) {
 
         const cs = getComputedStyle(canvas);
         const base = cs.getPropertyValue('--dg-base').trim() || 'rgba(255,255,255,0.14)';
-        const hot = cs.getPropertyValue('--dg-hot').trim() || '#ccff00';
+        const hot = cs.getPropertyValue('--dg-hot').trim() || '#ac0000';
 
         const build = () => {
             const w = window.innerWidth;
@@ -518,6 +518,11 @@ const StandardPortfolio = () => {
             <Cursor />
             <span className="progress" ref={progressRef} aria-hidden />
 
+            {/* Construction banner */}
+            <div className="construction-banner" role="status">
+                <span className="cb-dot" /> under construction — content &amp; info being updated
+            </div>
+
             {/* Structural column guides */}
             <div className="guides" aria-hidden><i /><i /><i /></div>
 
@@ -578,7 +583,7 @@ const StandardPortfolio = () => {
                     <div className="hero-rail stage" style={{ '--d': '340ms' }}>
                         <div className="hr-row">
                             <span><b>FOLIO/{YEAR}</b> — selected works &amp; systems</span>
-                            <span className="hr-status"><i />open for work</span>
+                            <span className="hr-status"><i />open for freelance</span>
                         </div>
                         <div className="hr-row">
                             <span>loc — {LOCATION}</span>
@@ -614,10 +619,26 @@ const StandardPortfolio = () => {
                             </div>
                         </div>
 
-                        <figure className="hero-portrait stage" style={{ '--d': '600ms' }} data-cursor>
+                        <figure
+                            className="hero-portrait stage"
+                            style={{ '--d': '600ms' }}
+                            data-cursor
+                            onPointerMove={(e) => {
+                                const r = e.currentTarget.getBoundingClientRect();
+                                const mx = ((e.clientX - r.left) / r.width) * 100;
+                                const my = ((e.clientY - r.top) / r.height) * 100;
+                                e.currentTarget.style.setProperty('--mx', mx + '%');
+                                e.currentTarget.style.setProperty('--my', my + '%');
+                            }}
+                            onPointerLeave={(e) => {
+                                e.currentTarget.style.setProperty('--mx', '-200%');
+                                e.currentTarget.style.setProperty('--my', '-200%');
+                            }}
+                        >
                             <span className="crop tl" /><span className="crop tr" />
                             <span className="crop bl" /><span className="crop br" />
-                            <img src={meImg} alt="Aymen Merad" />
+                            <img className="hero-portrait-gs" src={meImg} alt="Aymen Merad" />
+                            <img className="hero-portrait-color" src={meImg} alt="" aria-hidden />
                             <figcaption><b>fig.01</b> — the author, {LOCATION}</figcaption>
                         </figure>
                     </div>
