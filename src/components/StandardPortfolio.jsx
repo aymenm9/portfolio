@@ -451,6 +451,7 @@ function DistortField({ theme }) {
     return <canvas ref={ref} className="distort" aria-hidden="true" />;
 }
 
+
 /* ------------------------------------------------------------------ */
 /* Page                                                                 */
 /* ------------------------------------------------------------------ */
@@ -459,10 +460,10 @@ const StandardPortfolio = () => {
     const navigate = useNavigate();
     const [phase, setPhase] = useState('boot'); // boot → lift → gone
     const [theme, setTheme] = useState(() => localStorage.getItem('am-theme') || 'dark');
-    const [cat, setCat] = useState('Development');
     const [openNode, setOpenNode] = useState(null);
     const [preview, setPreview] = useState(null);
     const [leaving, setLeaving] = useState(false);
+    const [cat, setCat] = useState('Development');
     const [scrambleKey, setScrambleKey] = useState(0);
 
     const clock = useClock();
@@ -681,8 +682,7 @@ const StandardPortfolio = () => {
 
                 {/* ---------------- Works ---------------- */}
                 <section id="works" className="sect">
-                    <SectionHead no="03" title="Works" note="selected output" />
-
+                    <SectionHead no="03" title="Works" note="+ selected output" />
                     <Reveal className="works-filter">
                         {['Development', 'Design'].map((c) => (
                             <button
@@ -695,7 +695,7 @@ const StandardPortfolio = () => {
                                 <sup>{counts[c]}</sup>
                             </button>
                         ))}
-                        <span className="wf-hint">click a row to inspect</span>
+                        <span className="wf-hint">hover a row for the dossier</span>
                     </Reveal>
 
                     <div className="works" key={cat}>
@@ -710,7 +710,7 @@ const StandardPortfolio = () => {
                                     onClick={() => setOpenNode(fileSystem.Desktop.Projects[p.id])}
                                     onMouseEnter={() => src && setPreview({ src, name: p.name.replace(/_/g, ' ') })}
                                     onMouseLeave={() => setPreview(null)}
-                                    data-cursor-label="open ↗"
+                                    data-cursor-label="open dossier ↗"
                                     role="button"
                                     tabIndex={0}
                                     onKeyDown={(e) => { if (e.key === 'Enter') setOpenNode(fileSystem.Desktop.Projects[p.id]); }}
