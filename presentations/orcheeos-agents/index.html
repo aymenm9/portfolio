@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orcheeos-agents — presentation</title>
+<style>
+    :root {
+        --bg: #0d0d0b;
+        --panel: #15150f;
+        --ink: #e9e7de;
+        --dim: rgba(233, 231, 222, .6);
+        --faint: rgba(233, 231, 222, .34);
+        --acc: #ac0000;
+        --line: rgba(233, 231, 222, .12);
+        --line2: rgba(233, 231, 222, .22);
+        --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Georgia, 'Times New Roman', serif;
+        line-height: 1.62;
+        padding: clamp(1.2rem, 4vw, 3rem);
+        -webkit-font-smoothing: antialiased;
+    }
+    .sheet { max-width: 900px; margin: 0 auto; }
+
+    .kicker {
+        text-align: center;
+        font-family: var(--mono);
+        font-size: .66rem;
+        letter-spacing: .3em;
+        text-transform: uppercase;
+        color: var(--acc);
+    }
+    h1 {
+        text-align: center;
+        font-family: var(--mono);
+        font-size: clamp(2rem, 7vw, 3.6rem);
+        margin: .7rem 0 1rem;
+        font-weight: 700;
+        letter-spacing: -.01em;
+    }
+    .lead {
+        text-align: center;
+        color: var(--dim);
+        max-width: 62ch;
+        margin: 0 auto 2.4rem;
+        font-size: 1.08rem;
+    }
+    .lead em { color: var(--acc); font-style: italic; }
+
+    .meta-row {
+        display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.6rem;
+        margin-bottom: 2.6rem;
+        font-family: var(--mono);
+        font-size: .68rem;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        color: var(--faint);
+    }
+    .meta-row b { color: var(--ink); font-weight: 400; }
+
+    section { margin-bottom: 2.8rem; }
+    h2 {
+        font-family: var(--mono);
+        font-size: .74rem;
+        letter-spacing: .26em;
+        text-transform: uppercase;
+        color: var(--acc);
+        margin-bottom: 1.1rem;
+        padding-bottom: .6rem;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+    h2 .h2-note { color: var(--faint); font-weight: 400; letter-spacing: .14em; text-transform: none; }
+
+    figure {
+        border: 1px solid var(--line2);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 1.4rem;
+        background: var(--panel);
+    }
+    figure img { display: block; width: 100%; }
+    figcaption {
+        font-family: var(--mono);
+        font-size: .64rem;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        color: var(--dim);
+        padding: .7rem 1rem;
+        border-top: 1px solid var(--line);
+    }
+    figcaption b { color: var(--acc); font-weight: 400; }
+
+    .pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.4rem;
+    }
+    .pair figure { margin-bottom: 0; }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: .9rem;
+        margin-bottom: 1.4rem;
+    }
+    .card {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 1rem 1.1rem;
+        background: var(--panel);
+    }
+    .card .c-tag {
+        font-family: var(--mono);
+        font-size: .6rem;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: var(--faint);
+        display: block;
+        margin-bottom: .3rem;
+    }
+    .card .c-title {
+        font-family: var(--mono);
+        font-size: .92rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: .3rem;
+    }
+    .card p { font-size: .9rem; color: var(--dim); margin-top: .2rem; }
+    .card.lvl { border-left: 3px solid var(--acc); }
+    .card.base { border-left: 3px solid var(--line2); }
+
+    .specs {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: .8rem;
+    }
+    .spec {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: .85rem 1rem;
+        background: var(--panel);
+    }
+    .spec .c-title { font-family: var(--mono); font-size: .82rem; color: var(--acc); }
+    .spec .c-tag { font-family: var(--mono); font-size: .58rem; letter-spacing: .18em; text-transform: uppercase; color: var(--faint); }
+    .spec p { font-size: .84rem; color: var(--dim); margin-top: .35rem; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: .42rem; margin-bottom: 1.4rem; }
+    .chip {
+        font-family: var(--mono);
+        font-size: .66rem;
+        letter-spacing: .1em;
+        padding: .35em .8em;
+        border: 1px solid var(--line2);
+        border-radius: 999px;
+        color: var(--dim);
+    }
+    .chip.hot { border-color: var(--acc); color: var(--acc); }
+
+    .endpts {
+        font-family: var(--mono);
+        font-size: .76rem;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--panel);
+    }
+    .endpts .e {
+        display: grid;
+        grid-template-columns: 58px 1fr;
+        gap: 1rem;
+        padding: .55rem 1rem;
+        border-bottom: 1px solid var(--line);
+        align-items: baseline;
+    }
+    .endpts .e:last-child { border-bottom: 0; }
+    .endpts .m { color: var(--acc); font-weight: 700; }
+    .endpts .p { color: var(--dim); }
+
+    .src-btn { text-align: center; padding-top: 1rem; padding-bottom: 2rem; }
+    .src-btn a {
+        display: inline-block;
+        padding: .8em 1.8em;
+        border-radius: 999px;
+        background: var(--acc);
+        color: #fff8ee;
+        text-decoration: none;
+        font-family: var(--mono);
+        font-size: .76rem;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        transition: transform .2s;
+    }
+    .src-btn a:hover { transform: translateY(-2px); }
+
+    @media (max-width: 620px) {
+        .pair { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+    <p class="kicker">pfe — multi-agent behavioral study</p>
+    <h1>orcheeos-agents</h1>
+    <p class="lead">
+        A behavioral study of LLM multi-agent systems across <em>independent architectural variants</em>.
+        The same task set runs on every graph to produce a controlled comparison matrix — how
+        increasing architectural freedom changes coordination quality, reasoning, failure modes, and emergent behavior.
+    </p>
+    <div class="meta-row">
+        <span><b>FastAPI</b> + LangGraph</span>
+        <span><b>7</b> variants</span>
+        <span><b>5</b> specialties</span>
+        <span><b>36</b> runs scored</span>
+        <span>python 3.12 · pydantic v2</span>
+    </div>
+
+    <section>
+        <h2><span>dashboard — the control surface</span><span class="h2-note">react 19 · typescript</span></h2>
+        <figure>
+            <img src="img/dashboard-home.png" alt="The Orcheeos dashboard home — task launcher and workspace overview">
+            <figcaption><b>fig.01</b> — dashboard home: launch a task, pick a variant + specialty, watch the run</figcaption>
+        </figure>
+    </section>
+
+    <section>
+        <h2><span>the architecture — star topology</span><span class="h2-note">LangGraph StateGraph</span></h2>
+        <figure>
+            <img src="img/arch.svg" alt="LangGraph star topology: an orchestrator at the center dispatches to specialty workers">
+            <figcaption><b>fig.02</b> — every variant runs on the same StateGraph star — workers fan out from a central dispatch</figcaption>
+        </figure>
+        <p style="color:var(--dim);font-size:.94rem;max-width:64ch;">
+            All variants share one topology; what changes is <em style="color:var(--acc);">who decides</em>.
+            Baselines have no dispatch, Level 1 fixes the workers, Level 1B uses an LLM orchestrator,
+            Level 2 picks from templates, Level 3 invents agents from scratch, and Level X fuses
+            monolithic reliability with dynamic creation. LangSmith traces every decision path.
+        </p>
+    </section>
+
+    <section>
+        <h2><span>variants — the study axis</span><span class="h2-note">controlled comparison</span></h2>
+        <div class="grid">
+            <div class="card base"><span class="c-tag">baseline 1</span><span class="c-title">Monolithic</span><p>A single agent. No orchestrator, no worker dispatch — the floor.</p></div>
+            <div class="card base"><span class="c-tag">baseline 2</span><span class="c-title">Self-reflective</span><p>One agent that plans, executes, tests, and fixes itself internally.</p></div>
+            <div class="card lvl"><span class="c-tag">level 1</span><span class="c-title">Predefined</span><p>5 specialty graphs, each with a fixed roster of workers.</p></div>
+            <div class="card lvl"><span class="c-tag">level 1b</span><span class="c-title">Manager Orchestrator</span><p>An LLM-driven orchestrator dispatches — no planner node.</p></div>
+            <div class="card lvl"><span class="c-tag">level 2</span><span class="c-title">Template Creation</span><p>Picks from 18 predefined worker templates per task.</p></div>
+            <div class="card lvl"><span class="c-tag">level 3</span><span class="c-title">Fully Autonomous</span><p>Generates agents from scratch — custom prompts, dynamic tools.</p></div>
+            <div class="card lvl"><span class="c-tag">level x</span><span class="c-title">Hybrid Orchestrator</span><p>Monolithic reliability fused with dynamic agent creation.</p></div>
+        </div>
+    </section>
+
+    <section>
+        <h2><span>specialties — the task domain axis</span><span class="h2-note">5 domains</span></h2>
+        <div class="specs">
+            <div class="spec"><span class="c-tag">5 workers</span><span class="c-title">frontend</span><p>ux · html · css · js · tester — vanilla html/css/js.</p></div>
+            <div class="spec"><span class="c-tag">3 workers</span><span class="c-title">backend</span><p>schema · endpoints · tester — fastapi.</p></div>
+            <div class="spec"><span class="c-tag">6 workers</span><span class="c-title">fullstack</span><p>frontend 3 + backend 3 — coordinated full-stack.</p></div>
+            <div class="spec"><span class="c-tag">6 workers</span><span class="c-title">brand</span><p>palette · logo · typography · images · guide · tester.</p></div>
+            <div class="spec"><span class="c-tag">4 workers</span><span class="c-title">research</span><p>search · analysis · document · tester — arxiv / semantic scholar.</p></div>
+        </div>
+    </section>
+
+    <section>
+        <h2><span>case study — frontend, comparing variants</span><span class="h2-note">same task, different graphs</span></h2>
+        <div class="pair">
+            <figure>
+                <img src="img/c1-baseline.jpeg" alt="Baseline 1 frontend output — a todo list page">
+                <figcaption><b>baseline 1</b> — monolithic output</figcaption>
+            </figure>
+            <figure>
+                <img src="img/c1-l1.jpeg" alt="Level 1 frontend output — fixed workers coordinate">
+                <figcaption><b>level 1</b> — predefined workers</figcaption>
+            </figure>
+        </div>
+        <div class="pair">
+            <figure>
+                <img src="img/c1-l2.jpeg" alt="Level 2 frontend output — template-chosen workers dispatch">
+                <figcaption><b>level 2</b> — template creation</figcaption>
+            </figure>
+            <figure>
+                <img src="img/c1-l3.jpeg" alt="Level 3 frontend output — agents generated from scratch">
+                <figcaption><b>level 3</b> — fully autonomous</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section>
+        <h2><span>case study — portfolio, baseline vs. level X</span><span class="h2-note">emergent coordination</span></h2>
+        <div class="pair">
+            <figure>
+                <img src="img/c2-baseline-portfolio.jpeg" alt="Baseline output for a portfolio task">
+                <figcaption><b>baseline</b> — no coordination</figcaption>
+            </figure>
+            <figure>
+                <img src="img/c2-l3-portfolio.jpeg" alt="Level 3 output for the same portfolio task">
+                <figcaption><b>level 3</b> — autonomous agents</figcaption>
+            </figure>
+        </div>
+        <div class="pair">
+            <figure>
+                <img src="img/lx-simple-t1.jpeg" alt="Level X running a simple task in the dashboard">
+                <figcaption><b>level X</b> — running a simple task</figcaption>
+            </figure>
+            <figure>
+                <img src="img/lx-portfolio.jpeg" alt="A complete portfolio website generated by Level X agents">
+                <figcaption><b>level X</b> — portfolio generated by autonomous agents</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section>
+        <h2><span>evaluation — the comparison matrix</span><span class="h2-note">36 runs scored</span></h2>
+        <figure>
+            <img src="img/result-table.png" alt="The evaluation matrix table — runs scored on coordination, reasoning, cost, and emergent behavior">
+            <figcaption><b>fig.03</b> — the results matrix: coordination quality, reasoning, cost, and emergent behavior across all variants</figcaption>
+        </figure>
+        <p style="color:var(--dim);font-size:.94rem;max-width:64ch;">
+            The same task set runs on every variant, then a fixed rubric scores coordination quality,
+            reasoning depth, cost efficiency, and emergent behavior. Manual scores layer on top of
+            automatic metrics — the matrix reveals where more freedom helps, and where it breaks.
+        </p>
+    </section>
+
+    <section>
+        <h2><span>tech stack</span></h2>
+        <div class="chips">
+            <span class="chip hot">Python 3.12+</span>
+            <span class="chip hot">LangGraph</span>
+            <span class="chip hot">FastAPI</span>
+            <span class="chip">LangChain</span>
+            <span class="chip">LangSmith</span>
+            <span class="chip">Pydantic v2</span>
+            <span class="chip">OpenAI</span>
+            <span class="chip">Gemini</span>
+            <span class="chip">OpenRouter</span>
+            <span class="chip">React 19</span>
+            <span class="chip">TypeScript</span>
+            <span class="chip">Vite</span>
+        </div>
+    </section>
+
+    <section>
+        <h2><span>api surface</span><span class="h2-note">REST + SSE</span></h2>
+        <div class="endpts">
+            <div class="e"><span class="m">POST</span><span class="p">/api/v1/run — execute a task (SSE stream or JSON)</span></div>
+            <div class="e"><span class="m">GET</span><span class="p">/api/v1/artifacts/{task_id} — download artifact ZIP</span></div>
+            <div class="e"><span class="m">GET</span><span class="p">/api/v1/workspaces — list all workspaces</span></div>
+            <div class="e"><span class="m">GET</span><span class="p">/api/v1/results — evaluation matrix (CSV → JSON)</span></div>
+            <div class="e"><span class="m">PUT</span><span class="p">/api/v1/results/{run_id} — update manual scores</span></div>
+            <div class="e"><span class="m">GET</span><span class="p">/api/v1/preview/{path} — serve workspace files</span></div>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>
