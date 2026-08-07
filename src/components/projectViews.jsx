@@ -17,14 +17,13 @@ function PdfView({ resource }) {
 
 function HtmlView({ resource }) {
   return (
-    <div className="window-body" style={{ padding: '0', overflow: 'hidden' }}>
+    <div className="window-body" style={{ padding: '0', overflow: 'hidden', flex: '1 1 auto', minHeight: '480px' }}>
       <iframe
         src={resource.presentation}
         title={`${resource.name} — presentation`}
-        className="project-view-resource"
-        style={{ width: '100%', height: '100%', minHeight: '60vh', border: '0', background: '#0d1f1a' }}
+        style={{ width: '100%', height: '100%', minHeight: '70vh', border: '0', background: '#0d0d0b', flex: '1' }}
       />
-      {resource.link && <a href={resource.link} target="_blank" className="project-view-link">view Full Project</a>}
+      {resource.link && <a href={resource.link} target="_blank" rel="noreferrer" className="project-view-link">view Full Project</a>}
     </div>
   );
 }

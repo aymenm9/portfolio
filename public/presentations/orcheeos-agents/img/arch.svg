@@ -1,0 +1,118 @@
+<svg viewBox="0 0 780 500" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI',Arial,sans-serif" font-size="13">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#374151"/>
+    </marker>
+    <marker id="arrg" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#94a3b8"/>
+    </marker>
+    <marker id="arre" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <!-- ── __start__ ── -->
+  <rect x="320" y="18" width="140" height="34" rx="17" fill="#d1fae5" stroke="#059669" stroke-width="1.8"/>
+  <text x="390" y="40" text-anchor="middle" font-size="12" font-weight="bold" fill="#065f46">__start__</text>
+
+  <!-- start → orchestrator -->
+  <line x1="390" y1="52" x2="390" y2="88" stroke="#374151" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ══════════════════════════════════════════
+       ORCHESTRATOR  (central hub)
+  ══════════════════════════════════════════ -->
+  <rect x="220" y="92" width="340" height="198" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+  <text x="390" y="116" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">orchestrator</text>
+  <line x1="230" y1="122" x2="550" y2="122" stroke="#d97706" stroke-width="0.9"/>
+
+  <!-- Phase rows -->
+  <!-- init -->
+  <rect x="236" y="130" width="58" height="22" rx="4" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.2"/>
+  <text x="265" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#3730a3">init</text>
+  <text x="302" y="145" font-size="11" fill="#374151">load memory.md · initialise state</text>
+
+  <!-- planning -->
+  <rect x="236" y="158" width="66" height="22" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+  <text x="269" y="173" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">planning</text>
+  <text x="310" y="173" font-size="11" fill="#374151">LLM → JSON plan {subtasks, requirements}</text>
+
+  <!-- dispatching -->
+  <rect x="236" y="186" width="80" height="22" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+  <text x="276" y="201" text-anchor="middle" font-size="11" font-weight="bold" fill="#92400e">dispatching</text>
+  <text x="324" y="201" font-size="11" fill="#374151">route to next incomplete worker</text>
+
+  <!-- testing -->
+  <rect x="236" y="214" width="62" height="22" rx="4" fill="#ffedd5" stroke="#ea580c" stroke-width="1.2"/>
+  <text x="267" y="229" text-anchor="middle" font-size="11" font-weight="bold" fill="#9a3412">testing</text>
+  <text x="306" y="229" font-size="11" fill="#374151">LLM vision · screenshots · CSS↔HTML</text>
+
+  <!-- reporting -->
+  <rect x="236" y="242" width="68" height="22" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="1.2"/>
+  <text x="270" y="257" text-anchor="middle" font-size="11" font-weight="bold" fill="#9d174d">reporting</text>
+  <text x="312" y="257" font-size="11" fill="#374151">LLM summary · update memory.md</text>
+
+  <!-- ── outgoing arrows from orchestrator sides ── -->
+
+  <!-- orchestrator → agent_creator (right) -->
+  <line x1="560" y1="148" x2="640" y2="148" stroke="#374151" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="597" y="142" text-anchor="middle" font-size="10" fill="#374151">planning done</text>
+
+  <!-- orchestrator → workers (left) -->
+  <line x1="220" y1="200" x2="140" y2="200" stroke="#374151" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="178" y="194" text-anchor="middle" font-size="10" fill="#374151">dispatching</text>
+
+  <!-- orchestrator → END (bottom) -->
+  <line x1="390" y1="290" x2="390" y2="430" stroke="#374151" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="401" y="370" font-size="10" fill="#374151">reporting done</text>
+
+  <!-- ══════════════════════════════════════════
+       AGENT_CREATOR node (right)
+  ══════════════════════════════════════════ -->
+  <rect x="643" y="108" width="124" height="120" rx="7" fill="#fce7f3" stroke="#db2777" stroke-width="1.8"/>
+  <text x="705" y="130" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">agent_creator</text>
+  <line x1="650" y1="136" x2="760" y2="136" stroke="#db2777" stroke-width="0.8"/>
+  <text x="705" y="153" text-anchor="middle" font-size="10" fill="#374151">LLM reads plan</text>
+  <text x="705" y="168" text-anchor="middle" font-size="10" fill="#374151">→ worker configs</text>
+  <text x="705" y="188" text-anchor="middle" font-size="10" fill="#6b7280">L2: pick template</text>
+  <text x="705" y="202" text-anchor="middle" font-size="10" fill="#6b7280">L3: write from scratch</text>
+  <text x="705" y="218" text-anchor="middle" font-size="10" fill="#6b7280">+ dynamic tools</text>
+
+  <!-- agent_creator → orchestrator (loop back) -->
+  <path d="M 705 228 Q 705 270 630 270 Q 580 270 560 215"
+        stroke="#94a3b8" stroke-width="1.3" fill="none" stroke-dasharray="5,3"
+        marker-end="url(#arrg)"/>
+  <text x="658" y="278" text-anchor="middle" font-size="10" fill="#94a3b8">configs ready</text>
+
+  <!-- ══════════════════════════════════════════
+       WORKERS node (left)
+  ══════════════════════════════════════════ -->
+  <rect x="14" y="160" width="124" height="140" rx="7" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.8"/>
+  <text x="76" y="182" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">workers</text>
+  <line x1="22" y1="188" x2="130" y2="188" stroke="#7c3aed" stroke-width="0.8"/>
+  <text x="76" y="205" text-anchor="middle" font-size="10" fill="#374151">shell dispatch</text>
+  <text x="76" y="220" text-anchor="middle" font-size="10" fill="#374151">BaseWorker.call()</text>
+  <text x="76" y="238" text-anchor="middle" font-size="10" fill="#6b7280">LLM tool loop</text>
+  <text x="76" y="252" text-anchor="middle" font-size="10" fill="#6b7280">write files</text>
+  <text x="76" y="267" text-anchor="middle" font-size="10" fill="#6b7280">update state</text>
+  <text x="76" y="284" text-anchor="middle" font-size="10" fill="#6b7280">_phase = done</text>
+
+  <!-- workers → orchestrator (loop back) -->
+  <path d="M 76 300 Q 76 340 150 350 Q 200 355 220 240"
+        stroke="#94a3b8" stroke-width="1.3" fill="none" stroke-dasharray="5,3"
+        marker-end="url(#arrg)"/>
+  <text x="92" y="350" text-anchor="middle" font-size="10" fill="#94a3b8">worker done</text>
+
+  <!-- ── END ── -->
+  <rect x="330" y="434" width="120" height="34" rx="17" fill="#fee2e2" stroke="#dc2626" stroke-width="1.8"/>
+  <text x="390" y="456" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">END</text>
+
+  <!-- ── Phase-flow legend ── -->
+  <rect x="14" y="456" width="298" height="36" rx="5" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="163" y="470" text-anchor="middle" font-size="10" font-weight="bold" fill="#475569">Phase flow</text>
+  <text x="163" y="484" text-anchor="middle" font-size="10" fill="#64748b">init → planning → dispatching ⟳ → testing → reporting → END</text>
+
+  <!-- ── Loop annotation ── -->
+  <rect x="467" y="456" width="300" height="36" rx="5" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="617" y="470" text-anchor="middle" font-size="10" font-weight="bold" fill="#475569">Dispatch loop</text>
+  <text x="617" y="484" text-anchor="middle" font-size="10" fill="#64748b">repeats once per incomplete worker until all done</text>
+</svg>

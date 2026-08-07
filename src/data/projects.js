@@ -104,5 +104,21 @@ export const projects = [
         resources: [
             { file_name: "01_preview.png", type: "image" }
         ]
+    },
+    {
+        id: "Orcheeos-agents",
+        name: "Orcheeos-agents",
+        type: "project",
+        path: "/portfolio/desktop/Projects/Orcheeos-agents_resource/",
+        link: null,
+        description: "Behavioral study of LLM multi-agent systems across 7 architectural variants",
+        tags: ["Python", "AI", "LangGraph", "Agents"],
+        thumbnail: "01_preview.png",
+        presentation: "/portfolio/presentations/orcheeos-agents/index.html",
+        resources: [
+            { file_name: "01_description.md", type: "markdown" },
+            { file_name: "01_preview.png", type: "image" },
+            { file_name: "02_results.png", type: "image" }
+        ]
     }
 ];
