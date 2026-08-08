@@ -115,7 +115,8 @@ export const fileSystem = {
             "personal_branding": getProject("personal_branding"),
             "servipro": getProject("servipro"),
             "logo_folio_v2": getProject("logo_folio_v2"),
-            "Orcheeos-agents": getProject("Orcheeos-agents")
+            "Orcheeos-agents": getProject("Orcheeos-agents"),
+            "content-platform": getProject("content-platform")
         },
         Resume: {
             "resume_2025_Full Stack_Developer.pdf": getFile("Resume/resume_2025_Full Stack_Developer.pdf"),

@@ -120,5 +120,20 @@ export const projects = [
             { file_name: "01_preview.png", type: "image" },
             { file_name: "02_results.png", type: "image" }
         ]
+    },
+    {
+        id: "content-platform",
+        name: "content-platform",
+        type: "project",
+        path: "/portfolio/desktop/Projects/content-platform_resource/",
+        link: null,
+        description: "Content management & delivery platform with resumable uploads, real-time chat, and push notifications",
+        tags: ["Web", "Python", "AI"],
+        thumbnail: "01_preview.png",
+        presentation: "/portfolio/presentations/content-platform/index.html",
+        resources: [
+            { file_name: "01_description.md", type: "markdown" },
+            { file_name: "01_preview.png", type: "image" }
+        ]
     }
 ];

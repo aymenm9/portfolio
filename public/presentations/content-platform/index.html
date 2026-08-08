@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content Delivery Platform — presentation</title>
+<style>
+    :root {
+        --bg: #0d0d0b;
+        --panel: #15150f;
+        --ink: #e9e7de;
+        --dim: rgba(233, 231, 222, .6);
+        --faint: rgba(233, 231, 222, .34);
+        --acc: #ac0000;
+        --line: rgba(233, 231, 222, .12);
+        --line2: rgba(233, 231, 222, .22);
+        --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Georgia, 'Times New Roman', serif;
+        line-height: 1.62;
+        padding: clamp(1.2rem, 4vw, 3rem);
+        -webkit-font-smoothing: antialiased;
+    }
+    .sheet { max-width: 900px; margin: 0 auto; }
+
+    .kicker {
+        text-align: center;
+        font-family: var(--mono);
+        font-size: .66rem;
+        letter-spacing: .3em;
+        text-transform: uppercase;
+        color: var(--acc);
+    }
+    h1 {
+        text-align: center;
+        font-family: var(--mono);
+        font-size: clamp(1.8rem, 5.5vw, 3.2rem);
+        margin: .7rem 0 1rem;
+        font-weight: 700;
+        letter-spacing: -.01em;
+    }
+    .lead {
+        text-align: center;
+        color: var(--dim);
+        max-width: 62ch;
+        margin: 0 auto 2.4rem;
+        font-size: 1.08rem;
+    }
+    .lead em { color: var(--acc); font-style: italic; }
+
+    .meta-row {
+        display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.6rem;
+        margin-bottom: 2.6rem;
+        font-family: var(--mono);
+        font-size: .68rem;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        color: var(--faint);
+    }
+    .meta-row b { color: var(--ink); font-weight: 400; }
+
+    section { margin-bottom: 2.8rem; }
+    h2 {
+        font-family: var(--mono);
+        font-size: .74rem;
+        letter-spacing: .26em;
+        text-transform: uppercase;
+        color: var(--acc);
+        margin-bottom: 1.1rem;
+        padding-bottom: .6rem;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+    h2 .h2-note { color: var(--faint); font-weight: 400; letter-spacing: .14em; text-transform: none; }
+
+    figure {
+        border: 1px solid var(--line2);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 1.4rem;
+        background: var(--panel);
+    }
+    figure img { display: block; width: 100%; }
+    figcaption {
+        font-family: var(--mono);
+        font-size: .64rem;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        color: var(--dim);
+        padding: .7rem 1rem;
+        border-top: 1px solid var(--line);
+    }
+    figcaption b { color: var(--acc); font-weight: 400; }
+
+    .pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.4rem;
+    }
+    .pair figure { margin-bottom: 0; }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: .9rem;
+        margin-bottom: 1.4rem;
+    }
+    .card {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 1rem 1.1rem;
+        background: var(--panel);
+        border-left: 3px solid var(--acc);
+    }
+    .card .c-tag {
+        font-family: var(--mono);
+        font-size: .6rem;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: var(--faint);
+        display: block;
+        margin-bottom: .3rem;
+    }
+    .card .c-title {
+        font-family: var(--mono);
+        font-size: .92rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: .3rem;
+    }
+    .card p { font-size: .88rem; color: var(--dim); margin-top: .2rem; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: .42rem; margin-bottom: 1.4rem; }
+    .chip {
+        font-family: var(--mono);
+        font-size: .66rem;
+        letter-spacing: .1em;
+        padding: .35em .8em;
+        border: 1px solid var(--line2);
+        border-radius: 999px;
+        color: var(--dim);
+    }
+    .chip.hot { border-color: var(--acc); color: var(--acc); }
+
+    .p { color: var(--dim); font-size: .94rem; max-width: 64ch; margin-bottom: 1.2rem; }
+    .p em { color: var(--acc); font-style: italic; }
+
+    .tags { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .tag {
+        font-family: var(--mono); font-size: .62rem; letter-spacing: .16em;
+        text-transform: uppercase; padding: .3em .7em; border: 1px solid var(--line);
+        border-radius: 6px; color: var(--dim);
+    }
+    .tag.on { border-color: var(--acc); color: var(--acc); }
+
+    @media (max-width: 620px) { .pair { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+    <p class="kicker">freelance — content management &amp; delivery</p>
+    <h1>Content Delivery Platform</h1>
+    <p class="lead">
+        A scalable content management and delivery platform built for <em>unreliable internet conditions</em>.
+        Resumable multipart uploads, real-time WebSocket chat, push notifications, and direct-to-cloud
+        storage — a full backend + admin dashboard delivered as a freelance project.
+    </p>
+    <div class="meta-row">
+        <span><b>Django 6.0</b> + DRF</span>
+        <span><b>SvelteKit</b> + Svelte 5</span>
+        <span><b>WebSocket</b> chat</span>
+        <span><b>R2</b> storage</span>
+        <span><b>FCM</b> push</span>
+        <span>python 3.12 · bilingual</span>
+    </div>
+
+    <section>
+        <h2><span>architecture — three components</span><span class="h2-note">Django · SvelteKit · Mobile</span></h2>
+        <p class="p">
+            A <em>Django 6.0 + Daphne</em> ASGI backend serves both REST (DRF) and WebSocket (Channels)
+            traffic. A <em>SvelteKit</em> dashboard (pure SPA, Vercel-deployed) handles admin and
+            moderator management. A mobile app (external team) consumes public endpoints.
+            A single <em>Redis</em> instance powers the channel layer, the Huey task queue, and the
+            Django cache — three subsystems from one instance.
+        </p>
+        <div class="grid">
+            <div class="card"><span class="c-tag">backend</span><span class="c-title">Django 6.0 + DRF</span><p>REST API, WebSocket server (Channels), Huey background workers, JWT auth, ban system.</p></div>
+            <div class="card"><span class="c-tag">dashboard</span><span class="c-title">SvelteKit + Svelte 5</span><p>Admin/moderator panel — statistics, content CRUD, file upload orchestrator, real-time chat.</p></div>
+            <div class="card"><span class="c-tag">mobile</span><span class="c-title">External</span><p>End-user content consumption app maintained by a separate team.</p></div>
+        </div>
+    </section>
+
+    <section>
+        <h2><span>login — the entry point</span><span class="h2-note">JWT auth</span></h2>
+        <figure>
+            <img src="img/login.png" alt="Login page accepting username or email with password">
+            <figcaption><b>fig.01</b> — login: accepts username or email, JWT bearer tokens</figcaption>
+        </figure>
+    </section>
+
+    <section>
+        <h2><span>admin dashboard — statistics at a glance</span><span class="h2-note">Chart.js · RTL Arabic</span></h2>
+        <figure>
+            <img src="img/dashboard.png" alt="Admin statistics dashboard with totals, doughnut chart for content distribution, bar chart for top sections, line chart for registrations and content">
+            <figcaption><b>fig.02</b> — admin home: totals, content distribution, top sections, registration &amp; content charts</figcaption>
+        </figure>
+    </section>
+
+    <section>
+        <h2><span>content hierarchy — three levels deep</span><span class="h2-note">Main → Sub → Secondary</span></h2>
+        <div class="pair">
+            <figure>
+                <img src="img/main-sections.png" alt="Main sections management page">
+                <figcaption><b>fig.03a</b> — main sections: top-level content categories</figcaption>
+            </figure>
+            <figure>
+                <img src="img/sub-sections.png" alt="Sub sections management page with parent cascading filters">
+                <figcaption><b>fig.03b</b> — sub sections: cascading parent filters</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section>
+        <h2><span>content management — admin vs. moderator</span><span class="h2-note">role-based views</span></h2>
+        <div class="pair">
+            <figure>
+                <img src="img/content-admin.png" alt="Content management view for super admin — all content">
+                <figcaption><b>fig.04a</b> — admin view: all content across the system</figcaption>
+            </figure>
+            <figure>
+                <img src="img/content-moderator.png" alt="Content management view for moderator — own content only">
+                <figcaption><b>fig.04b</b> — moderator view: own content only</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section>
+        <h2><span>user management — moderators &amp; bans</span><span class="h2-note">RBAC + auto-expiry</span></h2>
+        <div class="pair">
+            <figure>
+                <img src="img/moderators.png" alt="Moderator management page with CRUD, search, and pagination">
+                <figcaption><b>fig.05a</b> — moderator CRUD: create, edit, search, paginate</figcaption>
+            </figure>
+            <figure>
+                <img src="img/bans.png" alt="Ban management page with duration presets">
+                <figcaption><b>fig.05b</b> — ban system: apply/lift bans with auto-expiry</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section>
+        <h2><span>profile — your own corner</span><span class="h2-note">avatar + password change</span></h2>
+        <figure>
+            <img src="img/profile.png" alt="Profile editing page with avatar upload, name, email, username, and password change">
+            <figcaption><b>fig.06</b> — profile: avatar upload, credentials, password change</figcaption>
+        </figure>
+    </section>
+
+    <section>
+        <h2><span>the hard part — resumable large file uploads</span><span class="h2-note">S3 multipart + pause/resume</span></h2>
+        <p class="p">
+            The standout engineering challenge. Files are routed by size: under 50MB uses a single
+            presigned PUT, anything larger enters a <em>multipart S3 flow</em> with 10MB chunks.
+            Each part is independently tracked in the database with its S3 ETag. When the
+            connection drops — and in this market it drops often — the upload resumes from the
+            last completed part. <em>The file data never touches the Django server</em>; it flows
+            directly between the browser and Cloudflare R2 via presigned URLs.
+        </p>
+        <div class="grid">
+            <div class="card"><span class="c-tag">step 1</span><span class="c-title">Initiate</span><p>Backend creates records + S3 multipart session. Returns file ID + upload type.</p></div>
+            <div class="card"><span class="c-tag">step 2</span><span class="c-title">Get URL</span><p>Presigned upload URL for the next incomplete part. Parallel uploads supported.</p></div>
+            <div class="card"><span class="c-tag">step 3</span><span class="c-title">Upload</span><p>Browser PUTs bytes directly to R2. XHR for progress tracking. Abortable.</p></div>
+            <div class="card"><span class="c-tag">step 4</span><span class="c-title">Complete</span><p>Backend validates all parts, calls S3 CompleteMultipartUpload, marks done.</p></div>
+        </div>
+        <div class="tags">
+            <span class="tag on">pause</span>
+            <span class="tag on">resume</span>
+            <span class="tag on">chunk-tracked</span>
+            <span class="tag on">etag-verified</span>
+            <span class="tag">direct-to-R2</span>
+            <span class="tag">10mb parts</span>
+            <span class="tag">50mb threshold</span>
+        </div>
+    </section>
+
+    <section>
+        <h2><span>real-time chat — WebSocket + Redis</span><span class="h2-note">staff-only</span></h2>
+        <p class="p">
+            A global staff chat room powered by <em>Django Channels</em> over a Redis channel layer.
+            JWT-authenticated on connect, ban-enforced, rate-limited to 20 messages per 60 seconds.
+            File attachments via a two-step REST + WebSocket handshake. Last 50 messages loaded on
+            connect. Broadcasts across all connected processes via Redis pub/sub.
+        </p>
+    </section>
+
+    <section>
+        <h2><span>push notifications — Firebase FCM</span><span class="h2-note">Huey background queue</span></h2>
+        <p class="p">
+            When new content is created, a Django signal enqueues a <em>Huey task</em> that sends
+            Firebase Cloud Messaging push notifications to all registered devices. Four worker
+            threads consume the queue — delivery never blocks the API. Devices that fail are
+            auto-deactivated. Bilingual messages (English + Arabic).
+        </p>
+    </section>
+
+    <section>
+        <h2><span>API documentation — OpenAPI 3.0</span><span class="h2-note">drf-spectacular</span></h2>
+        <div class="pair">
+            <figure>
+                <img src="img/api-docs-1.png" alt="OpenAPI schema documentation — endpoint list">
+                <figcaption><b>fig.07a</b> — API docs: auto-generated OpenAPI schema</figcaption>
+            </figure>
+            <figure>
+                <img src="img/api-docs-2.png" alt="OpenAPI schema documentation — endpoint detail">
+                <figcaption><b>fig.07b</b> — API docs: endpoint detail with request/response schemas</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section>
+        <h2><span>tech stack</span></h2>
+        <div class="chips">
+            <span class="chip hot">Python 3.12</span>
+            <span class="chip hot">Django 6.0</span>
+            <span class="chip hot">DRF 3.16</span>
+            <span class="chip">Django Channels</span>
+            <span class="chip">Daphne (ASGI)</span>
+            <span class="chip">Huey</span>
+            <span class="chip">PostgreSQL 16</span>
+            <span class="chip">Redis</span>
+            <span class="chip">Cloudflare R2</span>
+            <span class="chip">Firebase FCM</span>
+            <span class="chip">drf-spectacular</span>
+            <span class="chip hot">SvelteKit 2.50</span>
+            <span class="chip">Svelte 5 runes</span>
+            <span class="chip">Vite 7</span>
+            <span class="chip">TailwindCSS 4</span>
+            <span class="chip">Chart.js</span>
+            <span class="chip">Docker</span>
+            <span class="chip">Vercel</span>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>
