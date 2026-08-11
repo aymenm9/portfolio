@@ -68,7 +68,7 @@ const EXPERIENCE = [
     {
         date: 'Mar 2026 — Present',
         tag: 'Ayor.ai',
-        title: 'AI Engineer',
+        title: 'Back End Developer',
         place: 'Back End Developer · Hydra, Algeria',
         points: [
             'Work on a large Django REST Framework codebase with concurrent development, Git workflows, Docker, and CI/CD shipping to real users',
