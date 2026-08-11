@@ -1,17 +1,76 @@
-
 export const projects = [
     {
+        id: "Orcheeos-agents",
+        name: "Multi-Agent LLM Architecture Study",
+        type: "project",
+        path: "/portfolio/desktop/Projects/Orcheeos-agents_resource/",
+        link: null,
+        description: "Behavioral study of LLM multi-agent systems across seven architectural variants",
+        tags: ["Python", "AI", "LangGraph", "Agents"],
+        thumbnail: "01_preview.png",
+        presentation: "/portfolio/presentations/orcheeos-agents/index.html",
+        resources: [
+            { file_name: "01_description.md", type: "markdown" },
+            { file_name: "01_preview.png", type: "image" },
+            { file_name: "02_results.png", type: "image" }
+        ]
+    },
+    {
+        id: "AI-On-MoneyMate",
+        name: "Multi-Agent Personal Finance Assistant",
+        type: "project",
+        path: "/portfolio/desktop/Projects/AI-On-MoneyMate_resource/",
+        link: "https://github.com/aymenm9/ai-on-backend",
+        description: "Multi-agent financial assistant for budgets, expenses, forecasting, and personal advice",
+        tags: ["Python", "AI", "Agents", "Gemini"],
+        thumbnail: "01_preview.png",
+        presentation: "/portfolio/presentations/ai-on-moneymate/index.html",
+        resources: [
+            { file_name: "01_description.md", type: "markdown" },
+            { file_name: "01_preview.png", type: "image" }
+        ]
+    },
+    {
+        id: "content-platform",
+        name: "Content Delivery Platform",
+        type: "project",
+        path: "/portfolio/desktop/Projects/content-platform_resource/",
+        link: null,
+        description: "Content management and delivery platform with resumable uploads, real-time chat, and push notifications",
+        tags: ["Web", "Python", "AI"],
+        thumbnail: "01_preview.png",
+        presentation: "/portfolio/presentations/content-platform/index.html",
+        resources: [
+            { file_name: "01_description.md", type: "markdown" },
+            { file_name: "01_preview.png", type: "image" }
+        ]
+    },
+    {
         id: "Tajweed-AI",
-        name: "Tajweed-AI",
+        name: "AI Tajweed Correction Platform",
         type: "project",
         path: "/portfolio/desktop/Projects/Tajweed-AI_resource/",
         link: "https://github.com/aymenm9/Tajweed-AI",
-        description: "AI-powered Tajweed correction tool",
+        description: "AI-powered Tajweed correction, learning, and recitation feedback platform",
         tags: ["Python", "AI"],
-        thumbnail: "logo.png", // Placeholder
+        thumbnail: "logo.png",
         presentation: "/portfolio/presentations/tajweed-ai/index.html",
         resources: [
-            { file_name: "01_description.md", type: "markdown" },
+            { file_name: "01_description.md", type: "markdown" }
+        ]
+    },
+    {
+        id: "Civil-Registration-API",
+        name: "Civil Registration Management System",
+        type: "project",
+        path: "/portfolio/desktop/Projects/Civil-Registration-API_resource/",
+        link: "https://github.com/aymenm9/univ_olympiad",
+        description: "Hackathon-winning civil registration management system",
+        tags: ["Python", "Django", "DRF", "AI"],
+        thumbnail: null,
+        presentation: "/portfolio/presentations/civil-registration-api/index.html",
+        resources: [
+            { file_name: "01_description.md", type: "markdown" }
         ]
     },
     {
@@ -51,66 +110,6 @@ export const projects = [
         thumbnail: "01_preview.png",
         resources: [
             { file_name: "01_preview.png", type: "image" }
-        ]
-    },
-    {
-        id: "Orcheeos-agents",
-        name: "Orcheeos-agents",
-        type: "project",
-        path: "/portfolio/desktop/Projects/Orcheeos-agents_resource/",
-        link: null,
-        description: "Behavioral study of LLM multi-agent systems across 7 architectural variants",
-        tags: ["Python", "AI", "LangGraph", "Agents"],
-        thumbnail: "01_preview.png",
-        presentation: "/portfolio/presentations/orcheeos-agents/index.html",
-        resources: [
-            { file_name: "01_description.md", type: "markdown" },
-            { file_name: "01_preview.png", type: "image" },
-            { file_name: "02_results.png", type: "image" }
-        ]
-    },
-    {
-        id: "content-platform",
-        name: "content-platform",
-        type: "project",
-        path: "/portfolio/desktop/Projects/content-platform_resource/",
-        link: null,
-        description: "Content management & delivery platform with resumable uploads, real-time chat, and push notifications",
-        tags: ["Web", "Python", "AI"],
-        thumbnail: "01_preview.png",
-        presentation: "/portfolio/presentations/content-platform/index.html",
-        resources: [
-            { file_name: "01_description.md", type: "markdown" },
-            { file_name: "01_preview.png", type: "image" }
-        ]
-    },
-    {
-        id: "AI-On-MoneyMate",
-        name: "AI-On / SDG MoneyMate",
-        type: "project",
-        path: "/portfolio/desktop/Projects/AI-On-MoneyMate_resource/",
-        link: "https://github.com/aymenm9/ai-on-backend",
-        description: "Multi-agent financial assistant for budgets, expenses, forecasting, and personal advice",
-        tags: ["Python", "AI", "Agents", "Gemini"],
-        thumbnail: "01_preview.png",
-        presentation: "/portfolio/presentations/ai-on-moneymate/index.html",
-        resources: [
-            { file_name: "01_description.md", type: "markdown" },
-            { file_name: "01_preview.png", type: "image" }
-        ]
-    },
-    {
-        id: "Civil-Registration-API",
-        name: "Civil Registration API",
-        type: "project",
-        path: "/portfolio/desktop/Projects/Civil-Registration-API_resource/",
-        link: "https://github.com/aymenm9/univ_olympiad",
-        description: "Hackathon-winning civil registration management API",
-        tags: ["Python", "Django", "DRF", "AI"],
-        thumbnail: null,
-        presentation: "/portfolio/presentations/civil-registration-api/index.html",
-        resources: [
-            { file_name: "01_description.md", type: "markdown" }
         ]
     }
 ];
