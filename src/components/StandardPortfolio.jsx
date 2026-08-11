@@ -16,7 +16,7 @@ const LOCATION = 'Sétif, DZ';
 const COORDS = '36.19°N — 5.41°E';
 const YEAR = new Date().getFullYear();
 
-const ROLES = ['Backend Developer', 'AI Integration Engineer', 'Automation Builder'];
+const ROLES = ['AI Engineer', 'Backend Developer', 'Agentic Systems Builder'];
 
 const SOCIALS = [
     { icon: <FaGithub />, href: 'https://github.com/aymenm9', label: 'GitHub', handle: '@aymenm9' },
@@ -27,22 +27,23 @@ const SOCIALS = [
 const NAV_LINKS = [
     { label: 'About', href: '#about', idx: '01' },
     { label: 'Stack', href: '#stack', idx: '02' },
-    { label: 'Works', href: '#works', idx: '03' },
+    { label: 'Experience', href: '#experience', idx: '03' },
+    { label: 'Works', href: '#works', idx: '04' },
     { label: 'Contact', href: '#contact', idx: '06' },
 ];
 
 const TECH_GROUPS = [
     {
         title: 'Core',
-        items: ['Python', 'FastAPI / Flask', 'PostgreSQL / MySQL', 'Redis', 'Docker', 'REST APIs', 'Background tasks'],
+        items: ['Python', 'Django / DRF', 'FastAPI / Flask', 'PostgreSQL', 'Redis', 'Docker', 'REST APIs', 'Background tasks'],
     },
     {
-        title: 'AI Integration',
-        items: ['Gemini Integration', 'AI Agents', 'Retrieval / Q&A systems', 'Chatbots — web & Telegram', 'Automation pipelines'],
+        title: 'AI Engineering',
+        items: ['LangGraph / LangChain', 'Multi-agent orchestration', 'Tool calling / structured outputs', 'RAG / retrieval systems', 'Gemini / Claude APIs', 'Evaluation / LangSmith', 'Agentic automation'],
     },
     {
-        title: 'Frontend / Support',
-        items: ['React', 'Advanced JS / interactions', 'Design + Branding', 'Deployment — Linux, cloud'],
+        title: 'Systems / Delivery',
+        items: ['React', 'MCP / AI coding agents', 'Git workflows', 'CI/CD · Linux · cloud', 'Design + Branding'],
     },
 ];
 
@@ -65,10 +66,32 @@ const EDUCATION = [
 
 const EXPERIENCE = [
     {
+        date: 'Mar 2026 — Present',
+        tag: 'Ayor.ai',
+        title: 'AI Engineer',
+        place: 'Back End Developer · Hydra, Algeria',
+        points: [
+            'Work on a large Django REST Framework codebase with concurrent development, Git workflows, Docker, and CI/CD shipping to real users',
+            'Optimize ORM queries across millions of orders and integrate Google Drive, Sheets, Cloud Run, and Claude API services',
+            'Debug production issues through service logs and Cloud Run job configuration under high-security constraints',
+            'Use Claude Code, GitHub Copilot, and AI coding agents to navigate unfamiliar systems and resolve urgent production tasks',
+        ],
+    },
+    {
+        date: 'Jan 2026 — Feb 2026',
+        tag: 'IntellectSoft dz',
+        title: 'Back End Developer',
+        place: 'Sétif, Algeria',
+        points: [
+            'Built features for a Django medical events management system and CRM interface inside an existing agency codebase',
+            'Integrated multilingual support into existing Django views without changing structure or breaking functionality',
+        ],
+    },
+    {
         date: 'Dec 2024 — Jul 2025',
-        tag: 'Teacher',
+        tag: 'I.E.P Sétif',
         title: 'Application Development Teacher',
-        place: 'I.E.P Sétif',
+        place: 'Sétif, Algeria',
         points: [
             'Taught Python fundamentals through hands-on exercises',
             'Networking concepts, SQLite / SQL Server configuration',
@@ -89,7 +112,7 @@ const EXPERIENCE = [
     },
 ];
 
-const inDev = (p) => p.tags.some((t) => ['Web', 'Python', 'AI', 'Bot', 'Monitoring', 'API', 'Fitness'].includes(t));
+const inDev = (p) => p.tags.some((t) => ['Web', 'Python', 'AI', 'Django', 'DRF', 'Agents', 'Gemini', 'LangGraph', 'API'].includes(t));
 const inDesign = (p) => p.tags.some((t) => ['Design', 'Branding', 'Logo'].includes(t));
 
 const thumbOf = (p) => {
@@ -358,7 +381,7 @@ function SectionHead({ no, title, note }) {
 }
 
 function Marquee() {
-    const items = [...ROLES, 'Open to work', 'Sétif → Remote', 'Backend / AI / Automation'];
+    const items = [...ROLES, 'Open to work', 'Sétif → Remote', 'AI engineering / agents / backend'];
     return (
         <div className="marquee" aria-hidden>
             <div className="marquee-track">
@@ -459,7 +482,7 @@ function DistortField({ theme }) {
 const StandardPortfolio = () => {
     const navigate = useNavigate();
     const [phase, setPhase] = useState('boot'); // boot → lift → gone
-    const [theme, setTheme] = useState(() => localStorage.getItem('am-theme') || 'dark');
+    const [theme, setTheme] = useState(() => localStorage.getItem('am-theme') || 'light');
     const [openNode, setOpenNode] = useState(null);
     const [preview, setPreview] = useState(null);
     const [leaving, setLeaving] = useState(false);
@@ -607,9 +630,9 @@ const StandardPortfolio = () => {
                                 <span className="caret" />
                             </p>
                             <p className="hero-sub stage" style={{ '--d': '780ms' }}>
-                                Robust backend systems, automation workflows and AI-powered agents
-                                that solve real problems — strong Python, thoughtful frontend,
-                                and a designer&apos;s eye for the edges.
+                                 AI engineering, robust backend systems and agentic workflows
+                                 that solve real problems — strong Python, thoughtful frontend,
+                                 and a designer&apos;s eye for the edges.
                             </p>
                             <div className="hero-cta stage" style={{ '--d': '860ms' }}>
                                 <a href="#works" className="btn btn-solid" data-cursor>
@@ -643,7 +666,7 @@ const StandardPortfolio = () => {
                         </figure>
                     </div>
 
-                    <span className="hero-vert" aria-hidden>backend — ai — automation — {YEAR}</span>
+                     <span className="hero-vert" aria-hidden>ai engineering — agents — backend — {YEAR}</span>
 
                     <div className="hero-scroll stage" style={{ '--d': '1000ms' }}>
                         <span>scroll</span>
@@ -663,16 +686,16 @@ const StandardPortfolio = () => {
                     <div className="about">
                         <Reveal className="about-main">
                             <p>
-                                I build <em>backend systems</em> and <em>AI-powered features</em> that
-                                solve real problems — clean architecture, honest performance, and
-                                turning messy workflows into <em>automated pipelines</em>.
+                                 I build <em>AI systems</em>, <em>backend platforms</em> and agentic workflows
+                                 that solve real problems — clean architecture, observable behavior, and
+                                 turning messy workflows into <em>reliable automation</em>.
                             </p>
                         </Reveal>
                         <div className="about-meta">
                             {[
                                 ['Based', LOCATION],
-                                ['Focus', 'Backend · AI · Automation'],
-                                ['Stack', 'Python · FastAPI · LLMs'],
+                                 ['Focus', 'AI Engineering · Agents · Backend'],
+                                 ['Stack', 'Python · LangGraph · Django · LLMs'],
                                 ['Status', 'Open to work'],
                             ].map(([k, v], i) => (
                                 <Reveal className="am-row" key={k} delay={i * 70}>
@@ -701,9 +724,29 @@ const StandardPortfolio = () => {
                     </div>
                 </section>
 
+                {/* ---------------- Experience ---------------- */}
+                <section id="experience" className="sect">
+                    <SectionHead no="03" title="Experience" note="recent history" />
+                    <div className="ledger">
+                        {EXPERIENCE.map((item, i) => (
+                            <Reveal className="ld-row" key={item.title} delay={i * 90}>
+                                <span className="ld-date">{item.date}</span>
+                                <div className="ld-main">
+                                    <h3>{item.title}</h3>
+                                    <span className="ld-place">{item.place}</span>
+                                    <ul className="ld-list">
+                                        {item.points.map((pt) => <li key={pt}>{pt}</li>)}
+                                    </ul>
+                                </div>
+                                <span className="ld-tag">{item.tag}</span>
+                            </Reveal>
+                        ))}
+                    </div>
+                </section>
+
                 {/* ---------------- Works ---------------- */}
                 <section id="works" className="sect">
-                    <SectionHead no="03" title="Works" note="+ selected output" />
+                    <SectionHead no="04" title="Works" note="+ selected output" />
                     <Reveal className="works-filter">
                         {['Development', 'Design'].map((c) => (
                             <button
@@ -759,7 +802,7 @@ const StandardPortfolio = () => {
 
                 {/* ---------------- Education ---------------- */}
                 <section id="education" className="sect">
-                    <SectionHead no="04" title="Education" note="academic record" />
+                    <SectionHead no="05" title="Education" note="academic record" />
                     <div className="ledger">
                         {EDUCATION.map((item, i) => (
                             <Reveal className="ld-row" key={item.title} delay={i * 90}>
@@ -768,26 +811,6 @@ const StandardPortfolio = () => {
                                     <h3>{item.title}</h3>
                                     <span className="ld-place">{item.place}</span>
                                     <p className="ld-desc">{item.desc}</p>
-                                </div>
-                                <span className="ld-tag">{item.tag}</span>
-                            </Reveal>
-                        ))}
-                    </div>
-                </section>
-
-                {/* ---------------- Experience ---------------- */}
-                <section id="experience" className="sect">
-                    <SectionHead no="05" title="Experience" note="recent history" />
-                    <div className="ledger">
-                        {EXPERIENCE.map((item, i) => (
-                            <Reveal className="ld-row" key={item.title} delay={i * 90}>
-                                <span className="ld-date">{item.date}</span>
-                                <div className="ld-main">
-                                    <h3>{item.title}</h3>
-                                    <span className="ld-place">{item.place}</span>
-                                    <ul className="ld-list">
-                                        {item.points.map((pt) => <li key={pt}>{pt}</li>)}
-                                    </ul>
                                 </div>
                                 <span className="ld-tag">{item.tag}</span>
                             </Reveal>

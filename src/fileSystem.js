@@ -95,7 +95,6 @@ function getProject(projectId) {
     }
 
     return {
-        type: 'resource',
         name: projectId,
         ...projectMeta,
         type: 'resource', // Ensure type overrides projectMeta
@@ -108,15 +107,13 @@ export const fileSystem = {
     Desktop: {
         Projects: {
             "Tajweed-AI": getProject("Tajweed-AI"),
-            "Telegram-Bot": getProject("Telegram-Bot"),
-            "PFE-LRSD-ProdMonitor": getProject("PFE-LRSD-ProdMonitor"),
-            "Workout-Tracker": getProject("Workout-Tracker"),
-            "weatherWebApp": getProject("weatherWebApp"),
             "personal_branding": getProject("personal_branding"),
             "servipro": getProject("servipro"),
             "logo_folio_v2": getProject("logo_folio_v2"),
             "Orcheeos-agents": getProject("Orcheeos-agents"),
-            "content-platform": getProject("content-platform")
+            "content-platform": getProject("content-platform"),
+            "AI-On-MoneyMate": getProject("AI-On-MoneyMate"),
+            "Civil-Registration-API": getProject("Civil-Registration-API")
         },
         Resume: {
             "resume_2025_Full Stack_Developer.pdf": getFile("Resume/resume_2025_Full Stack_Developer.pdf"),

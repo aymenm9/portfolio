@@ -5,11 +5,12 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaBehanceSquare } from "react-icons/fa";
 import { BsTerminalFill } from "react-icons/bs";
 import { FaPowerOff } from "react-icons/fa";
+import { FaFolderOpen, FaSun, FaMoon } from "react-icons/fa6";
 
 import '../css/bottom_bar.css';
 
 
-export default function BottomBar({ onLock, onTerminalOpen, onShutdown }) {
+export default function BottomBar({ onLock, onTerminalOpen, onShutdown, onExplorerOpen, onThemeToggle, theme }) {
     const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }));
     const [showPowerMenu, setShowPowerMenu] = useState(false);
 
@@ -36,6 +37,8 @@ export default function BottomBar({ onLock, onTerminalOpen, onShutdown }) {
                     <FaPowerOff />
                 </button>
                 <button className="bottom-bar-icon" onClick={onTerminalOpen}><BsTerminalFill /></button>
+                <button className="bottom-bar-icon" onClick={onExplorerOpen} aria-label="Open file explorer"><FaFolderOpen /></button>
+                <button className="bottom-bar-icon" onClick={onThemeToggle} aria-label="Toggle desktop theme">{theme === 'light' ? <FaMoon /> : <FaSun />}</button>
                 <a href="https://github.com/aymenm9" target="_blank" className="bottom-bar-icon"><FaGithubSquare /></a>
                 <a href="https://www.linkedin.com/in/aymen-merad/" target="_blank" className="bottom-bar-icon"><FaLinkedin /></a>
                 <a href="https://www.behance.net/aymenmerad" target="_blank" className="bottom-bar-icon"><FaBehanceSquare /></a>

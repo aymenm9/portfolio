@@ -15,58 +15,6 @@ export const projects = [
         ]
     },
     {
-        id: "Telegram-Bot",
-        name: "Telegram-Bot",
-        type: "project",
-        path: "/portfolio/desktop/Projects/Telegram-Bot_resource/",
-        link: "https://github.com/aymenm9/Telegram-Bot",
-        description: "Telegram Bot",
-        tags: ["Bot", "Python"],
-        thumbnail: "01_preview.jpg",
-        resources: [
-            { file_name: "01_preview.jpg", type: "image" }
-        ]
-    },
-    {
-        id: "PFE-LRSD-ProdMonitor",
-        name: "PFE-LRSD-ProdMonitor",
-        type: "project",
-        path: "/portfolio/desktop/Projects/PFE-LRSD-ProdMonitor_resource/",
-        link: "https://github.com/aymenm9/PFE-LRSD-ProdMonitor",
-        description: "Production Monitor",
-        tags: ["Web", "Monitoring"],
-        thumbnail: "01_preview.png",
-        resources: [
-            { file_name: "01_preview.png", type: "image" }
-        ]
-    },
-    {
-        id: "Workout-Tracker",
-        name: "Workout-Tracker",
-        type: "project",
-        path: "/portfolio/desktop/Projects/Workout-Tracker_resource/",
-        link: "https://github.com/aymenm9/Workout-Tracker-CS50",
-        description: "Workout Tracker App",
-        tags: ["Web", "Fitness"],
-        thumbnail: "01_preview.png",
-        resources: [
-            { file_name: "01_preview.png", type: "image" }
-        ]
-    },
-    {
-        id: "weatherWebApp",
-        name: "weatherWebApp",
-        type: "project",
-        path: "/portfolio/desktop/Projects/weatherWebApp_resource/",
-        link: "https://github.com/aymenm9/weatherWebApp",
-        description: "Weather Web App",
-        tags: ["Web", "API"],
-        thumbnail: "01_preview.png",
-        resources: [
-            { file_name: "01_preview.png", type: "image" }
-        ]
-    },
-    {
         id: "personal_branding",
         name: "personal_branding",
         type: "project",
@@ -134,6 +82,35 @@ export const projects = [
         resources: [
             { file_name: "01_description.md", type: "markdown" },
             { file_name: "01_preview.png", type: "image" }
+        ]
+    },
+    {
+        id: "AI-On-MoneyMate",
+        name: "AI-On / SDG MoneyMate",
+        type: "project",
+        path: "/portfolio/desktop/Projects/AI-On-MoneyMate_resource/",
+        link: "https://github.com/aymenm9/ai-on-backend",
+        description: "Multi-agent financial assistant for budgets, expenses, forecasting, and personal advice",
+        tags: ["Python", "AI", "Agents", "Gemini"],
+        thumbnail: "01_preview.png",
+        presentation: "/portfolio/presentations/ai-on-moneymate/index.html",
+        resources: [
+            { file_name: "01_description.md", type: "markdown" },
+            { file_name: "01_preview.png", type: "image" }
+        ]
+    },
+    {
+        id: "Civil-Registration-API",
+        name: "Civil Registration API",
+        type: "project",
+        path: "/portfolio/desktop/Projects/Civil-Registration-API_resource/",
+        link: "https://github.com/aymenm9/univ_olympiad",
+        description: "Hackathon-winning civil registration management API",
+        tags: ["Python", "Django", "DRF", "AI"],
+        thumbnail: null,
+        presentation: "/portfolio/presentations/civil-registration-api/index.html",
+        resources: [
+            { file_name: "01_description.md", type: "markdown" }
         ]
     }
 ];

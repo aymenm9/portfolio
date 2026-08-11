@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Civil Registration API</title>
+<style>
+    :root { color-scheme: light; --ink: #171714; --paper: #eeeade; --red: #9b111e; --mut: #6c6a60; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: clamp(2rem, 8vw, 7rem); background: var(--paper); color: var(--ink); font: 1rem/1.65 Georgia, serif; }
+    main { max-width: 760px; margin: auto; }
+    .kicker, h2, .meta { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; letter-spacing: .16em; }
+    .kicker { color: var(--red); font-size: .7rem; }
+    h1 { max-width: 10ch; font: 700 clamp(3rem, 10vw, 7rem)/.9 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: -.08em; margin: 1rem 0 2rem; }
+    .meta { color: var(--mut); font-size: .7rem; border-block: 1px solid #bdbbaa; padding: 1rem 0; }
+    p { max-width: 60ch; color: #48473f; font-size: 1.15rem; }
+    h2 { color: var(--red); font-size: .75rem; margin-top: 4rem; }
+    ul { padding-left: 1.2rem; max-width: 60ch; color: #48473f; }
+    .placeholder { margin-top: 3rem; min-height: 240px; border: 1px dashed var(--red); display: grid; place-items: center; text-align: center; color: var(--red); font-family: ui-monospace, monospace; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; }
+</style>
+</head>
+<body><main>
+    <div class="kicker">hackathon / backend build</div>
+    <h1>Civil Registration API</h1>
+    <div class="meta">Django REST Framework · JWT · ReportLab · Cryptography · AI analysis</div>
+    <p>A focused civil registration backend for APCs, hospitals, and courts. The system manages sensitive records, controls access by institutional role, and turns approved records into official PDF documents.</p>
+    <h2>What shipped</h2>
+    <ul><li>Birth, death, certificate, and burial permit workflows.</li><li>Role-based access control for three public institutions.</li><li>Automated PDF generation and an AI endpoint for death-data analysis.</li><li>A first working stage built by a three-person team under 12-hour competition pressure.</li></ul>
+    <div class="placeholder">Screenshots will be added here</div>
+</main></body>
+</html>

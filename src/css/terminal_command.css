@@ -8,7 +8,7 @@
 }
 
 .url {
-    color: var(--color-green);
+    color: var(--os-accent, var(--color-green));
 }
 
 .command {
@@ -34,7 +34,7 @@ li {
 }
 
 .command-text {
-    color: var(--color-light);
+    color: var(--os-ink, var(--color-light));
     margin: 0;
     font-size: 1rem;
     font-family: 'Courier New', Courier, monospace;
@@ -42,8 +42,8 @@ li {
 }
 
 .cursor {
-    background-color: var(--color-light);
-    color: var(--color-main);
+    background-color: var(--os-ink, var(--color-light));
+    color: var(--os-surface, var(--color-main));
     animation: blink 1.25s step-end infinite;
     display: inline-block;
     /* Required for width to work */

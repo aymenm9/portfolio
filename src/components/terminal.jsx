@@ -4,10 +4,10 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { CommandHistory, CommandInput } from "./terminalCommand.jsx"
 import "../css/window.css"
 
-export default function Terminal({ terminalObjList, closeTerminal, addTerminalObj, url, openProject }) {
+export default function Terminal({ terminalObjList, closeTerminal, clearTerminal, addTerminalObj, url, openProject }) {
 
   const [command, setCommand] = useState('');
-  const [lastCommand, setLastCommand] = useState(null);
+  const [historyIndex, setHistoryIndex] = useState(-1);
   const dragRef = useRef(null);
 
   const oncommandChange = (cmd) => {
@@ -23,16 +23,24 @@ export default function Terminal({ terminalObjList, closeTerminal, addTerminalOb
       }
     }, 10);
   }, [terminalObjList]);
-  const handlPreviousCommand = (e) => {
+  const handleHistory = (e) => {
+    if (!terminalObjList?.length) return;
     if (e.key === 'ArrowUp') {
-      if (lastCommand) {
-        setCommand(terminalObjList[lastCommand].command);
-      } else if (terminalObjList.length >= 1) {
-        setCommand(terminalObjList[terminalObjList.length - 1].command)
-        setLastCommand()
+      e.preventDefault();
+      const nextIndex = historyIndex < 0 ? terminalObjList.length - 1 : Math.max(0, historyIndex - 1);
+      setHistoryIndex(nextIndex);
+      setCommand(terminalObjList[nextIndex].command);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex < 0) return;
+      const nextIndex = historyIndex + 1;
+      if (nextIndex >= terminalObjList.length) {
+        setHistoryIndex(-1);
+        setCommand('');
+      } else {
+        setHistoryIndex(nextIndex);
+        setCommand(terminalObjList[nextIndex].command);
       }
-
-
     }
   }
 
@@ -43,10 +51,10 @@ export default function Terminal({ terminalObjList, closeTerminal, addTerminalOb
         <div className="terminal-header" style={{ cursor: 'move' }}>
           <button onClick={closeTerminal}><IoMdCloseCircle /></button>
         </div>
-        <ul className="terminal-body" ref={terminalRef} onKeyDown={handlPreviousCommand} tabIndex="0">
+          <ul className="terminal-body" ref={terminalRef} onKeyDown={handleHistory} tabIndex="0">
 
           {terminalObjList != null && terminalObjList.map((obj, index) => <CommandHistory obj={obj} key={index} />)}
-          <CommandInput addTerminalObj={addTerminalObj} openProject={openProject} url={url} command={command} oncommandChange={oncommandChange} />
+          <CommandInput addTerminalObj={addTerminalObj} clearTerminal={clearTerminal} openProject={openProject} url={url} command={command} oncommandChange={oncommandChange} />
         </ul>
 
       </div>

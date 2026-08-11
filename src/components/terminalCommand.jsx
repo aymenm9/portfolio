@@ -21,7 +21,7 @@ function CommandHistory({ obj }) {
     )
 }
 
-function CommandInput({ addTerminalObj, url, openProject, command, oncommandChange }) {
+function CommandInput({ addTerminalObj, clearTerminal, url, openProject, command, oncommandChange }) {
 
     const [isFocused, setIsFocused] = useState(false);
     const [cursorPos, setCursorPos] = useState(0);
@@ -45,9 +45,15 @@ function CommandInput({ addTerminalObj, url, openProject, command, oncommandChan
 
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
-            const commandObj = await runCommand({ command: command, url: url }, openProject);
+            const commandObj = await runCommand({ command: command.trim(), url: url }, openProject);
+            if (commandObj.clear) {
+                clearTerminal();
+                oncommandChange('');
+                setCursorPos(0);
+                return;
+            }
             const newCommandObj = {
-                command: command,
+                command: command.trim(),
                 output: commandObj.output,
                 url: url
             }

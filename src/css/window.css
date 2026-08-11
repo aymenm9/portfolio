@@ -5,7 +5,8 @@
     left: 5%;
     width: 90vw;
     height: 80vh;
-    background-color: var(--color-dark);
+    background-color: var(--os-surface, var(--color-dark));
+    color: var(--os-ink, var(--color-light));
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -15,16 +16,16 @@
 .window {
     top: 12%;
     left: 7%;
-    box-shadow: 0 0 10px var(--color-main);
+    box-shadow: 0 0 18px var(--os-shadow, var(--color-main));
 
 
 }
 
 .terminal-header,
 .window-header {
-    background-color: var(--color-main);
+    background-color: var(--os-accent, var(--color-main));
     height: 2.5vh;
-    color: var(--color-light);
+    color: var(--os-surface, var(--color-light));
     display: flex;
     justify-content: end;
     align-items: center;
@@ -40,7 +41,7 @@
     border: 0;
     margin-right: 0.5rem;
     background-color: transparent;
-    color: var(--color-red);
+    color: var(--os-accent, var(--color-red));
     display: flex;
     justify-content: center;
 }

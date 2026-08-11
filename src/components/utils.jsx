@@ -32,14 +32,17 @@ function ls(url) {
     const node = resolvePath(url);
     if (!node) return [];
 
-    if (node.type === 'resource') {
-        // List content of resource
-        return node.content.map((item, index) => <li key={index}>{item.name}</li>);
-    } else if (typeof node === 'object') {
-        // List keys of directory
-        return Object.keys(node).filter(key => key !== 'type' && key !== 'name' && key !== 'content' && key !== 'path' && key !== 'link').map((item, index) => <li key={index}>{item}</li>);
-    }
-    return [];
+    return listEntries(node).map((item) => <li key={item.name}>{item.name}</li>);
+}
+
+function listEntries(node) {
+    if (!node) return [];
+    if (node.type === 'resource') return node.content || [];
+    if (typeof node !== 'object') return [];
+
+    return Object.entries(node)
+        .filter(([key]) => !['type', 'name', 'content', 'path', 'link', 'thumbnailPath'].includes(key))
+        .map(([name, value]) => ({ name, ...value }));
 }
 
 function cd(name, url) {
@@ -54,6 +57,7 @@ function cd(name, url) {
     if (name === '~') return ['Desktop'];
 
     const current = resolvePath(url);
+    if (!current) return null;
 
     if (current.type === 'resource') {
         // Can't cd inside a resource folder (it's flat for now)
@@ -94,6 +98,8 @@ function help() {
                 <li><strong>cd ..</strong> - Go back to parent directory</li>
                 <li><strong>open [file/project]</strong> - Open a file or project window</li>
                 <li><strong>cat [file]</strong> - Read a text file</li>
+                <li><strong>pwd</strong> - Print the current path</li>
+                <li><strong>clear</strong> - Clear terminal history</li>
                 <li><strong>help / -h</strong> - Show this help message</li>
                 <li><strong>Tab</strong> - Auto complete</li>
             </ul>
@@ -102,9 +108,11 @@ function help() {
 }
 
 async function runCommand(commandObj, openProject = null) {
-    const command = commandObj.command.split(' ')
+    const command = commandObj.command.match(/(?:[^\s"]+|"[^"]*")+/g)?.map((part) => part.replace(/^"|"$/g, '')) || [];
     const cmd = command[0]
-    const arg = command[1] ? command[1] : ''
+    const arg = command.slice(1).join(' ')
+
+    if (!cmd) return { output: null, newUrl: commandObj.url };
 
     if (cmd === 'ls') {
         return { output: ls(commandObj.url), newUrl: commandObj.url }
@@ -141,6 +149,14 @@ async function runCommand(commandObj, openProject = null) {
         }
     }
     else if (cmd === 'open') {
+        if (arg === '.') {
+            const currentNode = resolvePath(commandObj.url);
+            if (currentNode?.type === 'resource') {
+                openProject(currentNode);
+                return { output: null, newUrl: commandObj.url };
+            }
+            return { output: 'Use the Files app to browse directories', newUrl: commandObj.url };
+        }
         if (!arg) {
             // If no arg, try to open current directory if it's a resource
             const currentNode = resolvePath(commandObj.url);
@@ -159,39 +175,8 @@ async function runCommand(commandObj, openProject = null) {
             return { output: null, newUrl: commandObj.url };
         }
         else if (target.type === 'markdown') {
-            // Open markdown in terminal (same as cat) OR open in project window?
-            // User said "open will open the full project resource".
-            // If it's a standalone markdown file, maybe just cat it?
-            // Or open a simple window?
-            // Let's stick to previous behavior: cat it in terminal for now, unless it's part of a project.
-            // Actually, previous behavior for 'open' on markdown was to print it.
-            // Let's reuse the cat logic or just call cat.
-
-            // Wait, if I open a markdown file, I might want to see it nicely.
-            // But for now, let's just print it like before.
-            try {
-                const response = await fetch(target.path);
-                if (!response.ok) throw new Error('Failed to load file');
-                const text = await response.text();
-                return {
-                    output: (
-                        <li style={{ whiteSpace: 'pre-wrap', listStyle: 'none', width: '100%', textAlign: 'left', display: 'block' }}>
-                            {text}
-                            {target.link && (
-                                <div style={{ marginTop: '1rem' }}>
-                                    <strong>Project Link: </strong>
-                                    <a href={target.link} target="_blank" rel="noopener noreferrer" style={{ color: '#34B9E2', textDecoration: 'none' }}>
-                                        {target.link}
-                                    </a>
-                                </div>
-                            )}
-                        </li>
-                    ),
-                    newUrl: commandObj.url
-                };
-            } catch (error) {
-                return { output: `Error reading file: ${error.message}`, newUrl: commandObj.url };
-            }
+            openProject(target);
+            return { output: null, newUrl: commandObj.url };
         } else {
             // Image, PDF, etc.
             // We need to wrap it in a structure that Project component understands.
@@ -203,6 +188,12 @@ async function runCommand(commandObj, openProject = null) {
     }
     else if (cmd === 'help' || cmd === '-h') {
         return { output: help(), newUrl: commandObj.url }
+    }
+    else if (cmd === 'pwd') {
+        return { output: `/${commandObj.url.slice(1).join('/')}`, newUrl: commandObj.url }
+    }
+    else if (cmd === 'clear') {
+        return { output: null, clear: true, newUrl: commandObj.url }
     }
     else {
         return { output: `${cmd} is not a command`, newUrl: commandObj.url }
@@ -228,4 +219,4 @@ function autocomplete(currentUrl, partial) {
     return null;
 }
 
-export { runCommand, autocomplete }
+export { runCommand, autocomplete, resolvePath, getTargetNode, listEntries }

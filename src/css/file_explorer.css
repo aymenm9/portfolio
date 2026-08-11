@@ -1,0 +1,35 @@
+.file-explorer {
+    z-index: 8;
+    width: min(760px, 88vw);
+    height: min(620px, 74vh);
+    top: 9%;
+    left: 11%;
+    background: var(--os-surface);
+    color: var(--os-ink);
+    border: 1px solid var(--os-line);
+    box-shadow: 12px 14px 0 var(--os-shadow);
+}
+
+.explorer-header { height: 38px; padding: 0 .75rem; justify-content: space-between; }
+.explorer-header > span { display: flex; align-items: center; gap: .5rem; font: 700 .78rem/1 var(--os-mono); letter-spacing: .12em; text-transform: uppercase; }
+.explorer-header button { margin: 0; }
+.explorer-toolbar { display: flex; align-items: center; gap: .35rem; padding: .65rem; border-bottom: 1px solid var(--os-line); background: var(--os-panel); }
+.explorer-toolbar > button { display: grid; place-items: center; width: 30px; height: 30px; padding: 0; color: var(--os-ink); background: transparent; border: 1px solid var(--os-line); border-radius: 0; }
+.explorer-toolbar > button:disabled { opacity: .3; cursor: default; }
+.explorer-breadcrumbs { display: flex; min-width: 0; overflow-x: auto; align-items: center; gap: .25rem; margin-left: .25rem; }
+.explorer-breadcrumbs button { border: 0; border-radius: 0; padding: .4rem .5rem; color: var(--os-muted); background: transparent; font: .7rem var(--os-mono); white-space: nowrap; }
+.explorer-breadcrumbs button:last-child { color: var(--os-accent); }
+.explorer-body { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); align-content: start; gap: .4rem; overflow: auto; padding: 1rem; flex: 1; }
+.explorer-entry { min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .55rem; padding: .7rem; color: var(--os-ink); background: transparent; border: 1px solid transparent; border-radius: 0; }
+.explorer-entry:hover, .explorer-entry:focus-visible { border-color: var(--os-accent); background: var(--os-hover); outline: 0; }
+.explorer-entry-icon { color: var(--os-accent); font-size: 1.8rem; }
+.explorer-entry-name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: .72rem var(--os-mono); }
+.explorer-entry-type { color: var(--os-muted); font: .58rem var(--os-mono); text-transform: uppercase; }
+.explorer-empty, .explorer-status { color: var(--os-muted); font: .7rem var(--os-mono); }
+.explorer-empty { grid-column: 1 / -1; padding: 2rem; text-align: center; }
+.explorer-status { padding: .55rem .8rem; border-top: 1px solid var(--os-line); }
+
+@media (max-width: 640px) {
+    .file-explorer { left: 3%; width: 94vw; height: 72vh; }
+    .explorer-body { grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)); }
+}

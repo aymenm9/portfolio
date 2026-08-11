@@ -2,4 +2,70 @@
     height: 100vh;
     width: 100%;
     position: relative;
+    overflow: hidden;
+    --os-bg: #e7e4da;
+    --os-surface: #f7f5ed;
+    --os-panel: #eeece3;
+    --os-ink: #1b1b18;
+    --os-muted: #747168;
+    --os-line: #c9c6b9;
+    --os-shadow: rgba(40, 38, 30, .22);
+    --os-hover: rgba(172, 0, 0, .08);
+    --os-accent: #9b111e;
+    --os-mono: 'Roboto Mono', ui-monospace, monospace;
+    background: var(--os-bg);
+    color: var(--os-ink);
+    font-family: var(--os-mono);
+}
+
+.home-screen[data-os-theme='dark'] {
+    --os-bg: #10110f;
+    --os-surface: #1c1d19;
+    --os-panel: #161713;
+    --os-ink: #eeece2;
+    --os-muted: #96958a;
+    --os-line: #3a3b34;
+    --os-shadow: rgba(0, 0, 0, .4);
+    --os-hover: rgba(255, 255, 255, .07);
+    --os-accent: #d45151;
+}
+
+.desktop-icons {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, 92px);
+    gap: .7rem;
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    z-index: 1;
+}
+
+.desktop-icon {
+    width: 86px;
+    min-height: 82px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .4rem;
+    padding: .45rem .25rem;
+    border: 1px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    color: var(--os-ink);
+    font: .62rem/1.2 var(--os-mono);
+    text-align: center;
+}
+
+.desktop-icon:hover, .desktop-icon:focus-visible, .desktop-icon.selected {
+    background: var(--os-hover);
+    border-color: var(--os-accent);
+    outline: 0;
+}
+
+.desktop-icon-art { color: var(--os-accent); font-size: 1.9rem; }
+
+@media (max-width: 600px) {
+    .desktop-icons { grid-auto-flow: row; grid-template-rows: none; grid-template-columns: repeat(3, 78px); gap: .2rem; }
+    .desktop-icon { width: 76px; }
 }
