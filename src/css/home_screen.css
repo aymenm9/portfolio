@@ -3,31 +3,31 @@
     width: 100%;
     position: relative;
     overflow: hidden;
-    --os-bg: #e7e4da;
-    --os-surface: #f7f5ed;
-    --os-panel: #eeece3;
-    --os-ink: #1b1b18;
-    --os-muted: #747168;
-    --os-line: #c9c6b9;
-    --os-shadow: rgba(40, 38, 30, .22);
-    --os-hover: rgba(172, 0, 0, .08);
-    --os-accent: #9b111e;
+    --os-bg: transparent;
+    --os-surface: #1f1f1f;
+    --os-panel: #0d0d0d;
+    --os-ink: #ffffff;
+    --os-muted: rgba(255, 255, 255, .65);
+    --os-line: rgba(255, 255, 255, .18);
+    --os-shadow: rgba(0, 0, 0, .45);
+    --os-hover: rgba(52, 185, 226, .16);
+    --os-accent: #34B9E2;
     --os-mono: 'Roboto Mono', ui-monospace, monospace;
     background: var(--os-bg);
     color: var(--os-ink);
     font-family: var(--os-mono);
 }
 
-.home-screen[data-os-theme='dark'] {
-    --os-bg: #10110f;
-    --os-surface: #1c1d19;
-    --os-panel: #161713;
-    --os-ink: #eeece2;
-    --os-muted: #96958a;
-    --os-line: #3a3b34;
-    --os-shadow: rgba(0, 0, 0, .4);
-    --os-hover: rgba(255, 255, 255, .07);
-    --os-accent: #d45151;
+.home-screen[data-os-theme='light'] {
+    --os-bg: transparent;
+    --os-surface: #f7f5ed;
+    --os-panel: #eeece3;
+    --os-ink: #1b1b18;
+    --os-muted: #747168;
+    --os-line: #c9c6b9;
+    --os-shadow: rgba(40, 38, 30, .22);
+    --os-hover: rgba(155, 17, 30, .08);
+    --os-accent: #9b111e;
 }
 
 .desktop-icons {
@@ -38,7 +38,7 @@
     position: absolute;
     top: 1.25rem;
     left: 1.25rem;
-    z-index: 1;
+    z-index: 2;
 }
 
 .desktop-icon {
@@ -64,6 +64,8 @@
 }
 
 .desktop-icon-art { color: var(--os-accent); font-size: 1.9rem; }
+
+.home-screen > .terminal { z-index: 10; }
 
 @media (max-width: 600px) {
     .desktop-icons { grid-auto-flow: row; grid-template-rows: none; grid-template-columns: repeat(3, 78px); gap: .2rem; }

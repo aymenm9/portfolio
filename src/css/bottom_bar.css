@@ -8,9 +8,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--os-surface);
-    border-top: 1px solid var(--os-line);
-    color: var(--os-ink);
+    background-color: rgba(var(--color-dark-rgb), 0.9);
 
 }
 
@@ -29,14 +27,14 @@
 
 .bottom-icons button:hover,
 a:hover {
-    color: var(--os-accent);
+    color: var(--color-green);
 }
 
 .bottom-bar-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--os-ink);
+    color: var(--color-light);
     height: 2.75vh;
 
     svg {
@@ -58,7 +56,7 @@ a:hover {
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background-color: var(--os-accent);
+    background-color: var(--color-light);
     transition: width 0.3s ease;
 }
 
@@ -88,9 +86,9 @@ a:hover {
     position: absolute;
     bottom: 6vh;
     left: 1rem;
-    background-color: var(--os-surface);
-    border: 1px solid var(--os-line);
-    border-radius: 0;
+    background-color: var(--color-dark);
+    border: 1px solid var(--color-main);
+    border-radius: 0.5rem;
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -101,7 +99,7 @@ a:hover {
 .power-menu button {
     background: transparent;
     border: none;
-    color: var(--os-ink);
+    color: var(--color-light);
     padding: 0.5rem 1rem;
     cursor: pointer;
     text-align: left;
@@ -111,12 +109,12 @@ a:hover {
 }
 
 .power-menu button:hover {
-    background-color: var(--os-hover);
-    color: var(--os-accent);
+    background-color: var(--color-main);
+    color: var(--color-dark);
 }
 
 .bottom-bar-icon.active {
-    color: var(--os-accent);
+    color: var(--color-red);
 }
 
 /* Project Modal Styles */

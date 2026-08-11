@@ -6,22 +6,22 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light;
-  color: #1b1b18;
-  background-color: #e7e4da;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #0d0d0d;
 
   padding: 0;
   margin: 0;
 
-  --color-main: #e7e4da;
-  --color-dark: #f7f5ed;
-  --color-light: #1b1b18;
-  --color-red: #9b111e;
-  --color-green: #536b42;
+  --color-main: #0d0d0d;
+  --color-dark: #1f1f1f;
+  --color-light: #ffffff;
+  --color-red: #FF3B30;
+  --color-green: #8AE234;
   --color-blue: #34B9E2;
   --color-purple: #6B5FC6;
-  --color-dark-rgb: 247, 245, 237;
-  --color-main-rgb: 231, 228, 218;
+  --color-dark-rgb: 31, 31, 31;
+  --color-main-rgb: 13, 13, 13;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -58,6 +58,7 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+
 
 button {
   border-radius: 8px;

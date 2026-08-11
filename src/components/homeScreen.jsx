@@ -24,7 +24,7 @@ export default function HomeScreen({ onLock, onShutdown }) {
   const [terminal, setTerminal] = useState({ objs: null, url: null });
   const [project, setProject] = useState(null);
   const [explorerPath, setExplorerPath] = useState(null);
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
 
   const openTerminal = () => {
     setTerminal(

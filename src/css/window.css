@@ -23,9 +23,9 @@
 
 .terminal-header,
 .window-header {
-    background-color: var(--os-accent, var(--color-main));
+    background-color: var(--color-main);
     height: 2.5vh;
-    color: var(--os-surface, var(--color-light));
+    color: var(--color-light);
     display: flex;
     justify-content: end;
     align-items: center;
@@ -41,7 +41,7 @@
     border: 0;
     margin-right: 0.5rem;
     background-color: transparent;
-    color: var(--os-accent, var(--color-red));
+    color: var(--color-red);
     display: flex;
     justify-content: center;
 }
