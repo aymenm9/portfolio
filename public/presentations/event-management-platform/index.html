@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Event Management Platform — presentation</title>
+<style>
+    :root {
+        --bg: #0d0d0b;
+        --panel: #15150f;
+        --ink: #e9e7de;
+        --dim: rgba(233, 231, 222, .6);
+        --faint: rgba(233, 231, 222, .34);
+        --acc: #ac0000;
+        --line: rgba(233, 231, 222, .12);
+        --line2: rgba(233, 231, 222, .22);
+        --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Georgia, 'Times New Roman', serif;
+        line-height: 1.62;
+        padding: clamp(1.2rem, 4vw, 3rem);
+        -webkit-font-smoothing: antialiased;
+    }
+    .sheet { max-width: 900px; margin: 0 auto; }
+
+    .kicker {
+        text-align: center;
+        font-family: var(--mono);
+        font-size: .66rem;
+        letter-spacing: .3em;
+        text-transform: uppercase;
+        color: var(--acc);
+    }
+    h1 {
+        text-align: center;
+        font-family: var(--mono);
+        font-size: clamp(1.8rem, 5.5vw, 3.2rem);
+        margin: .7rem 0 1rem;
+        font-weight: 700;
+        letter-spacing: -.01em;
+    }
+    .lead {
+        text-align: center;
+        color: var(--dim);
+        max-width: 64ch;
+        margin: 0 auto 2.4rem;
+        font-size: 1.08rem;
+    }
+    .lead em { color: var(--acc); font-style: italic; }
+
+    .meta-row {
+        display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.6rem;
+        margin-bottom: 2.6rem;
+        font-family: var(--mono);
+        font-size: .68rem;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        color: var(--faint);
+    }
+    .meta-row b { color: var(--ink); font-weight: 400; }
+
+    section { margin-bottom: 2.8rem; }
+    h2 {
+        font-family: var(--mono);
+        font-size: .74rem;
+        letter-spacing: .26em;
+        text-transform: uppercase;
+        color: var(--acc);
+        margin-bottom: 1.1rem;
+        padding-bottom: .6rem;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+    h2 .h2-note { color: var(--faint); font-weight: 400; letter-spacing: .14em; text-transform: none; }
+
+    .p { color: var(--dim); font-size: .94rem; max-width: 64ch; margin-bottom: 1.2rem; }
+    .p em { color: var(--acc); font-style: italic; }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: .9rem;
+        margin-bottom: 1.4rem;
+    }
+    .card {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 1rem 1.1rem;
+        background: var(--panel);
+        border-left: 3px solid var(--acc);
+    }
+    .card .c-tag {
+        font-family: var(--mono);
+        font-size: .6rem;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: var(--faint);
+        display: block;
+        margin-bottom: .3rem;
+    }
+    .card .c-title {
+        font-family: var(--mono);
+        font-size: .92rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: .3rem;
+    }
+    .card p { font-size: .88rem; color: var(--dim); margin-top: .2rem; }
+
+    .tags { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .tag {
+        font-family: var(--mono); font-size: .6rem; letter-spacing: .16em;
+        text-transform: uppercase; padding: .28em .65em; border: 1px solid var(--line);
+        border-radius: 6px; color: var(--dim);
+    }
+    .tag.on { border-color: var(--acc); color: var(--acc); }
+
+    figure {
+        border: 1px solid var(--line2);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 1.4rem;
+        background: var(--panel);
+    }
+    figure img { display: block; width: 100%; }
+    figcaption {
+        font-family: var(--mono);
+        font-size: .64rem;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        color: var(--dim);
+        padding: .7rem 1rem;
+        border-top: 1px solid var(--line);
+    }
+    figcaption b { color: var(--acc); font-weight: 400; }
+
+    .placeholder {
+        margin-bottom: 1.4rem;
+        min-height: 220px;
+        border: 1px dashed var(--acc);
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        color: var(--acc);
+        font-family: var(--mono);
+        font-size: .7rem;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        background: var(--panel);
+    }
+
+    .chips { display: flex; flex-wrap: wrap; gap: .42rem; margin-bottom: 1.4rem; }
+    .chip {
+        font-family: var(--mono);
+        font-size: .66rem;
+        letter-spacing: .1em;
+        padding: .35em .8em;
+        border: 1px solid var(--line2);
+        border-radius: 999px;
+        color: var(--dim);
+    }
+    .chip.hot { border-color: var(--acc); color: var(--acc); }
+
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+    <p class="kicker">production backend — 1000+ applications — hardened mid-event</p>
+    <h1>Event Management Platform</h1>
+    <p class="lead">
+        A <em>Django REST Framework</em> backend for large-scale event and workshop management,
+        deployed on octenium.com and built primarily to serve a <em>React Native mobile scanner</em>,
+        a React web landing page, and a Python chatbot — all under real production load.
+    </p>
+    <div class="meta-row">
+        <span><b>Django 5.2</b> + DRF</span>
+        <span><b>1000+</b> registrations</span>
+        <span><b>React Native</b> scanner</span>
+        <span><b>JWT</b> + OTP</span>
+        <span><b>Cloudinary</b></span>
+        <span>octenium.com · cPanel</span>
+    </div>
+
+    <!-- Screenshots placeholder -->
+    <section>
+        <h2><span>screenshots</span><span class="h2-note">mobile-first · backend · security</span></h2>
+        <div class="placeholder">screenshots coming soon</div>
+    </section>
+
+    <!-- Mobile-first -->
+    <section>
+        <h2><span>mobile-first client surface</span><span class="h2-note">React Native · Expo</span></h2>
+        <p class="p">
+            The backend was built primarily to serve a <em>React Native + Expo</em> mobile app
+            used on-site for <em>QR/barcode attendance scanning</em>. JWT tokens are stored via
+            expo-secure-store, and the camera reads attendance codes across hundreds of
+            participants in real time. A React + Vite + TailwindCSS landing page handled public
+            registration, countdown timers, and partner showcase with reCAPTCHA-protected email
+            confirmation.
+        </p>
+    </section>
+
+    <!-- Backend features -->
+    <section>
+        <h2><span>backend — what the API does</span><span class="h2-note">DRF · Gunicorn · Cloudinary</span></h2>
+        <div class="grid">
+            <div class="card"><span class="c-tag">workshops</span><span class="c-title">Scheduling &amp; CRUD</span><p>Create, update, manage workshops with sessions, dates, and durations.</p></div>
+            <div class="card"><span class="c-tag">registrations</span><span class="c-title">Registration + Email</span><p>Workshop registration with automatic email confirmations and verification.</p></div>
+            <div class="card"><span class="c-tag">certificates</span><span class="c-title">QR Certificates</span><p>Auto-generated certificates with embedded QR codes via Cloudinary.</p></div>
+            <div class="card"><span class="c-tag">attendance</span><span class="c-title">Tracking &amp; Reporting</span><p>Real-time attendance records, Excel export via pandas + openpyxl.</p></div>
+            <div class="card"><span class="c-tag">speakers</span><span class="c-title">Speaker Profiles</span><p>Speaker bios, images, and partner associations.</p></div>
+            <div class="card"><span class="c-tag">notifications</span><span class="c-title">Email Confirmations</span><p>Notification model for tracking email delivery and confirmations.</p></div>
+        </div>
+    </section>
+
+    <!-- Security story -->
+    <section>
+        <h2><span>the security story — hardened mid-event</span><span class="h2-note">post-attack</span></h2>
+        <p class="p">
+            During the live event the platform came under attack. The response was not a patch —
+            it was a <em>multi-layer hardening pass</em> that kept the system running without
+            downtime while locking down every abuse vector.
+        </p>
+        <div class="grid">
+            <div class="card"><span class="c-tag">throttling</span><span class="c-title">Multi-level rate limiting</span><p>Registration, login, and email confirmation throttles across minute, hour, and day windows.</p></div>
+            <div class="card"><span class="c-tag">auth</span><span class="c-title">JWT + OTP</span><p>simplejwt with refresh token rotation + django-otp for two-factor admin access.</p></div>
+            <div class="card"><span class="c-tag">validation</span><span class="c-title">Input validation</span><p>Email, phone, and data-type validation across all serializers.</p></div>
+            <div class="card"><span class="c-tag">captcha</span><span class="c-title">reCAPTCHA</span><p>Google reCAPTCHA on form endpoints to block automated spam.</p></div>
+            <div class="card"><span class="c-tag">cors</span><span class="c-title">CORS lockdown</span><p>Only whitelisted origins; CSRF protection enforced.</p></div>
+            <div class="card"><span class="c-tag">storage</span><span class="c-title">Cloudinary validation</span><p>File upload validation to reject unsafe file types.</p></div>
+        </div>
+        <div class="tags">
+            <span class="tag on">rate limiting</span>
+            <span class="tag on">no downtime</span>
+            <span class="tag on">brute force</span>
+            <span class="tag on">spam mitigation</span>
+            <span class="tag">jwt rotation</span>
+            <span class="tag">2fa</span>
+            <span class="tag">cors</span>
+            <span class="tag">csrf</span>
+        </div>
+    </section>
+
+    <!-- Scale -->
+    <section>
+        <h2><span>scale &amp; production</span><span class="h2-note">real users</span></h2>
+        <p class="p">
+            <em>1000+ applications</em> processed end-to-end — registration, email confirmation,
+            attendance, and certification. The mid-event attack was mitigated and the system
+            hardened without taking the platform offline. Simultaneous mobile and web clients
+            were served throughout.
+        </p>
+    </section>
+
+    <!-- API -->
+    <section>
+        <h2><span>API surface — documented</span><span class="h2-note">drf-spectacular</span></h2>
+        <div class="grid">
+            <div class="card"><span class="c-tag">GET</span><span class="c-title">/api/workshops/</span><p>List active workshops for the current week.</p></div>
+            <div class="card"><span class="c-tag">POST</span><span class="c-title">/api/registrations/</span><p>Register for a workshop (rate-limited).</p></div>
+            <div class="card"><span class="c-tag">POST</span><span class="c-title">/api/token/</span><p>Obtain JWT pair (rate-limited).</p></div>
+            <div class="card"><span class="c-tag">GET</span><span class="c-title">/api/certificates/&lt;id&gt;/</span><p>Retrieve a generated certificate.</p></div>
+        </div>
+    </section>
+
+    <!-- Tech stack -->
+    <section>
+        <h2><span>tech stack</span></h2>
+        <div class="chips">
+            <span class="chip hot">Django 5.2.6</span>
+            <span class="chip hot">DRF 3.16.1</span>
+            <span class="chip hot">Gunicorn</span>
+            <span class="chip">PostgreSQL / MySQL / SQLite</span>
+            <span class="chip">Redis</span>
+            <span class="chip">Cloudinary</span>
+            <span class="chip">simplejwt</span>
+            <span class="chip">django-otp</span>
+            <span class="chip">django-recaptcha</span>
+            <span class="chip">django-cors-headers</span>
+            <span class="chip">cryptography</span>
+            <span class="chip">drf-spectacular</span>
+            <span class="chip">django-filter</span>
+            <span class="chip">pandas</span>
+            <span class="chip">openpyxl</span>
+            <span class="chip">qrcode</span>
+            <span class="chip hot">React Native + Expo</span>
+            <span class="chip">expo-camera</span>
+            <span class="chip">expo-secure-store</span>
+            <span class="chip">NativeWind</span>
+            <span class="chip">React + Vite + TailwindCSS</span>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>

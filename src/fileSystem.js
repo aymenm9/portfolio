@@ -113,7 +113,8 @@ export const fileSystem = {
             "Orcheeos-agents": getProject("Orcheeos-agents"),
             "content-platform": getProject("content-platform"),
             "AI-On-MoneyMate": getProject("AI-On-MoneyMate"),
-            "Civil-Registration-API": getProject("Civil-Registration-API")
+            "Civil-Registration-API": getProject("Civil-Registration-API"),
+            "Event-Management-Platform": getProject("Event-Management-Platform")
         },
         Resume: {
             "resume_2025_Full Stack_Developer.pdf": getFile("Resume/resume_2025_Full Stack_Developer.pdf"),

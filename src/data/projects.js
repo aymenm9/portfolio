@@ -74,6 +74,20 @@ export const projects = [
         ]
     },
     {
+        id: "Event-Management-Platform",
+        name: "Event Management Platform",
+        type: "project",
+        path: "/portfolio/desktop/Projects/Event-Management-Platform_resource/",
+        link: "https://github.com/setif-developers-group/Event_management_platform_backend",
+        description: "Production Django REST Framework backend for large-scale event management — 1000+ applications, mobile-first, hardened mid-event",
+        tags: ["Python", "Django", "DRF", "Web"],
+        thumbnail: null,
+        presentation: "/portfolio/presentations/event-management-platform/index.html",
+        resources: [
+            { file_name: "01_description.md", type: "markdown" }
+        ]
+    },
+    {
         id: "personal_branding",
         name: "personal_branding",
         type: "project",
