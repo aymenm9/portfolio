@@ -141,21 +141,13 @@
     }
     figcaption b { color: var(--acc); font-weight: 400; }
 
-    .placeholder {
-        margin-bottom: 1.4rem;
-        min-height: 220px;
-        border: 1px dashed var(--acc);
-        border-radius: 12px;
+    .mobile-pair {
         display: grid;
-        place-items: center;
-        text-align: center;
-        color: var(--acc);
-        font-family: var(--mono);
-        font-size: .7rem;
-        letter-spacing: .14em;
-        text-transform: uppercase;
-        background: var(--panel);
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.4rem;
     }
+    .mobile-pair figure { margin-bottom: 0; }
 
     .chips { display: flex; flex-wrap: wrap; gap: .42rem; margin-bottom: 1.4rem; }
     .chip {
@@ -169,6 +161,7 @@
     }
     .chip.hot { border-color: var(--acc); color: var(--acc); }
 
+    @media (max-width: 640px) { .mobile-pair { grid-template-columns: 1fr; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
 </head>
@@ -191,35 +184,60 @@
         <span>octenium.com · cPanel</span>
     </div>
 
-    <!-- Screenshots placeholder -->
+    <!-- Mobile-first (priority) -->
     <section>
-        <h2><span>screenshots</span><span class="h2-note">mobile-first · backend · security</span></h2>
-        <div class="placeholder">screenshots coming soon</div>
-    </section>
-
-    <!-- Mobile-first -->
-    <section>
-        <h2><span>mobile-first client surface</span><span class="h2-note">React Native · Expo</span></h2>
+        <h2><span>mobile-first — attendance scanner</span><span class="h2-note">React Native · Expo</span></h2>
         <p class="p">
             The backend was built primarily to serve a <em>React Native + Expo</em> mobile app
-            used on-site for <em>QR/barcode attendance scanning</em>. JWT tokens are stored via
-            expo-secure-store, and the camera reads attendance codes across hundreds of
-            participants in real time. A React + Vite + TailwindCSS landing page handled public
-            registration, countdown timers, and partner showcase with reCAPTCHA-protected email
-            confirmation.
+            used on-site for QR/barcode attendance scanning. JWT tokens live in
+            <em>expo-secure-store</em>, the camera reads codes via <em>expo-camera</em>, and the
+            UI is built with <em>NativeWind</em>. This is the surface that 1000+ registrations
+            funneled through on the day.
         </p>
+        <div class="mobile-pair">
+            <figure>
+                <img src="img/01-mobile-login.jpg" alt="Mobile login screen — SDG Skills Lab, username and password">
+                <figcaption><b>fig.01</b> — login: JWT auth, secure-store token persistence</figcaption>
+            </figure>
+            <figure>
+                <img src="img/02-mobile-attendance-dashboard.jpg" alt="Mobile attendance dashboard — workshop name, QR code, Add Attendance button">
+                <figcaption><b>fig.02</b> — attendance: workshop context + scan + add</figcaption>
+            </figure>
+        </div>
+        <div class="mobile-pair">
+            <figure>
+                <img src="img/03-mobile-qr-scanner.jpg" alt="Mobile camera scanning a ticket QR code with Scan QR Code / Cancel buttons">
+                <figcaption><b>fig.03</b> — camera: expo-camera reading invitation QR</figcaption>
+            </figure>
+            <figure>
+                <img src="img/04-mobile-invitation-ticket.jpg" alt="Close-up of the generated invitation ticket with attendee name and QR code">
+                <figcaption><b>fig.04</b> — ticket: backend-generated PDF with QR payload</figcaption>
+            </figure>
+        </div>
     </section>
 
-    <!-- Backend features -->
+    <!-- Backend output -->
     <section>
-        <h2><span>backend — what the API does</span><span class="h2-note">DRF · Gunicorn · Cloudinary</span></h2>
-        <div class="grid">
-            <div class="card"><span class="c-tag">workshops</span><span class="c-title">Scheduling &amp; CRUD</span><p>Create, update, manage workshops with sessions, dates, and durations.</p></div>
-            <div class="card"><span class="c-tag">registrations</span><span class="c-title">Registration + Email</span><p>Workshop registration with automatic email confirmations and verification.</p></div>
-            <div class="card"><span class="c-tag">certificates</span><span class="c-title">QR Certificates</span><p>Auto-generated certificates with embedded QR codes via Cloudinary.</p></div>
-            <div class="card"><span class="c-tag">attendance</span><span class="c-title">Tracking &amp; Reporting</span><p>Real-time attendance records, Excel export via pandas + openpyxl.</p></div>
-            <div class="card"><span class="c-tag">speakers</span><span class="c-title">Speaker Profiles</span><p>Speaker bios, images, and partner associations.</p></div>
-            <div class="card"><span class="c-tag">notifications</span><span class="c-title">Email Confirmations</span><p>Notification model for tracking email delivery and confirmations.</p></div>
+        <h2><span>backend output — what the API produces</span><span class="h2-note">email · certificates</span></h2>
+        <p class="p">
+            Two artifacts that come straight off the backend. The <em>registration email</em>
+            confirms the user's spot and attaches the entrance ticket. The <em>PDF certificate</em>
+            is generated server-side via ReportLab with an embedded QR code and then stored on
+            Cloudinary.
+        </p>
+        <figure>
+            <img src="img/05-email-confirmation.png" alt="Registration Confirmed email — Welcome to SDG Skills Lab, attendee name, registration ID, invitation attached">
+            <figcaption><b>fig.05</b> — email: registration confirmation with attached ticket</figcaption>
+        </figure>
+        <div class="mobile-pair">
+            <figure>
+                <img src="img/06-certificate-template.png" alt="Blank PDF invitation template — SDG x Skills Center header, attendee name field, empty QR placeholder">
+                <figcaption><b>fig.06</b> — certificate: template before QR is rendered</figcaption>
+            </figure>
+            <figure>
+                <img src="img/07-certificate-generated.png" alt="Generated PDF ticket — attendee name, workshop, full QR code for entrance scanning">
+                <figcaption><b>fig.07</b> — certificate: final ticket with QR payload</figcaption>
+            </figure>
         </div>
     </section>
 
@@ -249,6 +267,37 @@
             <span class="tag">cors</span>
             <span class="tag">csrf</span>
         </div>
+    </section>
+
+    <!-- Backend features -->
+    <section>
+        <h2><span>backend — what the API does</span><span class="h2-note">DRF · Gunicorn · Cloudinary</span></h2>
+        <div class="grid">
+            <div class="card"><span class="c-tag">workshops</span><span class="c-title">Scheduling &amp; CRUD</span><p>Create, update, manage workshops with sessions, dates, and durations.</p></div>
+            <div class="card"><span class="c-tag">registrations</span><span class="c-title">Registration + Email</span><p>Workshop registration with automatic email confirmations and verification.</p></div>
+            <div class="card"><span class="c-tag">certificates</span><span class="c-title">QR Certificates</span><p>Auto-generated certificates with embedded QR codes via Cloudinary.</p></div>
+            <div class="card"><span class="c-tag">attendance</span><span class="c-title">Tracking &amp; Reporting</span><p>Real-time attendance records, Excel export via pandas + openpyxl.</p></div>
+            <div class="card"><span class="c-tag">speakers</span><span class="c-title">Speaker Profiles</span><p>Speaker bios, images, and partner associations.</p></div>
+            <div class="card"><span class="c-tag">notifications</span><span class="c-title">Email Confirmations</span><p>Notification model for tracking email delivery and confirmations.</p></div>
+        </div>
+    </section>
+
+    <!-- Landing page -->
+    <section>
+        <h2><span>landing page — public surface</span><span class="h2-note">React · Vite · Tailwind</span></h2>
+        <p class="p">
+            The React + Vite landing page is the public entry point — workshop listings,
+            countdown, partner showcase, and the registration form that submits to the same
+            DRF backend. <em>reCAPTCHA</em> guards the email confirmation step.
+        </p>
+        <figure>
+            <img src="img/08-landing-hero.png" alt="SDG Skills Lab landing page — Learn. Build. Impact. hero, countdown, 18 workshops indicator">
+            <figcaption><b>fig.08</b> — hero: workshop listings + countdown</figcaption>
+        </figure>
+        <figure>
+            <img src="img/09-landing-registration-form.png" alt="Registration form — Join the Skills Lab, first/last name, email, phone, workshop select, attendance, reCAPTCHA">
+            <figcaption><b>fig.09</b> — registration: reCAPTCHA-protected form posting to the API</figcaption>
+        </figure>
     </section>
 
     <!-- Scale -->
