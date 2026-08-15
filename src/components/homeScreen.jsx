@@ -2,11 +2,13 @@ import { useState } from 'react'
 import Terminal from './terminal.jsx'
 import Project from './project.jsx'
 import FileExplorer from './fileExplorer.jsx'
+import Onboarding from './onboarding.jsx'
 import ButtomBar from './bottomBar.jsx'
 import { fileSystem } from '../fileSystem.js'
 import { FaFolder, FaFileLines } from 'react-icons/fa6'
 import '../css/home_screen.css';
 import '../css/file_explorer.css';
+import '../css/onboarding.css';
 
 function DesktopIcon({ name, node, onOpen }) {
   const [selected, setSelected] = useState(false);
@@ -25,6 +27,9 @@ export default function HomeScreen({ onLock, onShutdown }) {
   const [project, setProject] = useState(null);
   const [explorerPath, setExplorerPath] = useState(null);
   const [theme, setTheme] = useState('dark');
+  const [showOnboarding, setShowOnboarding] = useState(() => {
+    try { return localStorage.getItem('am_desktop_onboarded') !== '1'; } catch { return true; }
+  });
 
   const openTerminal = () => {
     setTerminal(
@@ -83,6 +88,7 @@ window.history.pushState({}, '', `/home-screen/${terminal.url ? strPath : ''}`);
       {terminal.url && <Terminal terminalObjList={terminal.objs} closeTerminal={closeTerminal} clearTerminal={clearTerminal} addTerminalObj={addTerminalObj} url={terminal.url} openProject={openProject} />}
       {project && <Project projectObj={project} closeProject={closeProject} />}
       {explorerPath && <FileExplorer initialPath={explorerPath} onClose={() => setExplorerPath(null)} openProject={openProject} />}
+      {showOnboarding && <Onboarding theme={theme} onDismiss={() => setShowOnboarding(false)} />}
       <ButtomBar onLock={onLock} onShutdown={onShutdown} onTerminalOpen={openTerminal} onExplorerOpen={() => setExplorerPath(['Desktop'])} onThemeToggle={toggleTheme} theme={theme} />
     </div>
 

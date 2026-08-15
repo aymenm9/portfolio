@@ -29,7 +29,8 @@ const NAV_LINKS = [
     { label: 'Stack', href: '#stack', idx: '02' },
     { label: 'Experience', href: '#experience', idx: '03' },
     { label: 'Works', href: '#works', idx: '04' },
-    { label: 'Contact', href: '#contact', idx: '06' },
+    { label: 'Awards', href: '#awards', idx: '06' },
+    { label: 'Contact', href: '#contact', idx: '07' },
 ];
 
 const TECH_GROUPS = [
@@ -62,6 +63,17 @@ const EDUCATION = [
         place: 'Ferhat Abbas University · Sétif, DZ',
         desc: 'Algorithms & Data Structures · Operating Systems · Software Engineering · Web · Databases · AI · Security · HCI.',
     },
+];
+
+const CERTIFICATES = [
+    { date: '2025', tag: 'CS50x', title: 'Introduction to Computer Science', place: 'Harvard · CS50', href: 'https://cs50.harvard.edu/certificates/5b4fdc29-b96e-42a1-8164-96e315dd7980' },
+    { date: '2025', tag: 'CS50p', title: 'Introduction to Programming with Python', place: 'Harvard · CS50', href: 'https://cs50.harvard.edu/certificates/7a8a1ee1-c8aa-4501-81cd-83330a126f1b' },
+    { date: '2025', tag: 'Gemini', title: 'Gemini API by Google', place: 'Udacity', href: 'http://www.udacity.com/certificate/e/7a42b368-f69e-11ef-b18d-63d848fdb187' },
+];
+
+const ACHIEVEMENTS = [
+    { date: '2025', award: '1st Place', title: 'University Olympiads — AI / Programming', place: 'UFAS · Setif 1', href: 'https://www.linkedin.com/posts/aymen-merad_activity-7323422558320488449-QUn8' },
+    { date: '2025', award: '3rd Place', title: 'University Hackathon', place: 'UFAS · Setif 1', href: 'https://www.linkedin.com/posts/aymen-merad_activity-7301367818053165061-4Z0E' },
 ];
 
 const EXPERIENCE = [
@@ -818,9 +830,42 @@ const StandardPortfolio = () => {
                     </div>
                 </section>
 
+                {/* ---------------- Certificates & Achievements ---------------- */}
+                <section id="awards" className="sect">
+                    <SectionHead no="06" title="Certificates &amp; Awards" note="proof of work" />
+                    <div className="ledger">
+                        {CERTIFICATES.map((item, i) => (
+                            <Reveal className="ld-row" key={item.title} delay={i * 70}>
+                                <span className="ld-date">{item.date}</span>
+                                <div className="ld-main">
+                                    <h3>
+                                        {item.href ? (
+                                            <a href={item.href} target="_blank" rel="noopener noreferrer" data-cursor>{item.title} ↗</a>
+                                        ) : item.title}
+                                    </h3>
+                                    <span className="ld-place">{item.place}</span>
+                                </div>
+                                <span className="ld-tag">{item.tag}</span>
+                            </Reveal>
+                        ))}
+                        {ACHIEVEMENTS.map((item, i) => (
+                            <Reveal className="ld-row ld-row-award" key={item.title} delay={(CERTIFICATES.length + i) * 70}>
+                                <span className="ld-date">{item.date}</span>
+                                <div className="ld-main">
+                                    <h3>
+                                        <a href={item.href} target="_blank" rel="noopener noreferrer" data-cursor>{item.title} ↗</a>
+                                    </h3>
+                                    <span className="ld-place">{item.place}</span>
+                                </div>
+                                <span className="ld-tag ld-tag-award">{item.award}</span>
+                            </Reveal>
+                        ))}
+                    </div>
+                </section>
+
                 {/* ---------------- Contact ---------------- */}
                 <section id="contact" className="sect contact">
-                    <SectionHead no="06" title="Contact" note="end of file" />
+                    <SectionHead no="07" title="Contact" note="end of file" />
                     <Reveal>
                         <p className="contact-serif">Don&apos;t be a stranger — <em>say hello.</em></p>
                     </Reveal>

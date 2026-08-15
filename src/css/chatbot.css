@@ -166,3 +166,10 @@
 .chat-footer button{
     background-color: transparent;
 }
+
+.chat-typing { color: rgba(255,255,255,.6); font-style: italic; }
+.chat-typing span { opacity: .2; animation: chatblink 1.1s infinite; }
+.chat-typing .dot-2 { animation-delay: .2s; }
+.chat-typing .dot-3 { animation-delay: .4s; }
+@keyframes chatblink { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+.chat-input button:disabled, .chat-input input:disabled { opacity: .4; }

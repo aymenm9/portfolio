@@ -60,20 +60,6 @@ export const projects = [
         ]
     },
     {
-        id: "Civil-Registration-API",
-        name: "Civil Registration Management System",
-        type: "project",
-        path: "/portfolio/desktop/Projects/Civil-Registration-API_resource/",
-        link: "https://github.com/aymenm9/univ_olympiad",
-        description: "Hackathon-winning civil registration management system",
-        tags: ["Python", "Django", "DRF", "AI"],
-        thumbnail: null,
-        presentation: "/portfolio/presentations/civil-registration-api/index.html",
-        resources: [
-            { file_name: "01_description.md", type: "markdown" }
-        ]
-    },
-    {
         id: "Event-Management-Platform",
         name: "Event Management Platform",
         type: "project",

@@ -1070,6 +1070,14 @@ html { scroll-behavior: smooth; }
     padding: 0.4rem 0.7rem;
     white-space: nowrap;
 }
+.ld-tag-award {
+    color: var(--acc);
+    border-color: var(--acc);
+    background: color-mix(in srgb, var(--acc) 10%, transparent);
+}
+.ld-row-award h3 a:hover { text-decoration: underline; }
+.ld-main h3 a { color: inherit; }
+.ld-main h3 a:hover { color: var(--acc); }
 
 /* ---------- Contact ---------- */
 
