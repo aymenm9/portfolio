@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Draggable from 'react-draggable';
 import { FaArrowLeft, FaArrowUp, FaFolder, FaFile, FaFolderOpen } from 'react-icons/fa6';
 import { listEntries, resolvePath } from './utils';
@@ -12,6 +12,7 @@ function kindOf(item) {
 
 export default function FileExplorer({ initialPath = ['Desktop'], onClose, openProject }) {
     const [path, setPath] = useState(initialPath);
+    const dragRef = useRef(null);
     const node = resolvePath(path);
     const entries = listEntries(node).sort((a, b) => {
         if (kindOf(a) === 'folder' && kindOf(b) !== 'folder') return -1;
@@ -35,8 +36,8 @@ export default function FileExplorer({ initialPath = ['Desktop'], onClose, openP
     };
 
     return (
-        <Draggable handle=".explorer-header" bounds="parent">
-            <section className="file-explorer window" aria-label="File explorer">
+        <Draggable handle=".explorer-header" nodeRef={dragRef}>
+            <section className="file-explorer window" ref={dragRef} aria-label="File explorer">
                 <header className="explorer-header window-header">
                     <span><FaFolderOpen /> Files</span>
                     <button onClick={onClose} aria-label="Close file explorer"><IoMdCloseCircle /></button>
