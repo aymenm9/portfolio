@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowRight, FaGithub, FaLinkedin, FaBehance } from 'react-icons/fa6';
 import { projects } from '../data/projects';
 import { fileSystem } from '../fileSystem';
-import ProjectViewer from './ProjectViewer';
-import meImg from '../assets/images/me.jpg';
+import meImg from '../assets/images/me.webp';
 import '../css/standardPortfolio.css';
+
+// Viewer (and its react-markdown dep) only loads when a project is opened
+const ProjectViewer = lazy(() => import('./ProjectViewer'));
 
 /* ------------------------------------------------------------------ */
 /* Content                                                              */
@@ -474,6 +476,10 @@ function DistortField({ theme }) {
         const loop = () => { draw(); raf = requestAnimationFrame(loop); };
         const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
         const onOut = () => { mouse.x = -9999; mouse.y = -9999; };
+        const onVis = () => {
+            if (document.hidden) { cancelAnimationFrame(raf); raf = 0; }
+            else if (!reduced && !raf) { loop(); }
+        };
 
         build();
         if (reduced) {
@@ -485,11 +491,13 @@ function DistortField({ theme }) {
             document.documentElement.addEventListener('mouseleave', onOut);
         }
         window.addEventListener('resize', build);
+        document.addEventListener('visibilitychange', onVis);
         return () => {
             cancelAnimationFrame(raf);
             window.removeEventListener('mousemove', onMove);
             window.removeEventListener('resize', build);
             window.removeEventListener('scroll', draw);
+            document.removeEventListener('visibilitychange', onVis);
             document.documentElement.removeEventListener('mouseleave', onOut);
         };
     }, [theme]);
@@ -683,7 +691,7 @@ const StandardPortfolio = () => {
                         >
                             <span className="crop tl" /><span className="crop tr" />
                             <span className="crop bl" /><span className="crop br" />
-                            <img className="hero-portrait-gs" src={meImg} alt="Aymen Merad" />
+                            <img className="hero-portrait-gs" src={meImg} alt="Aymen Merad" width={800} height={800} fetchpriority="high" />
                             <img className="hero-portrait-color" src={meImg} alt="" aria-hidden />
                             <figcaption><b>fig.01</b> — the author, {LOCATION}</figcaption>
                         </figure>
@@ -920,7 +928,9 @@ const StandardPortfolio = () => {
 
             {/* Project viewer (dossier edition — html/md, separate from the OS viewer) */}
             {openNode && (
-                <ProjectViewer project={openNode} onClose={() => setOpenNode(null)} />
+                <Suspense fallback={null}>
+                    <ProjectViewer project={openNode} onClose={() => setOpenNode(null)} />
+                </Suspense>
             )}
         </div>
     );
