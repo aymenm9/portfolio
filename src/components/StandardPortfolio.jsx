@@ -72,6 +72,7 @@ const CERTIFICATES = [
 ];
 
 const ACHIEVEMENTS = [
+    { date: 'Nov 2025', award: '1st Place', title: 'FINOVIA CUP 2025 — Multi-Agent Personal Finance Assistant', place: 'FINOVIA EXPO · National School of Management, Kolea', href: 'https://www.linkedin.com/posts/aymen-merad_activity-7399587963262636032-FyJX' },
     { date: '2025', award: '1st Place', title: 'University Olympiads — AI / Programming', place: 'UFAS · Setif 1', href: 'https://www.linkedin.com/posts/aymen-merad_activity-7323422558320488449-QUn8' },
     { date: '2025', award: '3rd Place', title: 'University Hackathon', place: 'UFAS · Setif 1', href: 'https://www.linkedin.com/posts/aymen-merad_activity-7301367818053165061-4Z0E' },
 ];
@@ -92,7 +93,7 @@ const EXPERIENCE = [
     {
         date: 'Jan 2026 — Feb 2026',
         tag: 'IntellectSoft dz',
-        title: 'Back End Developer',
+        title: 'Back End Developer Intern',
         place: 'Sétif, Algeria',
         points: [
             'Built features for a Django medical events management system and CRM interface inside an existing agency codebase',
@@ -419,6 +420,7 @@ function DistortField({ theme }) {
         const PUSH = 34;
         let pts = [];
         let raf = 0;
+        let lastOff = 0;
         const mouse = { x: -9999, y: -9999 };
 
         const cs = getComputedStyle(canvas);
@@ -432,26 +434,32 @@ function DistortField({ theme }) {
             canvas.height = h * dpr;
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             pts = [];
-            for (let y = GAP / 2; y < h; y += GAP) {
-                for (let x = GAP / 2; x < w; x += GAP) pts.push({ ox: x, oy: y, x, y });
+            const off = ((window.scrollY % GAP) + GAP) % GAP;
+            for (let y = GAP / 2; y < h + GAP; y += GAP) {
+                for (let x = GAP / 2; x < w; x += GAP) pts.push({ ox: x, oy: y, x, y: y - off });
             }
+            lastOff = off;
         };
 
         const draw = () => {
             ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            const off = ((window.scrollY % GAP) + GAP) % GAP;
+            const jump = lastOff - off;
             for (const p of pts) {
+                p.y += jump;
+                const hy = p.oy - off;
                 const dx = p.ox - mouse.x;
-                const dy = p.oy - mouse.y;
+                const dy = hy - mouse.y;
                 const d = Math.hypot(dx, dy);
-                let tx = p.ox; let ty = p.oy;
+                let tx = p.ox; let ty = hy;
                 if (d < RADIUS && d > 0.01) {
                     const f = (1 - d / RADIUS) ** 2 * PUSH;
                     tx = p.ox + (dx / d) * f;
-                    ty = p.oy + (dy / d) * f;
+                    ty = hy + (dy / d) * f;
                 }
                 p.x += (tx - p.x) * 0.14;
                 p.y += (ty - p.y) * 0.14;
-                const disp = Math.hypot(p.x - p.ox, p.y - p.oy);
+                const disp = Math.hypot(p.x - p.ox, p.y - hy);
                 ctx.strokeStyle = disp > 3 ? hot : base;
                 ctx.globalAlpha = disp > 3 ? Math.min(0.85, 0.25 + disp / 22) : 1;
                 ctx.beginPath();
@@ -460,6 +468,7 @@ function DistortField({ theme }) {
                 ctx.stroke();
             }
             ctx.globalAlpha = 1;
+            lastOff = off;
         };
 
         const loop = () => { draw(); raf = requestAnimationFrame(loop); };
@@ -469,6 +478,7 @@ function DistortField({ theme }) {
         build();
         if (reduced) {
             draw();
+            window.addEventListener('scroll', draw, { passive: true });
         } else {
             loop();
             window.addEventListener('mousemove', onMove);
@@ -479,6 +489,7 @@ function DistortField({ theme }) {
             cancelAnimationFrame(raf);
             window.removeEventListener('mousemove', onMove);
             window.removeEventListener('resize', build);
+            window.removeEventListener('scroll', draw);
             document.documentElement.removeEventListener('mouseleave', onOut);
         };
     }, [theme]);
