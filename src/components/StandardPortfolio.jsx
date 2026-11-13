@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowRight, FaGithub, FaLinkedin, FaBehance } from 'react-icons/fa6';
 import { projects } from '../data/projects';
 import { fileSystem } from '../fileSystem';
@@ -512,9 +512,10 @@ function DistortField({ theme }) {
 
 const StandardPortfolio = () => {
     const navigate = useNavigate();
+    const { projectId } = useParams();
     const [phase, setPhase] = useState('boot'); // boot → lift → gone
     const [theme, setTheme] = useState(() => localStorage.getItem('am-theme') || 'light');
-    const [openNode, setOpenNode] = useState(null);
+    const openNode = projectId ? fileSystem.Desktop.Projects[projectId] : null;
     const [preview, setPreview] = useState(null);
     const [leaving, setLeaving] = useState(false);
     const [cat, setCat] = useState('Development');
@@ -525,6 +526,10 @@ const StandardPortfolio = () => {
     const emailHtml = useScramble(EMAIL, scrambleKey);
     const mouse = useRef({ x: -400, y: -400 });
     const progressRef = useRef(null);
+
+    useEffect(() => {
+        if (projectId && !openNode) navigate('/', { replace: true });
+    }, [navigate, openNode, projectId]);
 
     useEffect(() => { localStorage.setItem('am-theme', theme); }, [theme]);
 
@@ -802,13 +807,13 @@ const StandardPortfolio = () => {
                                     className="work-row"
                                     key={p.id}
                                     style={{ '--i': i }}
-                                    onClick={() => setOpenNode(fileSystem.Desktop.Projects[p.id])}
+                                    onClick={() => navigate(`/project/${encodeURIComponent(p.id)}`)}
                                     onMouseEnter={() => src && setPreview({ src, name: p.name.replace(/_/g, ' ') })}
                                     onMouseLeave={() => setPreview(null)}
                                     data-cursor-label="open dossier ↗"
                                     role="button"
                                     tabIndex={0}
-                                    onKeyDown={(e) => { if (e.key === 'Enter') setOpenNode(fileSystem.Desktop.Projects[p.id]); }}
+                                    onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/project/${encodeURIComponent(p.id)}`); }}
                                 >
                                     <span className="w-idx">{no}</span>
                                     {src && <span className="w-thumb"><img src={src} alt="" loading="lazy" /></span>}
@@ -929,7 +934,7 @@ const StandardPortfolio = () => {
             {/* Project viewer (dossier edition — html/md, separate from the OS viewer) */}
             {openNode && (
                 <Suspense fallback={null}>
-                    <ProjectViewer project={openNode} onClose={() => setOpenNode(null)} />
+                    <ProjectViewer project={openNode} onClose={() => navigate('/')} />
                 </Suspense>
             )}
         </div>

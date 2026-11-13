@@ -55,6 +55,7 @@ function AppContent() {
         <Routes>
           {/* Root route */}
           <Route path="/" element={<StandardPortfolio />} />
+          <Route path="/project/:projectId" element={<StandardPortfolio />} />
 
           {/* Lock screen route */}
           <Route path="/lock" element={
@@ -72,7 +73,7 @@ function AppContent() {
         </Routes>
 
         {/* Chatbot lives in the desktop OS only — not on the standard portfolio */}
-        {pathname !== '/' && <ChatBot apiUrl={apiUrl} />}
+        {(pathname === '/lock' || pathname === '/home') && <ChatBot apiUrl={apiUrl} />}
       </Suspense>
     </>
   )
