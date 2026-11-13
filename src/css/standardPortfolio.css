@@ -147,7 +147,7 @@ html { scroll-behavior: smooth; }
     align-items: flex-end;
     justify-content: space-between;
     padding: var(--gutter);
-    transition: transform 0.9s cubic-bezier(0.77, 0, 0.18, 1) 0.05s;
+    transition: transform 0.45s cubic-bezier(0.77, 0, 0.18, 1) 0.02s;
 }
 .boot.lift { transform: translateY(-101%); }
 

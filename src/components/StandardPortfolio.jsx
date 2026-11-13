@@ -263,13 +263,13 @@ function Boot({ lift, onLifted, onDone }) {
     useEffect(() => {
         let raf;
         const t0 = performance.now();
-        const DURATION = 900;
+        const DURATION = 450;
         const tick = (t) => {
             const p = Math.min(1, Math.max(0, (t - t0) / DURATION));
             const eased = 1 - Math.pow(1 - p, 3);
             setN(Math.round(eased * 100));
             if (p < 1) raf = requestAnimationFrame(tick);
-            else setTimeout(onDone, 200);
+            else setTimeout(onDone, 80);
         };
         raf = requestAnimationFrame(tick);
         const safety = setTimeout(onDone, 1800); // rAF may be throttled in background tabs
@@ -311,17 +311,19 @@ function Cursor() {
             }
         };
 
-        let raf;
+        let raf = 0;
         const loop = () => {
-            ringPos.current.x += (pos.current.x - ringPos.current.x) * 0.16;
-            ringPos.current.y += (pos.current.y - ringPos.current.y) * 0.16;
+            const dx = pos.current.x - ringPos.current.x;
+            const dy = pos.current.y - ringPos.current.y;
+            ringPos.current.x += dx * 0.28;
+            ringPos.current.y += dy * 0.28;
             if (ring.current) {
                 const r = ring.current.offsetWidth / 2;
                 ring.current.style.transform = `translate(${ringPos.current.x - r}px, ${ringPos.current.y - r}px)`;
             }
-            raf = requestAnimationFrame(loop);
+            if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) raf = requestAnimationFrame(loop);
+            else raf = 0;
         };
-        loop();
 
         const onOver = (e) => {
             const lbl = e.target.closest('[data-cursor-label]');
@@ -333,11 +335,16 @@ function Cursor() {
             dot.current?.classList.toggle('is-active', !!act && !lbl);
         };
 
-        window.addEventListener('mousemove', onMove);
+        const onMoveAndSchedule = (e) => {
+            onMove(e);
+            if (!raf) raf = requestAnimationFrame(loop);
+        };
+
+        window.addEventListener('mousemove', onMoveAndSchedule);
         window.addEventListener('mouseover', onOver);
         return () => {
             cancelAnimationFrame(raf);
-            window.removeEventListener('mousemove', onMove);
+            window.removeEventListener('mousemove', onMoveAndSchedule);
             window.removeEventListener('mouseover', onOver);
         };
     }, []);
@@ -360,7 +367,7 @@ function FloatingPreview({ preview, mouse }) {
     if (preview) last.current = preview;
 
     useEffect(() => {
-        let raf;
+        let raf = 0;
         const loop = () => {
             const el = ref.current;
             if (el) {
@@ -370,11 +377,12 @@ function FloatingPreview({ preview, mouse }) {
                 const rot = Math.max(-8, Math.min(8, dx * 0.045));
                 el.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%, -58%) rotate(${rot}deg)`;
             }
-            raf = requestAnimationFrame(loop);
+            if (preview) raf = requestAnimationFrame(loop);
+            else raf = 0;
         };
-        raf = requestAnimationFrame(loop);
+        if (preview) raf = requestAnimationFrame(loop);
         return () => cancelAnimationFrame(raf);
-    }, [mouse]);
+    }, [mouse, preview]);
 
     return (
         <div ref={ref} className={`float-preview ${preview ? 'on' : ''}`} aria-hidden>
@@ -444,6 +452,7 @@ function DistortField({ theme }) {
         };
 
         const draw = () => {
+            let moving = false;
             ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
             const off = ((window.scrollY % GAP) + GAP) % GAP;
             const jump = lastOff - off;
@@ -461,6 +470,7 @@ function DistortField({ theme }) {
                 }
                 p.x += (tx - p.x) * 0.14;
                 p.y += (ty - p.y) * 0.14;
+                if (Math.abs(tx - p.x) > 0.08 || Math.abs(ty - p.y) > 0.08) moving = true;
                 const disp = Math.hypot(p.x - p.ox, p.y - hy);
                 ctx.strokeStyle = disp > 3 ? hot : base;
                 ctx.globalAlpha = disp > 3 ? Math.min(0.85, 0.25 + disp / 22) : 1;
@@ -471,32 +481,39 @@ function DistortField({ theme }) {
             }
             ctx.globalAlpha = 1;
             lastOff = off;
+            return moving;
         };
 
-        const loop = () => { draw(); raf = requestAnimationFrame(loop); };
-        const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
-        const onOut = () => { mouse.x = -9999; mouse.y = -9999; };
+        const loop = () => {
+            raf = 0;
+            if (draw()) raf = requestAnimationFrame(loop);
+        };
+        const scheduleDraw = () => { if (!raf) raf = requestAnimationFrame(loop); };
+        const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; scheduleDraw(); };
+        const onOut = () => { mouse.x = -9999; mouse.y = -9999; scheduleDraw(); };
+        const onScroll = () => reduced ? draw() : scheduleDraw();
+        const onResize = () => { build(); if (reduced) draw(); else scheduleDraw(); };
         const onVis = () => {
             if (document.hidden) { cancelAnimationFrame(raf); raf = 0; }
-            else if (!reduced && !raf) { loop(); }
+            else if (!reduced) scheduleDraw();
         };
 
         build();
+        draw();
         if (reduced) {
-            draw();
-            window.addEventListener('scroll', draw, { passive: true });
+            // Static background; scroll events redraw only when needed.
         } else {
-            loop();
             window.addEventListener('mousemove', onMove);
             document.documentElement.addEventListener('mouseleave', onOut);
         }
-        window.addEventListener('resize', build);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onResize);
         document.addEventListener('visibilitychange', onVis);
         return () => {
             cancelAnimationFrame(raf);
             window.removeEventListener('mousemove', onMove);
-            window.removeEventListener('resize', build);
-            window.removeEventListener('scroll', draw);
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onResize);
             document.removeEventListener('visibilitychange', onVis);
             document.documentElement.removeEventListener('mouseleave', onOut);
         };
