@@ -113,14 +113,10 @@
     .showcase-media img, .showcase-media iframe { display: block; width: 100%; height: 100%; border: 0; object-fit: cover; background: white; }
     .showcase-caption { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .75rem 1rem; border-top: 1px solid var(--line); font: .66rem/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
     .showcase-caption b { color: var(--acc); font-weight: 400; }
+    .showcase-caption small { display: block; margin-top: .25rem; color: var(--faint); font-size: .56rem; letter-spacing: .06em; }
     .showcase-caption a { color: var(--ink); text-decoration: none; white-space: nowrap; }
     .showcase-caption a:hover, .showcase-caption a:focus-visible { color: #fff; text-decoration: underline; }
-    .showcase-link-card { display: flex; flex-direction: column; justify-content: center; min-height: 270px; padding: 1.2rem; }
-    .showcase-link-card h3 { color: var(--ink); font: 700 .9rem/1.5 var(--mono); }
-    .showcase-link-card p { margin: .35rem 0 1rem; color: var(--faint); font: .68rem/1.6 var(--mono); }
-    .showcase-link-card nav { display: flex; flex-wrap: wrap; gap: .5rem; }
-    .showcase-link-card nav a { color: var(--acc-ink); background: color-mix(in srgb, var(--acc) 35%, transparent); border: 1px solid color-mix(in srgb, var(--acc) 65%, transparent); border-radius: 999px; padding: .45em .8em; font: .64rem var(--mono); text-decoration: none; }
-    .showcase-link-card nav a:hover, .showcase-link-card nav a:focus-visible { background: var(--acc); color: white; }
+    .showcase-caption nav { display: flex; gap: .6rem; white-space: nowrap; }
 
     .pair {
         display: grid;
@@ -325,35 +321,33 @@
         <div class="showcase-grid">
             <article class="showcase-card">
                 <a class="showcase-media preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_portfolio_B1/94efc0d3-e6ef-4cd8-8393-bff8f9db95f7/main/" target="_blank" rel="noopener noreferrer" aria-label="Open C2 Baseline 1 portfolio live preview">
-                    <img src="img/c2-baseline-portfolio.webp" alt="C2 Baseline 1 developer portfolio">
+                    <img src="img/selected/c2-baseline1-portfolio.webp" alt="C2 Baseline 1 developer portfolio" loading="lazy">
                 </a>
-                <div class="showcase-caption"><span><b>C2 · Baseline 1</b><br>Developer portfolio</span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_portfolio_B1/94efc0d3-e6ef-4cd8-8393-bff8f9db95f7/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
+                <div class="showcase-caption"><span><b>C2 · Baseline 1</b><br>Developer portfolio<small>9/10 satisfaction · clean run · 335s</small></span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_portfolio_B1/94efc0d3-e6ef-4cd8-8393-bff8f9db95f7/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
             </article>
             <article class="showcase-card">
-                <div class="showcase-media">
-                    <iframe src="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_baseline2/fc0f490d-0202-434a-a55a-676df9f7853b/main/" title="C1 Baseline 2 developer portfolio preview" loading="lazy"></iframe>
-                </div>
-                <div class="showcase-caption"><span><b>C1 · Baseline 2</b><br>Self-reflective portfolio</span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_baseline2/fc0f490d-0202-434a-a55a-676df9f7853b/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
+                <a class="showcase-media preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_baseline2/fc0f490d-0202-434a-a55a-676df9f7853b/main/" target="_blank" rel="noopener noreferrer" aria-label="Open C1 Baseline 2 portfolio live preview">
+                    <img src="img/selected/c1-baseline2-portfolio.webp" alt="C1 Baseline 2 self-reflective developer portfolio" loading="lazy">
+                </a>
+                <div class="showcase-caption"><span><b>C1 · Baseline 2</b><br>Self-reflective portfolio<small>8/10 satisfaction · clean run · 389s</small></span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_baseline2/fc0f490d-0202-434a-a55a-676df9f7853b/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
             </article>
             <article class="showcase-card">
                 <a class="showcase-media preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_L2/9a6bdf5c-479a-4c00-b89d-a3391360dd7c/main/" target="_blank" rel="noopener noreferrer" aria-label="Open C1 Level 2 portfolio live preview">
-                    <img src="img/c1-l2.webp" alt="C1 Level 2 creative portfolio">
+                    <img src="img/selected/c1-level2-portfolio.webp" alt="C1 Level 2 creative portfolio" loading="lazy">
                 </a>
-                <div class="showcase-caption"><span><b>C1 · Level 2</b><br>Creative portfolio</span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_L2/9a6bdf5c-479a-4c00-b89d-a3391360dd7c/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
+                <div class="showcase-caption"><span><b>C1 · Level 2</b><br>Creative portfolio<small>1 loop · 496s · $0.30</small></span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_L2/9a6bdf5c-479a-4c00-b89d-a3391360dd7c/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
             </article>
             <article class="showcase-card">
                 <a class="showcase-media preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_portfolio/74804e23-9430-4d18-9e10-0d12f006ac41/main/" target="_blank" rel="noopener noreferrer" aria-label="Open Level X developer portfolio live preview">
-                    <img src="img/lx-portfolio.webp" alt="Level X developer portfolio">
+                    <img src="img/selected/lx-portfolio.webp" alt="Level X developer portfolio" loading="lazy">
                 </a>
-                <div class="showcase-caption"><span><b>Level X</b><br>Developer portfolio</span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_portfolio/74804e23-9430-4d18-9e10-0d12f006ac41/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
+                <div class="showcase-caption"><span><b>Level X</b><br>Developer portfolio<small>10/10 satisfaction · 376s · tester context limit</small></span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_portfolio/74804e23-9430-4d18-9e10-0d12f006ac41/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
             </article>
-            <article class="showcase-card showcase-link-card">
-                <h3>Level X · Forma portfolio</h3>
-                <p>Multi-page portfolio with shared CSS and working page links.</p>
-                <nav aria-label="Level X Forma portfolio links">
-                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/lx_t3_forma/55b47c27-a29c-48a1-9b81-bf579f3e45bc" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_t3_forma/55b47c27-a29c-48a1-9b81-bf579f3e45bc/main/index.html" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
-                </nav>
+            <article class="showcase-card">
+                <a class="showcase-media preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_t3_forma/55b47c27-a29c-48a1-9b81-bf579f3e45bc/main/index.html" target="_blank" rel="noopener noreferrer" aria-label="Open Level X Forma multi-page portfolio live preview">
+                    <img src="img/selected/lx-forma-portfolio.webp" alt="Level X Forma multi-page portfolio work page" loading="lazy">
+                </a>
+                <div class="showcase-caption"><span><b>Level X · Forma</b><br>Multi-page portfolio<small>9/10 satisfaction · partial run · 525s</small></span><nav><a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/lx_t3_forma/55b47c27-a29c-48a1-9b81-bf579f3e45bc" target="_blank" rel="noopener noreferrer">source ↗</a><a href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_t3_forma/55b47c27-a29c-48a1-9b81-bf579f3e45bc/main/index.html" target="_blank" rel="noopener noreferrer">open ↗</a></nav></div>
             </article>
         </div>
     </section>
