@@ -186,6 +186,31 @@
     .endpts .m { color: var(--acc); font-weight: 700; }
     .endpts .p { color: var(--dim); }
 
+    .run-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: .75rem;
+    }
+    .run-card {
+        padding: .9rem 1rem;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--panel);
+    }
+    .run-card h3 { font: 700 .76rem/1.4 var(--mono); color: var(--ink); }
+    .run-card p { margin: .25rem 0 .7rem; color: var(--faint); font: .64rem/1.5 var(--mono); }
+    .run-card nav { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .run-card a {
+        color: var(--acc-ink);
+        background: color-mix(in srgb, var(--acc) 35%, transparent);
+        border: 1px solid color-mix(in srgb, var(--acc) 65%, transparent);
+        border-radius: 999px;
+        padding: .35em .75em;
+        font: .62rem var(--mono);
+        text-decoration: none;
+    }
+    .run-card a:hover, .run-card a:focus-visible { background: var(--acc); color: white; }
+
     .src-btn { text-align: center; padding-top: 1rem; padding-bottom: 2rem; }
     .src-btn a {
         display: inline-block;
@@ -331,6 +356,92 @@
             reasoning depth, cost efficiency, and emergent behavior. Manual scores layer on top of
             automatic metrics — the matrix reveals where more freedom helps, and where it breaks.
         </p>
+    </section>
+
+    <section>
+        <h2><span>study runs — source + live preview</span><span class="h2-note">links from the thesis results</span></h2>
+        <div class="run-links">
+            <article class="run-card">
+                <h3>C1 · Baseline 2 portfolio</h3>
+                <p>Self-reflective baseline · developer portfolio</p>
+                <nav aria-label="C1 Baseline 2 portfolio links">
+                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/frontend_C1_baseline2/fc0f490d-0202-434a-a55a-676df9f7853b" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_baseline2/fc0f490d-0202-434a-a55a-676df9f7853b/main/" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
+                </nav>
+            </article>
+            <article class="run-card">
+                <h3>C1 · Level 1 DataPulse</h3>
+                <p>Predefined workers · product showcase</p>
+                <nav aria-label="C1 Level 1 DataPulse links">
+                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/frontend_C1_L1/96dbce7c-b5cb-4ed9-9cfb-3f872c6ba01e" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_L1/96dbce7c-b5cb-4ed9-9cfb-3f872c6ba01e/main/" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
+                </nav>
+            </article>
+            <article class="run-card">
+                <h3>C1 · Level 2 Prisma</h3>
+                <p>Template workers · creative agency portfolio</p>
+                <nav aria-label="C1 Level 2 Prisma links">
+                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/frontend_C1_L2/9a6bdf5c-479a-4c00-b89d-a3391360dd7c" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_L2/9a6bdf5c-479a-4c00-b89d-a3391360dd7c/main/" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
+                </nav>
+            </article>
+            <article class="run-card">
+                <h3>C2 · Dashboard Baseline 1</h3>
+                <p>Monolithic agent · DashFlow analytics</p>
+                <nav aria-label="C2 dashboard Baseline 1 links">
+                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/frontend_C2_dashboard_B1/a8afc9c6-9821-45a3-b406-7b217a271c8b" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_dashboard_B1/a8afc9c6-9821-45a3-b406-7b217a271c8b/main/" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
+                </nav>
+            </article>
+            <article class="run-card">
+                <h3>C2 · Dashboard Level 3</h3>
+                <p>Dynamic agents · DashFlow analytics</p>
+                <nav aria-label="C2 dashboard Level 3 links">
+                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/frontend_C2_db_L3/22b1c6f9-a7be-42ec-bc98-c930a9ecc11e" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_db_L3/22b1c6f9-a7be-42ec-bc98-c930a9ecc11e/main/" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
+                </nav>
+            </article>
+            <article class="run-card">
+                <h3>C2 · Portfolio Baseline 1</h3>
+                <p>Monolithic agent · developer portfolio</p>
+                <nav aria-label="C2 portfolio Baseline 1 links">
+                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/frontend_C2_portfolio_B1/94efc0d3-e6ef-4cd8-8393-bff8f9db95f7" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_portfolio_B1/94efc0d3-e6ef-4cd8-8393-bff8f9db95f7/main/" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
+                </nav>
+            </article>
+            <article class="run-card">
+                <h3>C2 · Portfolio Level 3</h3>
+                <p>Dynamic agents · developer portfolio</p>
+                <nav aria-label="C2 portfolio Level 3 links">
+                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/frontend_C2_portfolio_L3/a0a288d1-882c-4cd2-a6da-f9d23f140ef0" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_portfolio_L3/a0a288d1-882c-4cd2-a6da-f9d23f140ef0/main/" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
+                </nav>
+            </article>
+            <article class="run-card">
+                <h3>Level X · Landing page</h3>
+                <p>Hybrid orchestrator · smoke test</p>
+                <nav aria-label="Level X landing page links">
+                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/lx_final/1cfbf9cb-8d27-4c48-9fdd-987c0336f5c6" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_final/1cfbf9cb-8d27-4c48-9fdd-987c0336f5c6/main/" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
+                </nav>
+            </article>
+            <article class="run-card">
+                <h3>Level X · Forma portfolio</h3>
+                <p>Hybrid orchestrator · multi-page site</p>
+                <nav aria-label="Level X Forma portfolio links">
+                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/lx_t3_forma/55b47c27-a29c-48a1-9b81-bf579f3e45bc" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_t3_forma/55b47c27-a29c-48a1-9b81-bf579f3e45bc/main/" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
+                </nav>
+            </article>
+            <article class="run-card">
+                <h3>Level X · Developer portfolio</h3>
+                <p>Hybrid orchestrator · highest satisfaction score</p>
+                <nav aria-label="Level X developer portfolio links">
+                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/lx_portfolio/74804e23-9430-4d18-9e10-0d12f006ac41" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_portfolio/74804e23-9430-4d18-9e10-0d12f006ac41/main/" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
+                </nav>
+            </article>
+        </div>
     </section>
 
     <section>
