@@ -70,14 +70,18 @@ li {
 
 .output {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: start;
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
     list-style: none;
     z-index: 1;
     /* to add click to open insted of cd/open */
 }
 
 .output li {
-    margin-right: 1rem;
+    flex: 0 0 auto;
+    margin-right: 0;
+    white-space: nowrap;
 }
