@@ -103,6 +103,24 @@
     .preview-link:focus-visible { outline: 2px solid var(--acc); outline-offset: -3px; }
     .preview-cta { color: var(--ink); text-decoration: none; white-space: nowrap; }
     .preview-cta:hover, .preview-cta:focus-visible { color: #fff; text-decoration: underline; }
+    .showcase-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+        gap: 1rem;
+    }
+    .showcase-card { min-width: 0; overflow: hidden; border: 1px solid var(--line2); border-radius: 12px; background: var(--panel); }
+    .showcase-media { display: block; height: clamp(220px, 28vw, 310px); background: #0b0b0a; }
+    .showcase-media img, .showcase-media iframe { display: block; width: 100%; height: 100%; border: 0; object-fit: cover; background: white; }
+    .showcase-caption { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .75rem 1rem; border-top: 1px solid var(--line); font: .66rem/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+    .showcase-caption b { color: var(--acc); font-weight: 400; }
+    .showcase-caption a { color: var(--ink); text-decoration: none; white-space: nowrap; }
+    .showcase-caption a:hover, .showcase-caption a:focus-visible { color: #fff; text-decoration: underline; }
+    .showcase-link-card { display: flex; flex-direction: column; justify-content: center; min-height: 270px; padding: 1.2rem; }
+    .showcase-link-card h3 { color: var(--ink); font: 700 .9rem/1.5 var(--mono); }
+    .showcase-link-card p { margin: .35rem 0 1rem; color: var(--faint); font: .68rem/1.6 var(--mono); }
+    .showcase-link-card nav { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .showcase-link-card nav a { color: var(--acc-ink); background: color-mix(in srgb, var(--acc) 35%, transparent); border: 1px solid color-mix(in srgb, var(--acc) 65%, transparent); border-radius: 999px; padding: .45em .8em; font: .64rem var(--mono); text-decoration: none; }
+    .showcase-link-card nav a:hover, .showcase-link-card nav a:focus-visible { background: var(--acc); color: white; }
 
     .pair {
         display: grid;
@@ -303,52 +321,40 @@
     </section>
 
     <section>
-        <h2><span>frontend results — selected outputs</span><span class="h2-note">C1 + C2 task examples</span></h2>
-        <div class="pair">
-            <figure>
-                <a class="preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_dashboard_B1/a8afc9c6-9821-45a3-b406-7b217a271c8b/main/" target="_blank" rel="noopener noreferrer" aria-label="Open C2 Baseline 1 DashFlow dashboard live preview">
-                    <img src="img/c1-baseline.webp" alt="C2 Baseline 1 output — DashFlow analytics dashboard">
+        <h2><span>selected outputs — live previews</span><span class="h2-note">your strongest runs</span></h2>
+        <div class="showcase-grid">
+            <article class="showcase-card">
+                <a class="showcase-media preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_portfolio_B1/94efc0d3-e6ef-4cd8-8393-bff8f9db95f7/main/" target="_blank" rel="noopener noreferrer" aria-label="Open C2 Baseline 1 portfolio live preview">
+                    <img src="img/c2-baseline-portfolio.webp" alt="C2 Baseline 1 developer portfolio">
                 </a>
-                <figcaption><span><b>C2 baseline 1</b> — DashFlow dashboard</span><a class="preview-cta" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_dashboard_B1/a8afc9c6-9821-45a3-b406-7b217a271c8b/main/" target="_blank" rel="noopener noreferrer">open preview ↗</a></figcaption>
-            </figure>
-            <figure>
-                <a class="preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_L1/96dbce7c-b5cb-4ed9-9cfb-3f872c6ba01e/main/" target="_blank" rel="noopener noreferrer" aria-label="Open Level 1 DataPulse live preview">
-                    <img src="img/c1-l1.webp" alt="Level 1 DataPulse frontend output">
+                <div class="showcase-caption"><span><b>C2 · Baseline 1</b><br>Developer portfolio</span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_portfolio_B1/94efc0d3-e6ef-4cd8-8393-bff8f9db95f7/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
+            </article>
+            <article class="showcase-card">
+                <div class="showcase-media">
+                    <iframe src="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_baseline2/fc0f490d-0202-434a-a55a-676df9f7853b/main/" title="C1 Baseline 2 developer portfolio preview" loading="lazy"></iframe>
+                </div>
+                <div class="showcase-caption"><span><b>C1 · Baseline 2</b><br>Self-reflective portfolio</span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_baseline2/fc0f490d-0202-434a-a55a-676df9f7853b/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
+            </article>
+            <article class="showcase-card">
+                <a class="showcase-media preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_L2/9a6bdf5c-479a-4c00-b89d-a3391360dd7c/main/" target="_blank" rel="noopener noreferrer" aria-label="Open C1 Level 2 portfolio live preview">
+                    <img src="img/c1-l2.webp" alt="C1 Level 2 creative portfolio">
                 </a>
-                <figcaption><span><b>level 1</b> — predefined workers</span><a class="preview-cta" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_L1/96dbce7c-b5cb-4ed9-9cfb-3f872c6ba01e/main/" target="_blank" rel="noopener noreferrer">open preview ↗</a></figcaption>
-            </figure>
-        </div>
-        <div class="pair">
-            <figure>
-                <a class="preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_L2/9a6bdf5c-479a-4c00-b89d-a3391360dd7c/main/" target="_blank" rel="noopener noreferrer" aria-label="Open Level 2 creative portfolio live preview">
-                    <img src="img/c1-l2.webp" alt="Level 2 creative portfolio output">
+                <div class="showcase-caption"><span><b>C1 · Level 2</b><br>Creative portfolio</span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_L2/9a6bdf5c-479a-4c00-b89d-a3391360dd7c/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
+            </article>
+            <article class="showcase-card">
+                <a class="showcase-media preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_portfolio/74804e23-9430-4d18-9e10-0d12f006ac41/main/" target="_blank" rel="noopener noreferrer" aria-label="Open Level X developer portfolio live preview">
+                    <img src="img/lx-portfolio.webp" alt="Level X developer portfolio">
                 </a>
-                <figcaption><span><b>level 2</b> — template creation</span><a class="preview-cta" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C1_L2/9a6bdf5c-479a-4c00-b89d-a3391360dd7c/main/" target="_blank" rel="noopener noreferrer">open preview ↗</a></figcaption>
-            </figure>
-            <figure>
-                <a class="preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_db_L3/22b1c6f9-a7be-42ec-bc98-c930a9ecc11e/main/" target="_blank" rel="noopener noreferrer" aria-label="Open C2 Level 3 DashFlow dashboard live preview">
-                    <img src="img/c1-l3.webp" alt="C2 Level 3 output — DashFlow analytics dashboard">
-                </a>
-                <figcaption><span><b>C2 level 3</b> — DashFlow dashboard</span><a class="preview-cta" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_db_L3/22b1c6f9-a7be-42ec-bc98-c930a9ecc11e/main/" target="_blank" rel="noopener noreferrer">open preview ↗</a></figcaption>
-            </figure>
-        </div>
-    </section>
-
-    <section>
-        <h2><span>live demos — portfolio + dashboard</span><span class="h2-note">screenshots open full previews</span></h2>
-        <div class="pair">
-            <figure>
-                <a class="preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_portfolio_B1/94efc0d3-e6ef-4cd8-8393-bff8f9db95f7/main/" target="_blank" rel="noopener noreferrer" aria-label="Open C2 Baseline 1 portfolio live preview">
-                    <img src="img/c2-baseline-portfolio.webp" alt="Baseline 1 output for a portfolio task">
-                </a>
-                <figcaption><span><b>baseline 1</b> — no coordination</span><a class="preview-cta" href="https://agentic-pfe.github.io/agent_workspace/frontend/frontend_C2_portfolio_B1/94efc0d3-e6ef-4cd8-8393-bff8f9db95f7/main/" target="_blank" rel="noopener noreferrer">open preview ↗</a></figcaption>
-            </figure>
-            <figure>
-                <a class="preview-link" href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_portfolio/74804e23-9430-4d18-9e10-0d12f006ac41/main/" target="_blank" rel="noopener noreferrer" aria-label="Open Level X developer portfolio live preview">
-                    <img src="img/lx-portfolio.webp" alt="A complete portfolio website generated by Level X agents">
-                </a>
-                <figcaption><span><b>level X</b> — portfolio generated by autonomous agents</span><a class="preview-cta" href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_portfolio/74804e23-9430-4d18-9e10-0d12f006ac41/main/" target="_blank" rel="noopener noreferrer">open preview ↗</a></figcaption>
-            </figure>
+                <div class="showcase-caption"><span><b>Level X</b><br>Developer portfolio</span><a href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_portfolio/74804e23-9430-4d18-9e10-0d12f006ac41/main/" target="_blank" rel="noopener noreferrer">open ↗</a></div>
+            </article>
+            <article class="showcase-card showcase-link-card">
+                <h3>Level X · Forma portfolio</h3>
+                <p>Multi-page portfolio with shared CSS and working page links.</p>
+                <nav aria-label="Level X Forma portfolio links">
+                    <a href="https://github.com/agentic-pfe/agent_workspace/tree/main/frontend/lx_t3_forma/55b47c27-a29c-48a1-9b81-bf579f3e45bc" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    <a href="https://agentic-pfe.github.io/agent_workspace/frontend/lx_t3_forma/55b47c27-a29c-48a1-9b81-bf579f3e45bc/main/index.html" target="_blank" rel="noopener noreferrer">Live preview ↗</a>
+                </nav>
+            </article>
         </div>
     </section>
 
