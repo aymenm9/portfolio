@@ -5,4 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base:"/portfolio/",
+  build: {
+    // scripts/prerender.js reads the manifest to preload the home route's lazy CSS/JS
+    manifest: true,
+  },
 })

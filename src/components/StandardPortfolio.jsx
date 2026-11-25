@@ -531,7 +531,7 @@ const StandardPortfolio = () => {
     const navigate = useNavigate();
     const { projectId } = useParams();
     const [phase, setPhase] = useState('boot'); // boot → lift → gone
-    const [theme, setTheme] = useState(() => localStorage.getItem('am-theme') || 'light');
+    const [theme, setTheme] = useState(() => (typeof localStorage !== 'undefined' && localStorage.getItem('am-theme')) || 'light');
     const openNode = projectId ? fileSystem.Desktop.Projects[projectId] : null;
     const [preview, setPreview] = useState(null);
     const [leaving, setLeaving] = useState(false);
@@ -713,7 +713,7 @@ const StandardPortfolio = () => {
                         >
                             <span className="crop tl" /><span className="crop tr" />
                             <span className="crop bl" /><span className="crop br" />
-                            <img className="hero-portrait-gs" src={meImg} alt="Aymen Merad" width={800} height={800} fetchpriority="high" />
+                            <img className="hero-portrait-gs" src={meImg} alt="Aymen Merad" width={800} height={800} fetchPriority="high" />
                             <img className="hero-portrait-color" src={meImg} alt="" aria-hidden />
                             <figcaption><b>fig.01</b> — the author, {LOCATION}</figcaption>
                         </figure>

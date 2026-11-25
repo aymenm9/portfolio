@@ -5,7 +5,7 @@ Single-page React 19 + Vite portfolio styled as a Linux desktop. No tests, no Ty
 ## Commands
 
 - `npm run dev` — dev server. App is served at `http://localhost:5173/portfolio/`, **not** `/`.
-- `npm run build` / `npm run preview`
+- `npm run build` / `npm run preview` — build is 3 steps: client build → SSR build of `src/entry-server.jsx` into `dist-ssr/` → `scripts/prerender.js` (see below).
 - `npm run lint` — the only automated check; run it before considering work done. Currently reports ~11 pre-existing errors (mostly unused imports/vars, one `no-dupe-keys` in `fileSystem.js`) — don't assume you caused them; diff against this baseline.
 - `npm run deploy` — builds and pushes `dist/` to the `gh-pages` branch (via `gh-pages` package). Live at https://aymenm9.github.io/portfolio/.
 
@@ -16,6 +16,18 @@ Single-page React 19 + Vite portfolio styled as a Linux desktop. No tests, no Ty
 - `package.json` → `homepage`
 
 Changing one without the others breaks dev or deploy.
+
+## Pre-rendered home page (performance + SEO)
+
+`/` is baked into `dist/index.html` as real HTML at build time, then hydrated (`hydrateRoot` in `main.jsx`). `scripts/prerender.js`:
+- writes `dist/404.html` from the **untouched** shell first — GitHub Pages serves it for `/lock`, `/home`, `/project/:id`, and `main.jsx` falls back to `createRoot` when `#root` is empty. Never copy the pre-rendered `index.html` to `404.html`.
+- injects the lazy `StandardPortfolio` route's CSS/JS (from `dist/.vite/manifest.json`) into `<head>` so there's no unstyled flash.
+- adds an inline script that re-applies the saved `am-theme` to the static markup before paint.
+
+Rules for anything rendered on `/` (StandardPortfolio and what it imports at module level):
+- No `window` / `document` / `localStorage` during render or in `useState` initializers — only inside `useEffect` / handlers (guard with `typeof x !== 'undefined'` if unavoidable). The build fails loudly otherwise.
+- First render must be deterministic (no `Math.random()` / `Date.now()` in JSX) or hydration mismatches.
+- SEO tags (title, description, Open Graph, JSON-LD Person) live in `index.html`; `public/og-image.png` (1200×630) and `public/sitemap.xml` are the social preview and sitemap.
 
 ## App structure (one app, two UIs)
 
