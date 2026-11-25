@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Single-page React 19 + Vite portfolio styled as a Linux desktop. No tests, no TypeScript, no CI. Plain JSX + CSS (no Tailwind, no state library).
+Single-page React 19 + Vite portfolio styled as a Linux desktop. No tests, no TypeScript. The only workflow is the GitHub Pages deploy (`.github/workflows/deploy-pages.yml`). Plain JSX + CSS (no Tailwind, no state library).
 
 ## Commands
 
@@ -8,11 +8,12 @@ Single-page React 19 + Vite portfolio styled as a Linux desktop. No tests, no Ty
 - `npm run build` / `npm run preview` — build is 3 steps: client build → SSR build of `src/entry-server.jsx` into `dist-ssr/` → `scripts/prerender.js` (see below).
 - `npm run lint` — the only automated check; run it before considering work done. Currently reports ~11 pre-existing errors (mostly unused imports/vars, one `no-dupe-keys` in `fileSystem.js`) — don't assume you caused them; diff against this baseline.
 - `npm run deploy` — builds and pushes `dist/` to the `gh-pages` branch (via `gh-pages` package). Live at https://aymenm9.github.io/portfolio/.
+  Normally not needed: `.github/workflows/deploy-pages.yml` does the same automatically on every push to `main` (also runnable manually from the Actions tab).
 
 ## Base path — `/portfolio/` on GitHub Pages, `/` on Vercel
 
 The site deploys to two places from the same code:
-- **GitHub Pages** (`npm run deploy`) → https://aymenm9.github.io/portfolio/ → base `/portfolio/` (the default).
+- **GitHub Pages** (GitHub Actions on push to `main`, or `npm run deploy`) → https://aymenm9.github.io/portfolio/ → base `/portfolio/` (the default).
 - **Vercel** (`vercel.json`, Git-connected) → domain root → base `/`. Vercel sets `VERCEL=1` during builds.
 
 `base.config.js` is the single source of truth (`BASE_PATH=/x/` overrides). It feeds `vite.config.js` and `scripts/prerender.js`; app code derives everything from `import.meta.env.BASE_URL` (`ROUTER_BASENAME` in `src/routerBase.js` for the routers, `presentation` URLs in `src/data/projects.js`). **Never hardcode `/portfolio/` in app code.** `package.json` `homepage` is GitHub Pages-only metadata. The canonical/OG URLs in `index.html` are absolute and intentionally point to the GitHub Pages site.
