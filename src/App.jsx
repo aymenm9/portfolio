@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { ROUTER_BASENAME } from './routerBase.js'
 import './App.css'
 import './css/screen.css'
 
@@ -9,7 +10,8 @@ const LockScreen = lazy(() => import('./components/lockScreen.jsx'))
 const HomeScreen = lazy(() => import('./components/homeScreen.jsx'))
 const ChatBot = lazy(() => import('./components/chatBot.jsx'))
 
-function AppContent() {
+// Exported so the build-time prerender (src/entry-server.jsx) can wrap it in a StaticRouter
+export function AppContent() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const apiUrl = 'https://portfolio-chatbot-92au.onrender.com';
@@ -81,7 +83,7 @@ function AppContent() {
 
 function App() {
   return (
-    <BrowserRouter basename="/portfolio">
+    <BrowserRouter basename={ROUTER_BASENAME}>
       <AppContent />
     </BrowserRouter>
   )

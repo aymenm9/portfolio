@@ -1,21 +1,36 @@
 # AGENTS.md
 
-Single-page React 19 + Vite portfolio styled as a Linux desktop. No tests, no TypeScript, no CI. Plain JSX + CSS (no Tailwind, no state library).
+Single-page React 19 + Vite portfolio styled as a Linux desktop. No tests, no TypeScript. The only workflow is the GitHub Pages deploy (`.github/workflows/deploy-pages.yml`). Plain JSX + CSS (no Tailwind, no state library).
 
 ## Commands
 
 - `npm run dev` — dev server. App is served at `http://localhost:5173/portfolio/`, **not** `/`.
-- `npm run build` / `npm run preview`
+- `npm run build` / `npm run preview` — build is 3 steps: client build → SSR build of `src/entry-server.jsx` into `dist-ssr/` → `scripts/prerender.js` (see below).
 - `npm run lint` — the only automated check; run it before considering work done. Currently reports ~11 pre-existing errors (mostly unused imports/vars, one `no-dupe-keys` in `fileSystem.js`) — don't assume you caused them; diff against this baseline.
 - `npm run deploy` — builds and pushes `dist/` to the `gh-pages` branch (via `gh-pages` package). Live at https://aymenm9.github.io/portfolio/.
+  Normally not needed: `.github/workflows/deploy-pages.yml` does the same automatically on every push to `main` (also runnable manually from the Actions tab).
 
-## Base path is `/portfolio/` — keep three places in sync
+## Base path — `/portfolio/` on GitHub Pages, `/` on Vercel
 
-- `vite.config.js` → `base: "/portfolio/"`
-- `App.jsx` → `<BrowserRouter basename="/portfolio">`
-- `package.json` → `homepage`
+The site deploys to two places from the same code:
+- **GitHub Pages** (GitHub Actions on push to `main`, or `npm run deploy`) → https://aymenm9.github.io/portfolio/ → base `/portfolio/` (the default).
+- **Vercel** (`vercel.json`, Git-connected) → domain root → base `/`. Vercel sets `VERCEL=1` during builds.
 
-Changing one without the others breaks dev or deploy.
+`base.config.js` is the single source of truth (`BASE_PATH=/x/` overrides). It feeds `vite.config.js` and `scripts/prerender.js`; app code derives everything from `import.meta.env.BASE_URL` (`ROUTER_BASENAME` in `src/routerBase.js` for the routers, `presentation` URLs in `src/data/projects.js`). **Never hardcode `/portfolio/` in app code.** `package.json` `homepage` is GitHub Pages-only metadata. The canonical/OG URLs in `index.html` are absolute and intentionally point to the GitHub Pages site.
+
+On Vercel, `vercel.json` rewrites unknown paths to `/404.html` (the SPA shell) — files on disk win, so `/` still serves the pre-rendered `index.html`.
+
+## Pre-rendered home page (performance + SEO)
+
+`/` is baked into `dist/index.html` as real HTML at build time, then hydrated (`hydrateRoot` in `main.jsx`). `scripts/prerender.js`:
+- writes `dist/404.html` from the **untouched** shell first — GitHub Pages serves it for `/lock`, `/home`, `/project/:id`, and `main.jsx` falls back to `createRoot` when `#root` is empty. Never copy the pre-rendered `index.html` to `404.html`.
+- injects the lazy `StandardPortfolio` route's CSS/JS (from `dist/.vite/manifest.json`) into `<head>` so there's no unstyled flash.
+- adds an inline script that re-applies the saved `am-theme` to the static markup before paint.
+
+Rules for anything rendered on `/` (StandardPortfolio and what it imports at module level):
+- No `window` / `document` / `localStorage` during render or in `useState` initializers — only inside `useEffect` / handlers (guard with `typeof x !== 'undefined'` if unavoidable). The build fails loudly otherwise.
+- First render must be deterministic (no `Math.random()` / `Date.now()` in JSX) or hydration mismatches.
+- SEO tags (title, description, Open Graph, JSON-LD Person) live in `index.html`; `public/og-image.png` (1200×630) and `public/sitemap.xml` are the social preview and sitemap.
 
 ## App structure (one app, two UIs)
 
