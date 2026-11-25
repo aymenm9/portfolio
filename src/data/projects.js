@@ -8,7 +8,7 @@ export const projects = [
         description: "Behavioral study of LLM multi-agent systems across seven architectural variants",
         tags: ["Python", "AI", "LangGraph", "Agents"],
         thumbnail: "01_preview.png",
-        presentation: "/portfolio/presentations/orcheeos-agents/index.html",
+        presentation: `${import.meta.env.BASE_URL}presentations/orcheeos-agents/index.html`,
         resources: [
             { file_name: "01_description.md", type: "markdown" },
             { file_name: "01_preview.png", type: "image" },
@@ -24,7 +24,7 @@ export const projects = [
         description: "Multi-agent financial assistant for budgets, expenses, forecasting, and personal advice",
         tags: ["Python", "AI", "Agents", "Gemini"],
         thumbnail: "01_preview.png",
-        presentation: "/portfolio/presentations/ai-on-moneymate/index.html",
+        presentation: `${import.meta.env.BASE_URL}presentations/ai-on-moneymate/index.html`,
         resources: [
             { file_name: "01_description.md", type: "markdown" },
             { file_name: "01_preview.png", type: "image" }
@@ -39,7 +39,7 @@ export const projects = [
         description: "Content management and delivery platform with resumable uploads, real-time chat, and push notifications",
         tags: ["Web", "Python", "AI"],
         thumbnail: "01_preview.png",
-        presentation: "/portfolio/presentations/content-platform/index.html",
+        presentation: `${import.meta.env.BASE_URL}presentations/content-platform/index.html`,
         resources: [
             { file_name: "01_description.md", type: "markdown" },
             { file_name: "01_preview.png", type: "image" }
@@ -54,7 +54,7 @@ export const projects = [
         description: "AI-powered Tajweed correction, learning, and recitation feedback platform",
         tags: ["Python", "AI"],
         thumbnail: "logo.png",
-        presentation: "/portfolio/presentations/tajweed-ai/index.html",
+        presentation: `${import.meta.env.BASE_URL}presentations/tajweed-ai/index.html`,
         resources: [
             { file_name: "01_description.md", type: "markdown" }
         ]
@@ -68,7 +68,7 @@ export const projects = [
         description: "Production Django REST Framework backend for large-scale event management — 1000+ applications, mobile-first, hardened mid-event",
         tags: ["Python", "Django", "DRF", "Web"],
         thumbnail: "01_preview.jpg",
-        presentation: "/portfolio/presentations/event-management-platform/index.html",
+        presentation: `${import.meta.env.BASE_URL}presentations/event-management-platform/index.html`,
         resources: [
             { file_name: "01_description.md", type: "markdown" },
             { file_name: "01_preview.jpg", type: "image" }

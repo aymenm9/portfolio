@@ -2,13 +2,13 @@
 import { StrictMode } from 'react'
 import { prerenderToNodeStream } from 'react-dom/static'
 import { StaticRouter } from 'react-router-dom'
-import { AppContent } from './App.jsx'
+import { AppContent, ROUTER_BASENAME } from './App.jsx'
 
 export async function render(url) {
   // prerender (unlike renderToString) waits for the lazy() route chunks to resolve
   const { prelude } = await prerenderToNodeStream(
     <StrictMode>
-      <StaticRouter basename="/portfolio" location={url}>
+      <StaticRouter basename={ROUTER_BASENAME} location={url}>
         <AppContent />
       </StaticRouter>
     </StrictMode>

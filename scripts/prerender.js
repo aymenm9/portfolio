@@ -5,11 +5,11 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { BASE } from '../base.config.js'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const dist = path.join(root, 'dist')
 const ssrDir = path.join(root, 'dist-ssr')
-const BASE = '/portfolio/'
 const HOME_ENTRY = 'src/components/StandardPortfolio.jsx'
 
 const shell = fs.readFileSync(path.join(dist, 'index.html'), 'utf8')
