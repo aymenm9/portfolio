@@ -15,7 +15,7 @@ The site deploys to two places from the same code:
 - **GitHub Pages** (`npm run deploy`) → https://aymenm9.github.io/portfolio/ → base `/portfolio/` (the default).
 - **Vercel** (`vercel.json`, Git-connected) → domain root → base `/`. Vercel sets `VERCEL=1` during builds.
 
-`base.config.js` is the single source of truth (`BASE_PATH=/x/` overrides). It feeds `vite.config.js` and `scripts/prerender.js`; app code derives everything from `import.meta.env.BASE_URL` (`ROUTER_BASENAME` in `App.jsx` for the routers, `presentation` URLs in `src/data/projects.js`). **Never hardcode `/portfolio/` in app code.** `package.json` `homepage` is GitHub Pages-only metadata. The canonical/OG URLs in `index.html` are absolute and intentionally point to the GitHub Pages site.
+`base.config.js` is the single source of truth (`BASE_PATH=/x/` overrides). It feeds `vite.config.js` and `scripts/prerender.js`; app code derives everything from `import.meta.env.BASE_URL` (`ROUTER_BASENAME` in `src/routerBase.js` for the routers, `presentation` URLs in `src/data/projects.js`). **Never hardcode `/portfolio/` in app code.** `package.json` `homepage` is GitHub Pages-only metadata. The canonical/OG URLs in `index.html` are absolute and intentionally point to the GitHub Pages site.
 
 On Vercel, `vercel.json` rewrites unknown paths to `/404.html` (the SPA shell) — files on disk win, so `/` still serves the pre-rendered `index.html`.
 

@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { ROUTER_BASENAME } from './routerBase.js'
 import './App.css'
 import './css/screen.css'
 
@@ -8,9 +9,6 @@ const StandardPortfolio = lazy(() => import('./components/StandardPortfolio.jsx'
 const LockScreen = lazy(() => import('./components/lockScreen.jsx'))
 const HomeScreen = lazy(() => import('./components/homeScreen.jsx'))
 const ChatBot = lazy(() => import('./components/chatBot.jsx'))
-
-// Vite's `base` ('/portfolio/' on GitHub Pages, '/' on Vercel) without the trailing slash
-export const ROUTER_BASENAME = import.meta.env.BASE_URL.replace(/\/$/, '') || '/'
 
 // Exported so the build-time prerender (src/entry-server.jsx) can wrap it in a StaticRouter
 export function AppContent() {
